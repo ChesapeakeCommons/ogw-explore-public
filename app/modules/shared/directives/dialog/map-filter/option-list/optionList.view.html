@@ -1,0 +1,40 @@
+<div class="pad-t-1 pad-r-1 pad-b-1">
+    <div style="border: 1px solid #E0E0E0;" class="rad-25 margin-b-50p">
+        <input type="text"
+               data-ng-model="config.query.token"
+               data-ng-model-options="{debounce: 100}"
+               data-ng-change="filterOptions(config.query.token)"
+               class="margin-0"
+               style="padding: .5rem .75rem; font-size: .9rem; border: 0 none; background: transparent;"
+               name="tokenQuery"
+               placeholder="{{ config.placeholder }}" />
+    </div>
+    <label data-ng-repeat="(idx, option) in config.options track by idx | orderBy: 'label'"
+           data-ng-class="{'active': option.selected, 'not-allowed': disableInputs}"
+           style="display: grid; grid-template-columns: min-content 1fr; font-size: .9rem;"
+           class="pad-50p"
+           title="{{ option.label }}">
+        <span class="margin-r-50p"
+              style="font-size: .9rem;"
+              data-ng-if="option.selected">
+            <span class="material-icons md-18">
+                check_box
+            </span>
+        </span>
+        <span class="margin-r-50p"
+              style="font-size: .9rem;"
+              data-ng-if="!option.selected">
+            <span class="material-icons md-18">
+                check_box_outline_blank
+            </span>
+        </span>
+        <input type="checkbox"
+               name="active-enum"
+               style="display: none;"
+               data-ng-disabled="disableInputs"
+               data-ng-model="option.selected">
+        <span style="font-size: .9rem;">
+            {{ option.label }}
+        </span>
+    </label>
+</div>

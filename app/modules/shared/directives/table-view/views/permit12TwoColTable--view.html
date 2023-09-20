@@ -1,0 +1,222 @@
+<div class="two-column-records"
+     style="height: 100%; width: 100%; border: 0 none; border-radius: 0; position: relative;"
+     data-ng-if="visible && !forceHide">
+
+    <div class="progress--modal reveal fade-in t0 flex flex-dir-col flex-align-center flex-justify-center"
+         style="position: relative; width: 100%; background: #F5F5F5;"
+         data-ng-if="(!columns || !records || !frameData) && !emptyRecordSet">
+        <div class="progress--container flex flex-dir-col flex-align-center flex-justify-center"
+             style="width: auto;">
+            <p style="font-size: .9rem;"
+               class="color-pulse pad-0 margin-0 pad-t-4 pad-b-4">
+                <em>Loading records&hellip;</em>
+            </p>
+        </div>
+    </div>
+
+    <div class="progress--modal reveal fade-in t0 flex flex-dir-col flex-align-center flex-justify-center"
+         style="position: relative; width: 100%; background: #F5F5F5;"
+         data-ng-if="emptyRecordSet">
+        <div class="progress--container flex flex-dir-col flex-align-center flex-justify-center"
+             style="width: auto;">
+            <p style="font-size: .9rem;"
+               class="pad-0 margin-0 pad-t-4 pad-b-4">
+                <em>No records found.</em>
+            </p>
+        </div>
+    </div>
+
+    <div class="record-container rad-25 margin-b-2"
+         data-ng-repeat="node in records track by $index"
+         data-ng-if="columns && records && frameData">
+
+        <table style="transform: rotateX(0deg);">
+
+            <thead></thead>
+
+            <tbody>
+
+            <tr class="grid-row"
+                data-ng-if="includeRecordName">
+                <th class="pad-75p"
+                    style="width: 25%; min-width: 25%; height: auto;">
+                    <div style="width: auto; height: 100%;"
+                         data-variable-key="name"
+                         class="flex flex-dir-row flex-wrap flex-align-start flex-justify-start">
+                        <span data-ng-if="nodeType.alias">
+                            {{ nodeType.alias }}
+                        </span>
+                        <span data-ng-if="!nodeType.alias">
+                            {{ nodeType.name }} Name
+                        </span>
+                    </div>
+                </th>
+                <td class="pad-75p"
+                    style="width: 75%;">
+                    <div data-variable-key="name-{{ $index + 1 }}">
+                        {{ node.name || 'Un-named' }}
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="grid-row"
+                data-ng-if="!variable.hide &&
+                            !variable.private &&
+                            ([38,40,49,50].indexOf(variable.id) < 0 ||
+                            (frameData[node.id]['date:38'][0] &&
+                            variable.id === 38) ||
+                            (frameData[node.id]['date:40'][0] &&
+                            variable.id === 40) ||
+                            (frameData[node.id]['date:49'][0] &&
+                            variable.id === 49) ||
+                            (frameData[node.id]['date:50'][0] &&
+                            variable.id === 50))"
+                data-ng-repeat="(idx, variable) in columns track by $index | orderBy:'index'">
+
+                <th class="pad-75p"
+                    style="width: 25%; height: auto;">
+                    <div style="width: auto; height: 100%;"
+                         data-variable-key="{{ variable.key }}"
+                         class="flex flex-dir-row flex-wrap flex-align-start flex-justify-start">
+                        <div data-ng-if="variable.alias">
+                            {{ variable.alias }}
+                        </div>
+                        <div data-ng-if="!variable.alias">
+                            <div data-ng-if="!(variable.type | startsWith:'relation')">
+                                {{ variable.name }}
+                            </div>
+                            <div data-ng-if="variable.type | startsWith:'relation'">
+                                <span data-ng-if="composite">
+                                    {{ variable.name }}
+                                </span>
+                                <div data-ng-if="!composite">
+                                    <span data-ng-if="!variable.source">
+                                        {{ variable.node_type }}
+                                    </span>
+                                    <span data-ng-if="(variable.source &&
+                                                      variable.node_type === variable.relation_type)">
+                                        {{ variable.name }}
+                                    </span>
+                                    <span data-ng-if="(variable.source &&
+                                                      variable.node_type !== variable.relation_type)">
+                                        {{ variable.relation_type }}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </th>
+
+                <td class="pad-75p {{ variable.key }}"
+                    style="width: 75%;">
+
+                    <div data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                         style=""
+                         data-ng-if="!frameData[node.id][variable.key]">
+                        <span style="color: #757575;"
+                              data-ng-if="variable.no_data">
+                            {{ variable.no_data }}
+                        </span>
+                        <span style="color: #BDBDBD;"></span>
+                    </div>
+
+                    <div style=""
+                         data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                         data-ng-if="frameData[node.id][variable.key]">
+                        <div style="text-transform: uppercase;"
+                             data-ng-if="variable.type | startsWith:'bool'">
+                            {{ frameData[node.id][variable.key][0] }}
+                        </div>
+                    </div>
+
+                    <div style=""
+                         data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                         data-ng-if="frameData[node.id][variable.key]">
+                        <div data-ng-if="variable.type | startsWith:'date'">
+                            {{ frameData[node.id][variable.key][0] | date:'mediumDate' }}
+                        </div>
+                    </div>
+
+                    <div style="display: flex; flex-flow: row wrap; align-items: center;"
+                         data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                         data-ng-if="frameData[node.id][variable.key] && variable.type | startsWith:'document'">
+                        <div class="tag margin-r-25p margin-b-25p"
+                             data-ng-repeat="(idx, value) in frameData[node.id][variable.key] track by idx | orderBy:'-modified_on'">
+                            <a href="{{ value.url }}" target="_blank">
+                                <span data-ng-if="value.name">
+                                    {{ value.name }}
+                                </span>
+                                <span data-ng-if="!value.name">
+                                    {{ value.file_name }}
+                                </span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div style=""
+                         data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                         data-ng-if="frameData[node.id][variable.key] &&
+                                     (variable.type | startsWith:'enum') &&
+                                     !variable.multi_select">
+                        <div class="tag {{ frameData[node.id][variable.key][0] | normalizeString }}">
+                            {{ frameData[node.id][variable.key][0] }}
+                        </div>
+                    </div>
+
+                    <div class="flex flex-flw-row-wr flex-align-center flex-justify-start"
+                         style=""
+                         data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                         data-ng-if="frameData[node.id][variable.key] &&
+                                     (variable.type | startsWith:'enum') &&
+                                     variable.multi_select">
+                        <div class="tag margin-r-25p margin-b-25p {{ frameData[node.id][variable.key][0] | normalizeString }}"
+                             data-ng-repeat="(idx, value) in frameData[node.id][variable.key] track by idx">
+                            {{ value }}
+                        </div>
+                    </div>
+
+                    <div style=""
+                         data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                         class="flex flex-dir-col flex-justify-center flex-align-start"
+                         data-ng-if="frameData[node.id][variable.key]">
+                        <div data-ng-if="variable.type | startsWith:'float'">
+                            {{ frameData[node.id][variable.key][0] | number:variable.scale }}
+                        </div>
+                    </div>
+
+                    <div style=""
+                         data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                         class="flex flex-dir-col flex-justify-center flex-align-start"
+                         data-ng-if="frameData[node.id][variable.key]">
+                        <div data-ng-if="variable.type | startsWith:'integer'">
+                            {{ frameData[node.id][variable.key][0] | number:0 }}
+                        </div>
+                    </div>
+
+                    <div class="flex flex-flw-row-wr flex-align-center flex-justify-start"
+                         style=""
+                         data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                         data-ng-if="frameData[node.id][variable.key] && variable.type | startsWith:'relation'">
+                        <div class="tag margin-r-25p margin-b-25p"
+                             data-ng-repeat="(idx, value) in frameData[node.id][variable.key] track by idx">
+                            {{ value | splitLast:'[' }}
+                        </div>
+                    </div>
+
+                    <div data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                         data-ng-if="frameData[node.id][variable.key]">
+                        <div data-ng-if="variable.type | startsWith:'text'">
+                            {{ frameData[node.id][variable.key][0] }}
+                        </div>
+                    </div>
+
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

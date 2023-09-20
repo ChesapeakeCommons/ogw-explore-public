@@ -1,0 +1,12 @@
+<div class="margin-0 margin-l-50p pad-0 collection-filter drop-down"
+     data-ng-show="config.operator.key !== 'empty' &&
+                   config.operator.key !== 'not_empty'">
+    <input type="text"
+           data-ng-model="config.token"
+           data-ng-model-options="{debounce:100}"
+           data-ng-change="setToken(config.token)"
+           class="margin-0 margin-r-1"
+           style="padding: .4rem .75rem; font-size: .9rem; height: 100%;"
+           name="token"
+           placeholder="yyyy-mm-dd" />
+</div>

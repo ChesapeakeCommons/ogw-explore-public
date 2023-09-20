@@ -1,0 +1,85 @@
+<header role="banner" class="site-header">
+
+    <div class="container">
+
+        <div class="header">
+
+            <section>
+                <a href="/">
+                    <img src="/images/alt-logo.png" height="160" alt="" title="" />
+                </a>
+            </section>
+
+            <nav class="site-navigation-utility align-right margin-l-3 pad-t-1">
+
+                <ul class="utility-navigation">
+
+                    <li>
+                        <a href="/about"
+                           data-ng-class="{viewing: $root.viewState.about || $root.viewState.about}">
+                            About
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="https://news.oilandgaswatch.org" target="_blank">
+                            News
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/project-index"
+                           data-ng-class="{viewing: $root.viewState.project || $root.viewState.project}">
+                            Projects
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/permit-index"
+                           data-ng-class="{viewing: $root.viewState.permit || $root.viewState.permit}">
+                            Permits
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/pipeline-index"
+                           data-ng-class="{viewing: $root.viewState.pipeline || $root.viewState.pipeline}">
+                            Pipelines
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/glossary"
+                           data-ng-class="{viewing: $root.viewState.glossary || $root.viewState.glossary}">
+                            Glossary
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="/contact"
+                           data-ng-class="{viewing: $root.viewState.contact || $root.viewState.contact}">
+                            Contact
+                        </a>
+                    </li>
+
+                </ul>
+
+            </nav>
+
+            <div global-search class="global--search margin-l-4">
+                <input type="search"
+                       class="search"
+                       value=""
+                       placeholder="Search&hellip;"
+                       data-ng-model="query"
+                       uib-typeahead="suggestion as suggestion.name for suggestion in records | filter:$viewValue | limitTo:10"
+                       typeahead-on-select="routeTo($item, $model, $label)"
+                       typeahead-wait-ms="100"
+                       typeahead-template-url="templates/search--tpl.html">
+            </div>
+
+        </div>
+
+    </div>
+
+</header>

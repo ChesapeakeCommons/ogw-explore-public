@@ -1,0 +1,66 @@
+//
+// main.scss
+//
+// This stylesheet is written in SASS(1) and compiles all of the styles
+// we use throughout the site.
+//
+// @see (1) http://sass-lang.com/documentation/file.SASS_REFERENCE.html
+//
+
+//@import "_font";
+@import "_variables";
+
+@import "_typography";
+@import "_table";
+@import "_navigation";
+
+@import "_layout";
+@import "_content";
+
+@import "_form";
+@import "_button";
+
+@import "_icon";
+@import "_notifications";
+@import "_map";
+@import "_dashboard";
+@import "_atlas";
+@import "_search";
+
+@import "_statistics";
+
+@import "_flow";
+
+@import "_arrange";
+
+@import "_target";
+
+//
+// Components
+//
+@import "_modal";
+@import "_indicator";
+@import "_editor";
+@import "_mapboxGeocoder";
+@import "_table_view";
+@import "_table_embed";
+
+@import "_profile";
+@import "_batch";
+@import "_breadcrumb";
+@import "_pagination";
+@import "_history";
+@import "_index_control";
+@import "_creation_modal";
+@import "_animations";
+@import "_status";
+@import "_list";
+@import "_padding";
+@import "_margin";
+@import "_atlas_filter_modal";
+@import "_facility";
+@import "_map_filter_modal";
+
+.missing {
+  color: red !important;
+}

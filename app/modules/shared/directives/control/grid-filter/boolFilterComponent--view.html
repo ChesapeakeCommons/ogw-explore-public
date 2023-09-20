@@ -1,0 +1,25 @@
+<div class="margin-0 margin-l-50p margin-r-1 pad-0 collection-filter drop-down"
+     data-ng-show="config.operator.key !== 'empty' &&
+                   config.operator.key !== 'not_empty'">
+    <div style="height: 100%;"
+         class="flex flex-flw-row-nw flex-align-stretch conjunctive-operator-ctrl rad-25">
+        <button style="padding: .4rem .5rem; width: auto;"
+                class="relation-dialog-btn margin-r-50p"
+                data-ng-class="{active: config.token === 'TRUE'}"
+                title="TRUE"
+                data-ng-click="setToken('TRUE')">
+            <span>
+                TRUE
+            </span>
+        </button>
+        <button style="padding: .4rem .5rem; width: auto;"
+                class="relation-dialog-btn"
+                data-ng-class="{active: config.token === 'FALSE'}"
+                title="FALSE"
+                data-ng-click="setToken('FALSE')">
+            <span>
+                FALSE
+            </span>
+        </button>
+    </div>
+</div>

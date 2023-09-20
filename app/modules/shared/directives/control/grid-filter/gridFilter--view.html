@@ -1,0 +1,133 @@
+<div class="collection-filter drop-down">
+    <div class="flex flex-flw-row-nw flex-align-stretch">
+        <button id="filter-toggle-btn"
+                style="padding: .4rem .75rem .4rem .5rem; font-size: .9rem;"
+                class="default-btn margin-r-1"
+                data-ng-click="toggleModal('dialog')">
+            <span class="material-icons md-18 margin-r-50p">
+                filter_list
+            </span>
+            <span data-ng-if="!filters.length">
+                Create filter
+            </span>
+            <span data-ng-if="filters.length">
+                {{ filters.length }} <ng-pluralize count="filters.length"
+                                                   when="{'one': 'filter','other': 'filters'}"></ng-pluralize>
+            </span>
+        </button>
+        <div class="flex flex-flw-row-nw flex-align-stretch margin-l-1"
+             stored-filter-list
+             modal-display="modalDisplay"
+             items="nodeType.table_filters"
+             data-ng-if="nodeType.table_filters.length"></div>
+    </div>
+</div>
+
+<div class="creation-dialog-container"
+     data-ng-click="forceClose($event)"
+     data-ng-if="modalDisplay.dialog">
+    <div class="dialog"
+         style="width: auto; min-width: 640px;">
+        <div class="title">
+            <span class="title-text">
+                Set {{ nodeType.name }} filters
+            </span>
+            <div class="dismiss-container">
+                <div class="dismiss" data-ng-click="toggleModal('dialog')">
+                    <div class="halo"></div>
+                    <span class="material-icons">
+                        close
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="inputs">
+            <div class="flex flex-flw-col-nw"
+                 data-ng-repeat="(idx, filter) in filters">
+                <div class="flex flex-flw-row-nw flex-align-stretch"
+                     data-ng-class="{'margin-b-1': filters.length > 1}">
+                    <div class="flex flex-flw-row-nw flex-align-stretch"
+                         field-component
+                         config="filter"
+                         fields="$parent.fields"
+                         node-type="$parent.nodeType"></div>
+                    <div class="flex flex-flw-row-nw flex-align-stretch"
+                         operator-component
+                         config="filter"
+                         node-type="$parent.nodeType"></div>
+                    <div class="flex flex-flw-row-nw flex-align-stretch"
+                         bool-filter-component
+                         config="filter"
+                         node-type="$parent.nodeType"
+                         data-ng-if="filter.field.key | startsWith:'bool'"></div>
+                    <div class="flex flex-flw-row-nw flex-align-stretch"
+                         date-filter-component
+                         config="filter"
+                         node-type="$parent.nodeType"
+                         data-ng-if="(filter.field.key | startsWith:'date') ||
+                                     (filter.field.type | startsWith:'date')"></div>
+                    <div class="flex flex-flw-row-nw flex-align-stretch"
+                         enum-component
+                         config="filter"
+                         node-type="$parent.nodeType"
+                         data-ng-if="(filter.field.key | startsWith:'enum') || (filter.field.key | startsWith:'rel')"></div>
+                    <div class="flex flex-flw-row-nw flex-align-stretch"
+                         number-filter-component
+                         config="filter"
+                         node-type="$parent.nodeType"
+                         data-ng-if="(filter.field.key | startsWith:'int') || (filter.field.key | startsWith:'float')"></div>
+                    <div class="flex flex-flw-row-nw flex-align-stretch"
+                         text-filter-component
+                         config="filter"
+                         node-type="$parent.nodeType"
+                         data-ng-if="(filter.field.key | startsWith:'text') ||
+                                     (filter.field.type | startsWith:'text')"></div>
+                    <div class="dismiss-container"
+                         title="Remove filter">
+                        <div class="dismiss margin-0"
+                             data-ng-click="removeFilter(idx)">
+                            <div class="halo" style="height: 34px; width: 34px;"></div>
+                            <span class="material-icons md-18">
+                                close
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-flw-row-nw flex-align-stretch margin-b-1"
+                     data-ng-if="idx < (filters.length - 1)"
+                     conjunctive-operator-toggle
+                     node-type="$parent.nodeType"
+                     post-select="receiveOperator()"
+                     config="filter"></div>
+            </div>
+            <div class="pad-t-1 margin-t-1">
+                <button class="relation-dialog-btn"
+                        data-ng-click="addFilter()">
+                    <span class="material-icons md-18 margin-r-50p">
+                        playlist_add
+                    </span>
+                    <span>
+                        Add filter
+                    </span>
+                </button>
+            </div>
+        </div>
+        <div class="dyad pad-t-1"
+             style="border-top: 1px solid #E0E0E0; width: 100%; flex-grow: 0; flex-shrink: 0;">
+            <div class="dialog-actions">
+                <button type="button" class="cancel"
+                        data-ng-click="removeAll()">
+                    Clear
+                </button>
+                <button type="submit" class="confirm"
+                        data-ng-click="applyFilters()">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div save-filter
+     modal-display="modalDisplay"
+     node-type="nodeType"></div>

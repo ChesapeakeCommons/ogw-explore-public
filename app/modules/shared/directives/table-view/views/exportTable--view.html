@@ -1,0 +1,139 @@
+<div class="table-view margin-t-2"
+     data-ng-if="index.length && visible">
+
+    <table>
+
+        <thead>
+            <tr>
+                <th class="pad-1">
+                    <strong>Name</strong>
+                </th>
+                <th class="pad-1">
+                    <strong>Created</strong>
+                </th>
+                <th class="pad-1">
+                    <strong>Origin</strong>
+                </th>
+                <th class="pad-1">
+                    <strong>Practices</strong>
+                </th>
+                <th class="pad-1">
+                    <strong>File size</strong>
+                </th>
+                <th class="pad-1">
+                    <strong>Format</strong>
+                </th>
+                <th class="pad-1">
+                    <strong>Link</strong>
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+            <tr data-ng-repeat="export in index | filter: q">
+                <td class="pad-1" style="width: 1%; max-width: 20rem;">
+                    <span style="display: block; width: 100%;">
+                        {{ export.name | truncate:100 }}
+                    </span>
+                </td>
+                <td class="info-enabled pad-1" style="width: 1%;">
+                    <div>
+                        <span>
+                            <time datetime="{{ export.created_on }}"
+                                  title="{{ export.created_on }}">
+                                {{ export.created_on | date : 'mediumDate' }} &middot; {{ export.created_on |
+                                localTime | date:'h:mm' }} {{ export.created_on | localTime | date:'a' }}
+                            </time>
+                        </span>
+                    </div>
+                </td>
+                <td class="pad-1" style="width: 1%;">
+                    <div class="flex flex-dir-row flex-nwrap flex-align-center">
+                        <span data-ng-if="export.site && export.site.name">
+                            Site: <a href="sites/{{ export.site.id }}">{{ export.site.name | truncate:50 }}</a>
+                        </span>
+                        <span data-ng-if="!export.site && export.project && export.project.name">
+                            Project: <a href="projects/{{ export.project.id }}">{{ export.project.name | truncate:50
+                            }}</a>
+                        </span>
+                        <span data-ng-if="!export.project && export.program && export.program.name">
+                            Program: <a href="programs/{{ export.program.id }}">{{ export.program.name }}</a>
+                        </span>
+                    </div>
+                </td>
+                <td class="pad-1" style="width: 1%;">
+                    <div class="flex flex-dir-row flex-nwrap flex-align-center flex-justify-end">
+                        <span>
+                            {{ export.practice_count | number }}
+                        </span>
+                    </div>
+                </td>
+                <td class="pad-1" style="width: 1%;">
+                    <div class="flex flex-dir-row flex-nwrap flex-align-center flex-justify-end">
+                        <span>
+                            {{ export.file_size | fileSize }}
+                        </span>
+                    </div>
+                </td>
+                <td class="pad-1" style="width: 1%;">
+                    <div class="flex flex-dir-row flex-nwrap flex-align-center">
+                        <span>
+                            {{ export.format }}
+                        </span>
+                    </div>
+                </td>
+                <td class="pad-1" style="width: 1%;">
+                    <div class="flex flex-dir-row flex-nwrap flex-align-center">
+                        <span data-ng-if="!export.url || !export.url.length">
+                            Generating link&hellip;
+                        </span>
+                        <a class="snapshot--title"
+                           href="{{ export.url }}"
+                           target="_blank"
+                           title="File link"
+                           data-ng-if="export.url && export.url.length">
+                            <span class="material-icons">
+                                attachment
+                            </span>
+                        </a>
+                    </div>
+                </td>
+                <td class="pad-1 more-actions" style="width: .01%; overflow: visible;">
+                    <div class="action-modal-container">
+                        <div class="action-modal" data-ng-if="modalManager.action === export.id">
+                            <ul>
+                                <li class="delete-trigger" data-ng-click="presentDeletionDialog(export)">
+                                    <span class="material-icons margin-r-1"
+                                          style="pointer-events: none;">
+                                        delete
+                                    </span>
+                                    <span style="pointer-events: none;">
+                                        Delete
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="action-modal-icon" data-ng-click="toggleActionModal(export.id)">
+                            <div class="halo"></div>
+                            <span class="material-icons">
+                                more_horiz
+                            </span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div deletion-dialog
+     alerts="alerts"
+     callback="callback()"
+     feature="project"
+     feature-type="'export'"
+     visible="showDeletionDialog"></div>

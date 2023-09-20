@@ -1,0 +1,87 @@
+<div class="margin-0 margin-l-50p pad-0 collection-filter drop-down"
+     data-ng-show="config.operator.key !== 'empty' &&
+                   config.operator.key !== 'not_empty'">
+    <input type="text"
+           data-ng-model="config.token"
+           data-ng-model-options="{debounce:100}"
+           data-ng-change="setToken(config.token, false)"
+           data-ng-if="!fixedDomain.length || !listInput"
+           class="margin-0 margin-r-1"
+           style="padding: .4rem .75rem; font-size: .9rem; height: 100%;"
+           id="token"
+           name="token"
+           placeholder="&hellip;" />
+    <button style="padding: .4rem .5rem .4rem 0; font-size: .9rem; height: 100%;"
+            id="{{ config.field.key }}-select-btn"
+            class="relation-dialog-btn margin-r-1"
+            data-ng-class="{'active-enum-selector': firstSelection}"
+            data-ng-if="fixedDomain.length && listInput"
+            data-ng-click="toggleModal('select')">
+        <span data-ng-if="firstSelection">
+            <span class="margin-r-50p"
+                  style="font-weight: normal;"
+                  data-ng-style="styleConfig[styleKey]['selectionSpan']">
+                {{ firstSelection }}
+            </span>
+            <span style="font-weight: normal;"
+                  data-ng-if="selectionSuffix">
+                {{ selectionSuffix }}
+            </span>
+        </span>
+        <span style="display: block; padding-left: .75rem;"
+              data-ng-if="!config.token">
+            {{ btnPlaceholder }}
+        </span>
+        <span class="material-icons md-18 margin-l-50p"
+              style="pointer-events: none;"
+              data-ng-click="toggleModal('select')"
+              data-ng-if="!modalDisplay.select">
+            arrow_drop_down
+        </span>
+        <span class="material-icons md-18 margin-l-50p"
+              style="pointer-events: none;"
+              data-ng-click="toggleModal('select')"
+              data-ng-if="modalDisplay.select">
+            arrow_drop_up
+        </span>
+    </button>
+    <form name="collection-filter-form"
+          class="collection-filter-modal"
+          style="width: auto;"
+          data-ng-if="modalDisplay.select">
+        <div style="border-bottom: 1px solid #E0E0E0;">
+            <input type="text"
+                   data-ng-model="tokenQuery"
+                   data-ng-change="filterOptions($viewValue)"
+                   class="margin-0"
+                   style="padding: .75rem 1rem; font-size: .9rem; border: 0 none; background: transparent;"
+                   id="tokenQuery"
+                   name="tokenQuery"
+                   placeholder="Search options&hellip;" />
+        </div>
+        <label data-ng-repeat="(idx, option) in filterOptions(tokenQuery) track by idx | orderBy: 'toString()'"
+               data-ng-class="{'active': option === token}"
+               data-ng-click="setToken(option)"
+               title="{{ option }}">
+            <span class="input-mask"
+                  data-ng-if="selectionIdx[option]">
+                <span class="material-icons md-18">
+                    check_box
+                </span>
+            </span>
+            <span class="input-mask"
+                  data-ng-if="!selectionIdx[option]">
+                <span class="material-icons md-18">
+                    check_box_outline_blank
+                </span>
+            </span>
+            <input type="checkbox"
+                   id="enum-option-{{ idx }}"
+                   name="active-enum"
+                   data-ng-model="config.token">
+            <span>
+                {{ option }}
+            </span>
+        </label>
+    </form>
+</div>

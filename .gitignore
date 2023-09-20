@@ -1,0 +1,12 @@
+*.swp
+
+node_modules
+.tmp
+.sass-cache
+bower_components
+
+.DS_Store
+
+app/config/environment.js
+
+.idea/

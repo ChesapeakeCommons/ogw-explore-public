@@ -1,0 +1,133 @@
+<div class="creation-dialog-container map-filter-modal pad-y-1"
+     data-ng-show="config.visible"
+     data-ng-click="forceClose($event)">
+    <div class="dialog"
+         style="display: grid; grid-template-rows: min-content min-content auto min-content; min-width: 640px;
+         max-width: 640px; min-height: 100%;">
+        <div class="title no-grow">
+            <span class="title-text">
+                Filter map features
+            </span>
+            <div class="dismiss-container">
+                <div class="dismiss"
+                     data-ng-click="toggleHelp()">
+                    <div class="halo"></div>
+                    <div class="material-icons">
+                        <svg xmlns="http://www.w3.org/2000/svg"
+                             width="24"
+                             height="24"
+                             viewBox="0 0 24 24"
+                             stroke-width="2"
+                             stroke="currentColor"
+                             fill="none"
+                             stroke-linecap="round"
+                             stroke-linejoin="round">
+                            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                            <circle cx="12" cy="12" r="9"></circle>
+                            <line x1="12" y1="17" x2="12" y2="17.01"></line>
+                            <path d="M12 13.5a1.5 1.5 0 0 1 1 -1.5a2.6 2.6 0 1 0 -3 -4"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+            <div class="dismiss-container">
+                <div class="dismiss"
+                     data-ng-click="toggleModal()">
+                    <div class="halo"></div>
+                    <span class="material-icons">
+                        close
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="flex dyad no-grow pad-l-1 pad-r-1"
+             style="border-bottom: 1px solid #E0E0E0;">
+            <button data-ng-click="setMode('facility')"
+                    type="button"
+                    data-ng-class="{active: config.mode === 'facility'}"
+                    class="tab-btn grow pad-0 pad-t-50p pad-b-50p pad-r-1">
+                <strong>
+                    Facility
+                </strong>
+            </button>
+            <button data-ng-click="setMode('pipeline')"
+                    type="button"
+                    data-ng-class="{active: config.mode === 'pipeline'}"
+                    class="tab-btn grow pad-0 pad-t-50p pad-b-50p pad-r-1 margin-l-1">
+                <strong>
+                    Pipeline
+                </strong>
+            </button>
+        </div>
+        <div class="inputs grow shrink pad-0"
+             style="overflow: hidden;">
+            <facility-tab
+                    style="display: flex; flex-flow: column nowrap; height: 100%;"
+                    data-ng-show="config.mode === 'facility'"
+                    feature-collection="featureCollection"
+                    map="map"></facility-tab>
+            <pipeline-tab
+                    style="display: flex; flex-flow: column nowrap; height: 100%;"
+                    data-ng-show="config.mode === 'pipeline'"
+                    feature-collection="featureCollection"
+                    map="map"></pipeline-tab>
+        </div>
+        <div class="dyad pad-t-1 no-grow no-shrink"
+             style="border-top: 1px solid #E0E0E0; width: 100%; flex-grow: 0; flex-shrink: 0;">
+            <div class="dialog-actions">
+                <button type="button"
+                        class="cancel"
+                        data-ng-click="reset(config.mode)">
+                    Reset
+                </button>
+                <button type="submit"
+                        class="confirm"
+                        data-ng-click="setFilters()">
+                    Apply filters
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="creation-dialog-container help-modal pad-y-1"
+     data-ng-show="config.showHelp">
+    <div class="dialog"
+         style="display: grid; grid-template-rows: auto min-content; max-width: 480px;">
+        <div class="inputs grow shrink pad-1">
+            <div class="margin-b-1 pad-b-1" style="font-size: .875rem; border-bottom: 1px dashed #9E9E9E;">
+                Explore features using the categories and options provided.
+            </div>
+            <div class="margin-b-1" style="font-size: .875rem;">
+                Note that multiple selections <strong>within</strong> a category capture <strong>any</strong>
+                matching features.
+            </div>
+            <div class="margin-b-1" style="font-size: .875rem;">
+                <strong>Example:</strong>
+            </div>
+            <div class="margin-b-1 pad-1 rad-25" style="font-size: .875rem; background: #EEEEEE;">
+                State = "TX" <strong>OR</strong> State = "LA"
+            </div>
+            <div class="margin-b-1" style="font-size: .875rem;">
+                Cross-category combinations capture features that satisfy <strong>all</strong> conditions.
+            </div>
+            <div class="margin-b-1" style="font-size: .875rem;">
+                <strong>Example:</strong>
+            </div>
+            <div class="pad-1 rad-25" style="font-size: .875rem; background: #EEEEEE;">
+                (State = "TX" <strong>OR</strong> State = "LA") <strong>AND</strong> (Operating status = "Announced")
+            </div>
+        </div>
+        <div class="dyad pad-t-1 no-grow no-shrink"
+             style="border-top: 1px solid #E0E0E0; width: 100%; flex-grow: 0; flex-shrink: 0;">
+            <div class="dialog-actions">
+                <button type="submit"
+                        class="confirm"
+                        style="font-size: .9rem;"
+                        data-ng-click="toggleHelp()">
+                    OK
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

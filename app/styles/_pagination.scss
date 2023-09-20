@@ -1,0 +1,48 @@
+//
+// _pagination.scss
+//
+// This stylesheet is written in SASS(1) and contains site specific layout
+// elements.
+//
+// @see (1) http://sass-lang.com/documentation/file.SASS_REFERENCE.html
+//
+
+#pagination-ctrl,
+#pagination-ctrl > div {
+    display: flex;
+    flex-flow: row wrap;
+    align-items: center;
+    justify-content: flex-end;
+    width: auto;
+    //color: #757575;
+    font-size: .875rem;
+}
+
+#pagination-ctrl {
+
+    a {
+        display: flex;
+    }
+
+    button {
+        appearance: none;
+        border: 0 none !important;
+        outline: 0 none;
+        background: transparent;
+        color: #222222;
+        padding: .5rem;
+    }
+
+    .limit-ctrl {
+        flex-grow: 1;
+        flex-shrink: 0;
+    }
+
+}
+
+#pagination-ctrl .inactive {
+    color: #757575 !important;
+    opacity: 1 !important;
+    pointer-events: all !important;
+    cursor: not-allowed;
+}

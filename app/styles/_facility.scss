@@ -1,0 +1,91 @@
+//
+// _facility.scss
+//
+// This stylesheet is written in SASS(1) and contains site specific layout
+// elements.
+//
+// @see (1) http://sass-lang.com/documentation/file.SASS_REFERENCE.html
+//
+
+.facility-hero::before {
+    opacity: .6 !important;
+    display: flex;
+    flex: 1 1 auto;
+    content: "";
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: #000;
+    z-index: 7;
+}
+
+.facility-hero article {
+    z-index: 8 !important;
+}
+
+.facility-content {
+
+    .translucent::before {
+        //opacity: .6 !important;
+        //display: flex;
+        //flex: 1 1 auto;
+        //content: "";
+        //position: absolute;
+        //height: 100%;
+        //width: 100%;
+        //top: 0;
+        //bottom: 0;
+        //left: 0;
+        //right: 0;
+        //background: #000;
+        //z-index: 7;
+    }
+
+    .hero {
+        position: relative;
+        width: 100%;
+
+        #backdrop-map {
+            position: relative;
+            height: 450px;
+            width: 100%;
+            cursor: default;
+        }
+
+        article {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            color: #fcfcfc;
+            text-align: center;
+            //z-index: 8;
+        }
+
+    }
+
+    .static-map::before {
+        display: flex;
+        content: "";
+        height: 32px;
+        width: 32px;
+        //border: 3px solid rgba(41, 255, 225, 0.6);
+        border: 8px solid rgba(255, 37, 0, 0.6);
+        border-radius: 50%;
+        //background: #29ffe1;
+        background: rgb(255, 37, 0);
+        -webkit-background-clip: padding-box;
+        background-clip: padding-box;
+        box-sizing: border-box;
+    }
+}

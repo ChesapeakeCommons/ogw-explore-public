@@ -1,0 +1,463 @@
+<div id="grid-tools-top"
+     style="width: 100%; border-bottom: 1px solid #E0E0E0;"
+     class="flex flex-dir-row flex-nwrap flex-align-center pad-t-1 pad-b-1 pad-r-2 pad-l-1"
+     data-ng-if="visible && addControls">
+
+    <div>
+        <span style="font-size: .9rem;">
+            {{ frameRecords.length | number }}
+        </span>
+        <span style="font-size: .9rem;">
+            <ng-pluralize count="frameRecords.length"
+                          when="{'one': 'record','other': 'records'}"></ng-pluralize>
+        </span>
+    </div>
+
+    <div class="margin-l-2"
+         grid-sort
+         columns="columns"
+         node-type="nodeType"
+         params="queryParams"></div>
+
+    <div class="margin-l-2"
+         grid-filter
+         collection="project"
+         columns="columns"
+         node-type="nodeType"
+         params="queryParams"></div>
+
+    <div class="margin-l-2"
+         export-table-dialog
+         active-rows="records"
+         columns="columns"
+         filtered-rows="frameRecords"
+         frame="frameData"
+         record-src="recordSrc"
+         table="nodeType"></div>
+
+</div>
+
+<div class="table-embed"
+     id="table-container"
+     style="height: 100%; width: 100%; border: 0 none; border-radius: 0; background: #FAFAFA; position: relative;"
+     data-ng-if="visible">
+
+    <div class="progress--modal reveal fade-in t0 flex flex-dir-col flex-align-center flex-justify-center"
+         style="position: relative; width: 100%; background: #F5F5F5;"
+         data-ng-if="!columns || !records || !frameData">
+        <div class="progress--container flex flex-dir-col flex-align-center flex-justify-center"
+             style="width: auto;">
+            <p style="font-weight: bold; font-size: .9rem;"
+               class="color-pulse pad-0 margin-0 pad-t-4">
+                Loading {{ nodeType.name }} records&hellip;
+            </p>
+        </div>
+    </div>
+
+    <table data-ng-if="columns && records && frameData"
+           style="transform: rotateX(0deg);">
+
+        <thead>
+            <tr class="header-row-display">
+                <th scope="col"
+                    id="name-header"
+                    style="width: {{ colWidths['name'] }}; height: 36px;"
+                    class="pad-50p"
+                    title="Name"
+                    data-filter-key="name"
+                    data-sort-type="text">
+                    <div style="width: {{ colWidths['name'] }}; overflow: hidden; white-space: nowrap; text-overflow:
+                              ellipsis; padding-left: 3rem;">
+                        <div style="overflow: hidden; white-space: nowrap; text-overflow: ellipsis;">
+                            <strong>Name</strong>
+                        </div>
+                    </div>
+                    <div class="col-resizer" data-col-target="name"></div>
+                </th>
+                <th scope="col"
+                    id="{{ variable.key }}-header"
+                    style="width: {{ colWidths[variable.key] }}; height: 36px;"
+                    class="pad-50p {{ variable.key }}"
+                    data-variable-key="{{ variable.key }}-1-display"
+                    data-ng-repeat="variable in columns track by $index | orderBy:'index'"
+                    data-filter-key="{{ variable.key }}"
+                    data-sort-type="{{ variable.key }}">
+                    <div style="width: {{ colWidths[variable.key] }}; overflow: hidden; white-space:
+                        nowrap; text-overflow: ellipsis;"
+                         data-variable-key="{{ variable.key }}"
+                         class="col-header flex flex-dir-row flex-nwrap flex-align-center flex-justify-start">
+                        <div style="max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"
+                             class="col-header flex flex-dir-row flex-nwrap flex-align-center flex-justify-start">
+<!--                            <span class="material-icons md-18 margin-r-25p"-->
+<!--                                  style="flex-shrink: 0;"-->
+<!--                                  title="Boolean"-->
+<!--                                  data-ng-if="variable.type | startsWith:'bool'">-->
+<!--                                toggle_on-->
+<!--                            </span>-->
+<!--                            <span class="material-icons md-18 margin-r-25p"-->
+<!--                                  style="flex-shrink: 0;"-->
+<!--                                  title="Date"-->
+<!--                                  data-ng-if="variable.type | startsWith:'date'">-->
+<!--                                event-->
+<!--                            </span>-->
+<!--                            <span class="material-icons md-18 margin-r-25p"-->
+<!--                                  style="flex-shrink: 0;"-->
+<!--                                  title="Document"-->
+<!--                                  data-ng-if="variable.type | startsWith:'document'">-->
+<!--                                insert_drive_file-->
+<!--                            </span>-->
+<!--                            <span class="material-icons md-18 margin-r-25p"-->
+<!--                                  style="flex-shrink: 0;"-->
+<!--                                  title="Selection"-->
+<!--                                  data-ng-if="variable.type | startsWith:'enum'">-->
+<!--                                list-->
+<!--                            </span>-->
+<!--                            <span class="material-icons md-18 margin-r-25p"-->
+<!--                                  style="flex-shrink: 0;"-->
+<!--                                  title="Number"-->
+<!--                                  data-ng-if="variable.type | startsWith:'float'">-->
+<!--                                tag-->
+<!--                            </span>-->
+<!--                            <span class="material-icons md-18 margin-r-25p"-->
+<!--                                  style="flex-shrink: 0;"-->
+<!--                                  title="Number"-->
+<!--                                  data-ng-if="variable.type | startsWith:'integer'">-->
+<!--                                tag-->
+<!--                            </span>-->
+<!--                            <span class="material-icons md-18 margin-r-25p"-->
+<!--                                  style="flex-shrink: 0;"-->
+<!--                                  title="Location"-->
+<!--                                  data-ng-if="variable.type | startsWith:'location'">-->
+<!--                                place-->
+<!--                            </span>-->
+<!--                            <span class="material-icons md-18 margin-r-25p"-->
+<!--                                  style="flex-shrink: 0;"-->
+<!--                                  title="Relation"-->
+<!--                                  data-ng-if="variable.type | startsWith:'relation'">-->
+<!--                                sync_alt-->
+<!--                            </span>-->
+<!--                            <span class="material-icons md-18 margin-r-25p"-->
+<!--                                  style="flex-shrink: 0;"-->
+<!--                                  title="Text"-->
+<!--                                  data-ng-if="variable.type | startsWith:'text'">-->
+<!--                                notes-->
+<!--                            </span>-->
+                            <span style="flex-shrink: 0;"
+                                  data-ng-if="!composite && !(variable.type | startsWith:'relation')">
+                                {{ variable.name }}
+                            </span>
+                            <span style="flex-shrink: 0;"
+                                  data-ng-if="composite">
+                                {{ variable.label }}
+                            </span>
+                            <span style="flex-shrink: 0;"
+                                  data-ng-if="(!composite &&
+                                              variable.type | startsWith:'relation') &&
+                                              variable.source &&
+                                              variable.node_type === variable.relation_type">
+                                {{ variable.name }}
+                            </span>
+                            <span style="flex-shrink: 0;"
+                                  data-ng-if="(!composite &&
+                                              variable.type | startsWith:'relation') &&
+                                              variable.source &&
+                                              variable.node_type !== variable.relation_type">
+                                {{ variable.relation_type }}
+                            </span>
+                            <span style="flex-shrink: 0;"
+                                  data-ng-if="(!composite &&
+                                               variable.type | startsWith:'relation') && !variable.source">
+                                {{ variable.node_type }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="col-resizer" data-col-target="{{ variable.key }}"></div>
+                </th>
+                <th class="pad-50p"
+                    style="width: 1%; height: 36px;"
+                    data-ng-repeat="_ in [1, 2, 3, 4, 5]">
+
+                    <div style="min-width: 10rem;">
+                        <div class="pad-50p"></div>
+                    </div>
+
+                </th>
+            </tr>
+        </thead>
+
+        <tbody>
+
+        <tr class="grid-row"
+            id="fixed-row-{{ node.id }}"
+            data-node="{{ node.id }}"
+            data-ng-repeat="(idx, node) in records track by $index">
+            <td class="pad-50p serial"
+                style="width: .1%; height: 44px;">
+                <div class="flex flex-flw-row-nw flex-align-center flex-justify-start">
+                    <div class="pad-x-50p no-grow"
+                         style="display: block; width: 40px; text-align: right; font-size: .8rem;">
+                        {{ ($index + 1) + (25 * ((queryParams.page || 1) - 1)) }}
+                    </div>
+<!--                    <div class="flex flex-flw-col-nw flex-justify-center flex-align-center"-->
+<!--                         style="width: 40px;">-->
+<!--                        <label class="flex flex-flw-row-nw flex-align-center flex-justify-start"-->
+<!--                               title="Select record">-->
+<!--                                <span class="material-icons md-18"-->
+<!--                                      data-ng-if="node.selected">-->
+<!--                                    check_box-->
+<!--                                </span>-->
+<!--                            <span class="material-icons md-18"-->
+<!--                                  style="opacity: .6;"-->
+<!--                                  data-ng-if="!node.selected">-->
+<!--                                    check_box_outline_blank-->
+<!--                                </span>-->
+<!--                            <input type="checkbox"-->
+<!--                                   id="select-{{ node.id }}"-->
+<!--                                   style="position: fixed; left: -50%; top: 0;"-->
+<!--                                   name="active-enum"-->
+<!--                                   data-ng-model="node.selected">-->
+<!--                        </label>-->
+<!--                    </div>-->
+                    <div class="pad-l-50p grow"
+                         style="width: {{ colWidths['name'] }};"
+                         data-ng-click="setTargetNode(node)">
+                        <span style="display: block; width: 100%;">
+                            {{ node.name | truncate:100 }}
+<!--                            <a href="#">-->
+<!--                                {{ node.name | truncate:100 }}-->
+<!--                            </a>-->
+                        </span>
+                    </div>
+                </div>
+            </td>
+
+            <td class="pad-50p {{ variable.key }}"
+                style="width: {{ colWidths[variable.key] }};"
+                data-ng-repeat="variable in columns track by $index | orderBy:'index'">
+
+                <div data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                     style="width: {{ colWidths[variable.key] }};"
+                     data-ng-if="!frameData[node.id][variable.key]">
+                    <span style="color: #BDBDBD;">
+                        NULL
+                    </span>
+                </div>
+
+                <div style="width: {{ colWidths[variable.key] }};"
+                     data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                     data-ng-if="frameData[node.id][variable.key]">
+                    <div style="text-transform: uppercase;"
+                         data-ng-if="variable.type | startsWith:'bool'">
+                        {{ frameData[node.id][variable.key][0] }}
+                    </div>
+                </div>
+
+                <div style="width: {{ colWidths[variable.key] }};"
+                     data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                     data-ng-if="frameData[node.id][variable.key]">
+                    <div data-ng-if="variable.type | startsWith:'date'">
+                        {{ frameData[node.id][variable.key][0] | date:'mediumDate' }}
+                    </div>
+                </div>
+
+                <div style="width: {{ colWidths[variable.key] }}; display: flex; flex-flow: row nowrap;
+                    align-items: center;"
+                     data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                     data-ng-if="frameData[node.id][variable.key] && variable.type | startsWith:'document'">
+                    <div data-ng-repeat="(idx, value) in frameData[node.id][variable.key] | orderBy:'-modified_on'">
+                        <span data-ng-if="idx === 0">
+                            {{ value.name }}
+                        </span>
+                    </div>
+                    <span class="margin-l-50p"
+                          style="display: block; flex-grow: 0; flex-shrink: 0; border-radius: .25rem;
+                              padding: 0 .25rem; background-color: #edf7fe; color: #2196F3;"
+                          data-ng-if="frameData[node.id][variable.key].length > 1">
+                            +{{ (frameData[node.id][variable.key].length - 1) }}
+                        </span>
+                </div>
+
+                <div style="width: {{ colWidths[variable.key] }};"
+                     data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                     data-ng-if="frameData[node.id][variable.key] && (variable.type | startsWith:'enum') && !variable.multi_select">
+                    <div style="display: inline; border-radius: .25rem; background-color: #dbddfd; padding: 2px 4px;">
+                        {{ frameData[node.id][variable.key][0] }}
+                    </div>
+                </div>
+
+                <div class="flex flex-flw-row-nw flex-align-center flex-justify-start"
+                     style="width: {{ colWidths[variable.key] }};"
+                     data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                     data-ng-if="frameData[node.id][variable.key] && (variable.type | startsWith:'enum') && variable.multi_select">
+                    <div class="margin-r-25p pad-25p"
+                         style="display: inline; border-radius: .25rem; background-color: #dbddfd; padding: 2px 4px;"
+                         data-ng-repeat="(idx, value) in frameData[node.id][variable.key] track by idx">
+                        {{ value }}
+                    </div>
+                </div>
+
+                <div style="width: {{ colWidths[variable.key] }};"
+                     data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                     class="flex flex-dir-col flex-justify-center flex-align-end"
+                     data-ng-if="frameData[node.id][variable.key]">
+                    <div data-ng-if="variable.type | startsWith:'float'">
+                        {{ frameData[node.id][variable.key][0] | number:variable.scale }}
+                    </div>
+                </div>
+
+                <div style="width: {{ colWidths[variable.key] }};"
+                     data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                     class="flex flex-dir-col flex-justify-center flex-align-end"
+                     data-ng-if="frameData[node.id][variable.key]">
+                    <div data-ng-if="variable.type | startsWith:'integer'">
+                        {{ frameData[node.id][variable.key][0] | number:0 }}
+                    </div>
+                </div>
+
+                <div style="width: {{ colWidths[variable.key] }};"
+                     data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                     class="flex flex-dir-col flex-justify-center flex-align-start"
+                     data-ng-click="setTargetNode(node)"
+                     data-ng-if="frameData[node.id][variable.key] && (variable.type | startsWith:'location')">
+                    <a href="#">
+                        <span class="material-icons md-18 margin-r-25p"
+                              style="flex-shrink: 0; display: inline-block;"
+                              title="Map">
+                            map
+                        </span>
+                        <span style="flex-shrink: 0; display: inline-block;"
+                              title="Map">
+                            View map
+                        </span>
+                    </a>
+                </div>
+
+                <div class="flex flex-flw-row-nw flex-align-center flex-justify-start"
+                     style="width: {{ colWidths[variable.key]}};"
+                     data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                     data-ng-if="frameData[node.id][variable.key] && variable.type | startsWith:'relation'">
+                    <div class="margin-r-25p"
+                         style="display: inline; border-radius: .25rem; background-color: #c8e5fc; padding: 2px 4px;"
+                         data-ng-repeat="(idx, value) in frameData[node.id][variable.key] track by idx">
+                        {{ value | splitLast:'[' }}
+                    </div>
+                </div>
+
+                <div data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                     data-ng-if="frameData[node.id][variable.key]"
+                     style="width: {{ colWidths[variable.key] }}; overflow: hidden; white-space: nowrap;
+                         text-overflow: ellipsis;">
+                    <div data-ng-if="variable.type | startsWith:'text'"
+                         style="max-width: 100%; overflow: hidden; white-space: nowrap; text-overflow:
+                             ellipsis;">
+                        {{ frameData[node.id][variable.key][0] }}
+                    </div>
+                </div>
+
+            </td>
+<!--            <td class="pad-50p"-->
+<!--                style="width: {{ colWidths['id'] }}; height: 44px;">-->
+<!--                <span style="display: block; width: {{ colWidths['id'] }};">-->
+<!--                    {{ node.id }}-->
+<!--                </span>-->
+<!--            </td>-->
+<!--            <td class="info-enabled pad-50p">-->
+<!--                <div>-->
+<!--                    <span style="width: {{ colWidths['created_on'] }};">-->
+<!--                        <time datetime="{{ node.created_on }}"-->
+<!--                              title="{{ node.created_on }}">-->
+<!--                            {{ node.created_on | localTime | date : 'mediumDate' }} at {{ node.created_on |-->
+<!--                            localTime | date:'h:mm' }} {{ node.created_on | localTime | date:'a' }}-->
+<!--                        </time>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--            </td>-->
+<!--            <td class="info-enabled pad-50p">-->
+<!--                <span style="width: {{ colWidths['created_by'] }};">-->
+<!--                    {{ node.created_by }}-->
+<!--                </span>-->
+<!--            </td>-->
+<!--            <td class="info-enabled pad-50p"-->
+<!--                style="width: {{ colWidths['modified_on'] }};">-->
+<!--                <div style="width: {{ colWidths['modified_on'] }};">-->
+<!--                    <span>-->
+<!--                        <time datetime="{{ node.modified_on }}"-->
+<!--                              title="{{ node.modified_on }}">-->
+<!--                            {{ node.modified_on | localTime | date : 'mediumDate' }} at {{ node.modified_on |-->
+<!--                            localTime | date:'h:mm' }} {{ node.modified_on | localTime | date:'a' }}-->
+<!--                        </time>-->
+<!--                    </span>-->
+<!--                </div>-->
+<!--            </td>-->
+<!--            <td class="info-enabled pad-50p"-->
+<!--                style="width: {{ colWidths['modified_by'] }};">-->
+<!--                <span style="width: {{ colWidths['modified_by'] }};">-->
+<!--                    {{ node.modified_by }}-->
+<!--                </span>-->
+<!--            </td>-->
+<!--            <td class="pad-50p"-->
+<!--                style="width: {{ colWidths['status'] }};">-->
+<!--                <div style="width: {{ colWidths['status'] }};"-->
+<!--                     class="status-wrapper pad-0"-->
+<!--                     title="Privacy status">-->
+<!--                    <div class="status"-->
+<!--                         data-ng-class="{'status-private': node.private, 'status-public': !node.private}">-->
+<!--                        <span data-ng-if="node.private">Private</span>-->
+<!--                        <span data-ng-if="!node.private">Public</span>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </td>-->
+            <td class="pad-50p"
+                style="width: 1%;"
+                data-ng-repeat="_ in [1, 2, 3, 4, 5]">
+
+                <div style="min-width: 10rem;">
+                    <div class="pad-50p"></div>
+                </div>
+
+            </td>
+        </tr>
+
+        <tr data-ng-init="addListener(); getTableHeight()"></tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div id="grid-tools-bottom"
+     style="width: 100%;"
+     class="flex flex-dir-row flex-nwrap flex-align-center pad-r-1 pad-l-1"
+     data-ng-if="visible && addControls">
+
+    <div>
+        <span style="font-size: .875rem;">
+            {{ summary.feature_count | number }}
+        </span>
+        <span style="font-size: .875rem;">
+            <ng-pluralize count="summary.feature_count"
+                          when="{'one': 'record','other': 'records'}"></ng-pluralize>
+        </span>
+    </div>
+
+    <div class="flex flex-dir-row flex-nwrap flex-align-center flex-justify-end grow"
+         pagination
+         summary="summary"
+         rotate="shiftWindow(queryParams)"
+         params="queryParams"
+         update-params="true"></div>
+
+</div>
+
+<div node-form-dialog
+     alerts="page.alerts"
+     frame="frame"
+     organization="$root.user.organization_id"
+     node="targetNode"
+     node-type="nodeType"
+     post-delete="removeRecord()"
+     records="records"
+     record-idx="recordIdx"
+     query-params="queryParams"
+     visible="showFormModal"></div>

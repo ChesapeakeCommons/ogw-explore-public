@@ -1,0 +1,74 @@
+//
+// _breadcrumb.scss
+//
+// This stylesheet is written in SASS(1) and compiles all of the styles
+// we use throughout the site.
+//
+// @see (1) http://sass-lang.com/documentation/file.SASS_REFERENCE.html
+//
+
+.breadcrumb {
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    margin-bottom: 1.5rem;
+
+    > div {
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: flex-start;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        min-width: 0;
+
+        a {
+            display: block;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        > span {
+            display: block;
+            margin: 0 0.25rem;
+            color: #757575;
+        }
+
+    }
+
+    a:hover,
+    a:active,
+    a:focus {
+        text-decoration: underline !important;
+    }
+            
+}
+
+.breadcrumb icon    {
+    color:#666666;
+    font-size:20px;
+}
+
+.breadcrumb-ui {
+    padding-bottom: 0px;
+    margin-bottom: -20px !important;
+    float: left;
+    display: inline-block;
+}
+
+.breadcrumb-header-wrapper{
+    width: 100%;
+}
+
+.breadcrumb-header {
+    display: block;
+    padding-top: 0px !important;
+}
+
+.pad-crumb {
+    padding: 2rem 2rem 0;
+    margin-bottom: 0 !important;
+}

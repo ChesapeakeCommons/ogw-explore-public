@@ -1,0 +1,65 @@
+<div class="collection-filter drop-down">
+    <button type="button"
+            data-ng-class="{'open-btn': (displayStates[collection] || params[collection])}"
+            data-ng-click="toggleModal(null, false)"
+            title="{{ collection | capitalAttribute }}">
+        {{ collection | capitalAttribute }}&nbsp;
+        <i class="material-icons" data-ng-if="!displayStates[collection]">
+            expand_more
+        </i>
+        <i class="material-icons" data-ng-if="displayStates[collection]">
+            expand_less
+        </i>
+    </button>
+    <form name="collection-filter-form"
+          class="collection-filter-modal"
+          style="width: auto;"
+          data-ng-if="modalVisible">
+        <label data-ng-repeat="feature in features  | orderBy: 'name'"
+               data-ng-class="{'active': params[collection] === feature.normalized_name}"
+               data-ng-click="toggleModal(feature.normalized_name, true)"
+               data-ng-if="trackName"
+               title="{{ feature.name }}">
+            <span class="input-mask" data-ng-if="params[collection] === feature.normalized_name">
+                <i class="material-icons">
+                    radio_button_checked
+                </i>
+            </span>
+            <span class="input-mask" data-ng-if="params[collection] !== feature.normalized_name">
+                <i class="material-icons">
+                    radio_button_unchecked
+                </i>
+            </span>
+            <input type="radio" id="{{ collection }}-option-{{ feature.normalized_name }}"
+                   name="active-{{ collection }}"
+                   data-ng-model="params[collection]"
+                   data-ng-value="{{ feature.normalized_name }}">
+            <span>
+                {{ feature.name }}
+            </span>
+        </label>
+        <label data-ng-repeat="feature in features"
+               data-ng-class="{'active': params[collection] === feature}"
+               data-ng-click="toggleModal(feature, true)"
+               data-ng-if="!trackName"
+               title="{{ feature }}">
+            <span class="input-mask" data-ng-if="params[collection] === feature">
+                <i class="material-icons">
+                    radio_button_checked
+                </i>
+            </span>
+            <span class="input-mask" data-ng-if="params[collection] !== feature">
+                <i class="material-icons">
+                    radio_button_unchecked
+                </i>
+            </span>
+            <input type="radio" id="{{ collection }}-option-{{ feature }}"
+                   name="active-{{ collection }}"
+                   data-ng-model="params[collection]"
+                   data-ng-value="{{ feature }}">
+            <span>
+                {{ feature | capitalAttribute }}
+            </span>
+        </label>
+    </form>
+</div>

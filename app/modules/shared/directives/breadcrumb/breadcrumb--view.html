@@ -1,0 +1,143 @@
+<!--<div class="breadcrumb"-->
+<!--     data-ng-class="{'pad-crumb': pad}"-->
+<!--     data-ng-if="!program && !facility">-->
+<!--    <div class="no-shrink anchor"-->
+<!--         data-ng-if="rootPath && rootPath.length">-->
+<!--        <a href="/{{ rootPath }}">-->
+<!--            {{ rootPath | capitalAttribute }}-->
+<!--        </a>-->
+<!--        <span>/</span>-->
+<!--    </div>-->
+<!--    <div class="no-shrink anchor"-->
+<!--         data-ng-if="organization && organization.id">-->
+<!--        <a href="/organizations">-->
+<!--            Organizations-->
+<!--        </a>-->
+<!--        <span>/</span>-->
+<!--    </div>-->
+<!--    <div class="no-shrink anchor"-->
+<!--         data-ng-if="organization && organization.id">-->
+<!--        <a href="/organizations/{{ organization.id }}">-->
+<!--            {{ organization.name }}-->
+<!--        </a>-->
+<!--        <span>/</span>-->
+<!--    </div>-->
+<!--    <div class="no-shrink anchor"-->
+<!--         data-ng-if="tail && tail.length">-->
+<!--        {{ tail }}-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--<div class="breadcrumb"-->
+<!--     data-ng-class="{'pad-crumb': pad}"-->
+<!--     data-ng-if="facility && facility.id">-->
+<!--    <div class="no-shrink anchor"-->
+<!--         data-ng-if="rootPath && rootPath.length">-->
+<!--        <a href="/{{ rootPath }}">-->
+<!--            {{ rootPath | capitalAttribute }}-->
+<!--        </a>-->
+<!--        <span>/</span>-->
+<!--    </div>-->
+<!--    <div class="no-shrink anchor">-->
+<!--        <a href="/facilities"-->
+<!--           data-ng-if="!program">-->
+<!--            Facilities-->
+<!--        </a>-->
+<!--        <span>/</span>-->
+<!--    </div>-->
+<!--    <div style="max-width: {{ basis }}px;">-->
+<!--        <a href="/facilities/{{ facility.id }}">-->
+<!--            {{ facility.name }}-->
+<!--        </a>-->
+<!--        <span data-ng-if="(tail && tail.length) || (permit && permit.id) || (project && project.id)">-->
+<!--            /-->
+<!--        </span>-->
+<!--    </div>-->
+<!--    <div class="no-shrink anchor"-->
+<!--         data-ng-if="project && project.id">-->
+<!--        <a href="/projects/{{ project.id }}/projects">-->
+<!--            Projects-->
+<!--        </a>-->
+<!--        <span>/</span>-->
+<!--    </div>-->
+<!--    <div style="max-width: {{ basis }}px;"-->
+<!--         data-ng-if="project && project.id">-->
+<!--        <a href="/projects/{{ project.id }}">-->
+<!--            {{ project.name || 'Un-named' }}-->
+<!--        </a>-->
+<!--        <span data-ng-if="(tail && tail.length) || (permit && permit.id)">-->
+<!--            /-->
+<!--        </span>-->
+<!--    </div>-->
+<!--    <div class="no-shrink anchor"-->
+<!--         data-ng-if="project && project.id && permit && permit.id">-->
+<!--        <a href="/projects/{{ project.id }}/permits">-->
+<!--            Permits-->
+<!--        </a>-->
+<!--        <span data-ng-if="project && project.id && permit && permit.id">/</span>-->
+<!--    </div>-->
+<!--    <div style="max-width: {{ basis }}px;"-->
+<!--         data-ng-if="permit && permit.id">-->
+<!--        <a href="/permits/{{ permit.id }}">-->
+<!--            {{ permit.name || 'Un-named' }}-->
+<!--        </a>-->
+<!--        <span data-ng-if="tail && tail.length">/</span>-->
+<!--    </div>-->
+<!--    <div class="no-shrink anchor" style="color: #616161;"-->
+<!--         data-ng-if="tail && tail.length">-->
+<!--        {{ tail }}-->
+<!--    </div>-->
+<!--</div>-->
+
+<div class="breadcrumb"
+     data-ng-class="{'pad-crumb': pad}"
+     data-ng-if="node && node.id">
+    <div class="no-shrink anchor"
+         data-ng-if="rootPath && rootPath.length">
+        <a href="/{{ rootPath }}">
+            {{ rootPath | capitalAttribute }}
+        </a>
+        <span>/</span>
+    </div>
+    <div class="no-shrink anchor">
+        <a href="/collections/{{ nodeType.normalized_name }}">
+            {{ nodeType.label_plural }}
+        </a>
+        <span>/</span>
+    </div>
+    <div style="max-width: {{ basis }}px;">
+        <a href="/collections/{{ nodeType.normalized_name }}/{{ node.id }}">
+            {{ node.name }}
+        </a>
+        <span data-ng-if="(tail && tail.length)">
+            /
+        </span>
+    </div>
+    <div class="no-shrink anchor" style="color: #616161;"
+         data-ng-if="tail && tail.length">
+        {{ tail }}
+    </div>
+</div>
+
+<div class="breadcrumb"
+     data-ng-class="{'pad-crumb': pad}"
+     data-ng-if="variable && variable.id">
+    <div class="no-shrink anchor">
+        <a href="/variables">
+            Variables
+        </a>
+        <span>/</span>
+    </div>
+    <div style="max-width: {{ basis }}px;">
+        <a href="/variables/{{ variable.id }}/edit?type={{ variable.type }}">
+            {{ variable.name }}
+        </a>
+        <span data-ng-if="(tail && tail.length)">
+            /
+        </span>
+    </div>
+    <div class="no-shrink anchor" style="color: #616161;"
+         data-ng-if="tail && tail.length">
+        {{ tail }}
+    </div>
+</div>

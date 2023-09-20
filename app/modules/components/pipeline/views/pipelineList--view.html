@@ -1,0 +1,103 @@
+<div data-ng-include="'/templates/sm-header--view.html'"></div>
+
+<main style="margin-top: -212px;"
+      class="site--content--flow fluid-content clearfix distinguish facility-content">
+
+    <div class="content--container pad-0" style="border-right: 1px solid #e0e0e0;">
+
+        <div class="progress--modal reveal fade-in t0" data-ng-if="page.status.loading">
+            <div class="progress--container">
+                <p style="font-weight: bold;" class="color-pulse">Loading pipeline data&hellip;</p>
+            </div>
+        </div>
+
+        <div class="main--ui pad-0"
+             data-ng-if="!page.status.loading">
+
+            <div class="module--grid">
+
+                <div class="hero translucent">
+
+                    <div id="backdrop-map"
+                         style="overflow: hidden; background-image: url('/images/alt-banner-1.png'); background-repeat:
+                         no-repeat; background-size: cover; background-position: center center; height: 240px;">
+                    </div>
+
+                    <article style="text-align: center;"
+                             class="name pad space-right reveal fade-in t0 margin-t-2">
+
+                        <h1 style="color: #FFFFFF; font-size: 2.5rem;"
+                            class="margin-0">
+                            Pipeline Projects
+                        </h1>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+            <div style="width: 100%;"
+                 class="flex flex-dir-col flex-nwrap flex-align-center">
+
+                <section style="width: 100%;"
+                         class="reveal fade-in t3 pad-0 margin-0">
+
+                    <div id="usage-instructions"
+                         class="flex flex-dir-col flex-align-center flex-justify-center">
+
+                        <p class="pad-0 margin-0 margin-t-2 margin-b-2" style="max-width: 50%;">
+                            This is a list of the major pipeline projects tracked by Oil & Gas Watch. These pipelines
+                            transport gas, crude oil, refined products, and natural gas liquids used to make
+                            petrochemicals, plastics, fertilizer, and fuel. Click on the links in the table below to
+                            view detailed information about a pipeline project or a new or expanding facility connected
+                            to the pipeline. Use <strong>Sort</strong> and <strong>Filter</strong> to explore the list
+                            and click <strong>Export</strong> to download data into a spreadsheet. You can also bookmark
+                            your filtered search to return to it later or copy the URL in your browser to share it. You
+                            can access the pipeline route data and associated metadata <a
+                                href="https://www.arcgis.com/home/item.html?id=16f094c753ed4314b246adf5b619703b"
+                                target="_blank">here</a>. The
+                            data can be viewed in ArcGIS Online or downloaded for further analysis. For
+                            additional information about the data, visit our <strong>About</strong> page and <strong>
+                            Glossary</strong>.
+                        </p>
+
+                    </div>
+
+                    <div id="grid"
+                         style="border-top: 1px solid #E0E0E0; position: sticky;">
+
+                        <div style="position: relative;"
+                             class="flex flex-dir-col flex-nwrap flex-justify-start flex-align-center"
+                             data-record-type-key="9"
+                             table-view
+                             add-controls="true"
+                             alerts="page.alerts"
+                             autosize="true"
+                             feature-type="pipelineIndex"
+                             node-type="page.recordTypeIdx[9]"
+                             query-params="page.queryParams"
+                             visible="page.recordTypeIdx[9]"></div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="transient--notification" data-ng-class="{show: page.alerts.length}">
+        <div class="event--container">
+            <div data-ng-repeat="alert in page.alerts"
+                 data-ng-class="{error: alert.type == 'error', success: alert.type == 'success'}">
+                <span class="event--message">{{ alert.msg }}</span>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!--<div data-ng-include="'/templates/footer&#45;&#45;view.html'"></div>-->

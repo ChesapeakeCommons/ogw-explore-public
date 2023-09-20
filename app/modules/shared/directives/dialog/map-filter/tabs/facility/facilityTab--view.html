@@ -1,0 +1,319 @@
+<div style="display: grid; grid-template-columns: auto 1fr; max-height: 100%;">
+    <div class="flex flex-dir-col nowrap option-types no-grow pad-1 flex-justify-start"
+         style="height: 100%;">
+        <button data-ng-repeat="(idx, option) in config.types track by idx | orderBy: 'label'"
+                data-ng-class="{'active': config.mode === option.key, 'not-allowed': disableInputs}"
+                data-ng-click="setMode(option.key)"
+                class="pad-r-50p pad-l-50p pad-t-50p pad-b-50p"
+                type="button"
+                title="{{ option.label }}">
+            <span style="font-size: .9rem;">
+                {{ option.label }}
+            </span>
+            <span class="dirty-indicator margin-l-50p margin-r-50p"
+                  data-ng-class="{filled: option.dirty}"></span>
+        </button>
+    </div>
+    <div class="option-list-container pad-r-1 pad-b-1"
+         data-ng-show="config.mode === 'name'">
+        <div class="rad-25 pad-b-50p pad-t-1">
+            <div class="search-input-wrapper rad-25">
+                <input type="text"
+                       data-ng-model="config.query.token.a"
+                       data-ng-model-options="{debounce: 100}"
+                       data-ng-change="filterCategory('name', config.query.token.a)"
+                       class="margin-0"
+                       style="padding: .5rem .75rem; font-size: .9rem; border: 0 none; background: transparent;"
+                       name="a"
+                       placeholder="Search facilities&hellip;" />
+            </div>
+        </div>
+        <label
+                data-ng-repeat="(idx, option) in config.options.name track by idx | orderBy: 'label'"
+                data-ng-class="{'active': option.selected, 'not-allowed': disableInputs}"
+                style="display: grid; grid-template-columns: min-content 1fr; font-size: .9rem;"
+                class="pad-50p"
+                title="{{ option.label }}">
+        <span class="margin-r-50p"
+              style="font-size: .9rem;"
+              data-ng-if="option.selected">
+            <span class="material-icons md-18">
+                check_box
+            </span>
+        </span>
+            <span class="margin-r-50p"
+                  style="font-size: .9rem;"
+                  data-ng-if="!option.selected">
+            <span class="material-icons md-18">
+                check_box_outline_blank
+            </span>
+        </span>
+            <input type="checkbox"
+                   name="active-enum"
+                   style="display: none;"
+                   data-ng-disabled="disableInputs"
+                   data-ng-model="option.selected">
+            <span style="font-size: .9rem;">
+            {{ option.label }}
+        </span>
+        </label>
+    </div>
+    <div class="option-list-container pad-r-1 pad-b-1"
+         data-ng-show="config.mode === 'state'">
+        <div class="rad-25 pad-b-50p pad-t-1">
+            <div class="search-input-wrapper rad-25">
+                <input type="text"
+                   data-ng-model="config.query.token.b"
+                   data-ng-model-options="{debounce: 100}"
+                   data-ng-change="filterCategory('state', config.query.token.b)"
+                   class="margin-0"
+                   style="padding: .5rem .75rem; font-size: .9rem; border: 0 none; background: transparent;"
+                   name="b"
+                   placeholder="Search states&hellip;" />
+            </div>
+        </div>
+        <label data-ng-repeat="(idx, option) in config.options.state track by idx | orderBy: 'label'"
+               data-ng-class="{'active': option.selected, 'not-allowed': disableInputs}"
+               style="display: grid; grid-template-columns: min-content 1fr; font-size: .9rem;"
+               class="pad-50p"
+               title="{{ option.label }}">
+        <span class="margin-r-50p"
+              style="font-size: .9rem;"
+              data-ng-if="option.selected">
+            <span class="material-icons md-18">
+                check_box
+            </span>
+        </span>
+            <span class="margin-r-50p"
+                  style="font-size: .9rem;"
+                  data-ng-if="!option.selected">
+            <span class="material-icons md-18">
+                check_box_outline_blank
+            </span>
+        </span>
+            <input type="checkbox"
+                   name="active-enum"
+                   style="display: none;"
+                   data-ng-disabled="disableInputs"
+                   data-ng-model="option.selected">
+            <span style="font-size: .9rem;">
+            {{ option.label }}
+        </span>
+        </label>
+    </div>
+    <div class="option-list-container pad-r-1 pad-b-1"
+         data-ng-show="config.mode === 'company'">
+        <div class="rad-25 pad-b-50p pad-t-1">
+            <div class="search-input-wrapper rad-25">
+                <input type="text"
+                   data-ng-model="config.query.token.c"
+                   data-ng-model-options="{debounce: 100}"
+                   data-ng-change="filterCategory('company', config.query.token.c)"
+                   class="margin-0"
+                   style="padding: .5rem .75rem; font-size: .9rem; border: 0 none; background: transparent;"
+                   name="c"
+                   placeholder="Search companies&hellip;" />
+            </div>
+        </div>
+        <label data-ng-repeat="(idx, option) in config.options.company track by idx | orderBy: 'label'"
+               data-ng-class="{'active': option.selected, 'not-allowed': disableInputs}"
+               style="display: grid; grid-template-columns: min-content 1fr; font-size: .9rem;"
+               class="pad-50p"
+               title="{{ option.label }}">
+        <span class="margin-r-50p"
+              style="font-size: .9rem;"
+              data-ng-if="option.selected">
+            <span class="material-icons md-18">
+                check_box
+            </span>
+        </span>
+            <span class="margin-r-50p"
+                  style="font-size: .9rem;"
+                  data-ng-if="!option.selected">
+            <span class="material-icons md-18">
+                check_box_outline_blank
+            </span>
+        </span>
+            <input type="checkbox"
+                   name="active-enum"
+                   style="display: none;"
+                   data-ng-disabled="disableInputs"
+                   data-ng-model="option.selected">
+            <span style="font-size: .9rem;">
+            {{ option.label }}
+        </span>
+        </label>
+    </div>
+    <div class="option-list-container pad-r-1 pad-b-1"
+         data-ng-show="config.mode === 'sector'">
+        <div class="rad-25 pad-b-50p pad-t-1">
+            <div class="search-input-wrapper rad-25">
+                <input type="text"
+                   data-ng-model="config.query.token.d"
+                   data-ng-model-options="{debounce: 100}"
+                   data-ng-change="filterCategory('sector', config.query.token.d)"
+                   class="margin-0"
+                   style="padding: .5rem .75rem; font-size: .9rem; border: 0 none; background: transparent;"
+                   name="d"
+                   placeholder="Search sectors&hellip;" />
+            </div>
+        </div>
+        <label data-ng-repeat="(idx, option) in config.options.sector track by idx | orderBy: 'label'"
+               data-ng-class="{'active': option.selected, 'not-allowed': disableInputs}"
+               style="display: grid; grid-template-columns: min-content 1fr; font-size: .9rem;"
+               class="pad-50p"
+               title="{{ option.label }}">
+        <span class="margin-r-50p"
+              style="font-size: .9rem;"
+              data-ng-if="option.selected">
+            <span class="material-icons md-18">
+                check_box
+            </span>
+        </span>
+            <span class="margin-r-50p"
+                  style="font-size: .9rem;"
+                  data-ng-if="!option.selected">
+            <span class="material-icons md-18">
+                check_box_outline_blank
+            </span>
+        </span>
+            <input type="checkbox"
+                   name="active-enum"
+                   style="display: none;"
+                   data-ng-disabled="disableInputs"
+                   data-ng-model="option.selected">
+            <span style="font-size: .9rem;">
+            {{ option.label }}
+        </span>
+        </label>
+    </div>
+    <div class="option-list-container pad-r-1 pad-b-1"
+         data-ng-show="config.mode === 'status'">
+        <div class="rad-25 pad-b-50p pad-t-1">
+            <div class="search-input-wrapper rad-25">
+                <input type="text"
+                   data-ng-model="config.query.token.e"
+                   data-ng-model-options="{debounce: 100}"
+                   data-ng-change="filterCategory('status', config.query.token.e)"
+                   class="margin-0"
+                   style="padding: .5rem .75rem; font-size: .9rem; border: 0 none; background: transparent;"
+                   name="e"
+                   placeholder="Search operating statuses&hellip;" />
+            </div>
+        </div>
+        <label data-ng-repeat="(idx, option) in config.options.status track by idx | orderBy: 'label'"
+               data-ng-class="{'active': option.selected, 'not-allowed': disableInputs}"
+               style="display: grid; grid-template-columns: min-content 1fr; font-size: .9rem;"
+               class="pad-50p"
+               title="{{ option.label }}">
+        <span class="margin-r-50p"
+              style="font-size: .9rem;"
+              data-ng-if="option.selected">
+            <span class="material-icons md-18">
+                check_box
+            </span>
+        </span>
+            <span class="margin-r-50p"
+                  style="font-size: .9rem;"
+                  data-ng-if="!option.selected">
+            <span class="material-icons md-18">
+                check_box_outline_blank
+            </span>
+        </span>
+            <input type="checkbox"
+                   name="active-enum"
+                   style="display: none;"
+                   data-ng-disabled="disableInputs"
+                   data-ng-model="option.selected">
+            <span style="font-size: .9rem;">
+            {{ option.label }}
+        </span>
+        </label>
+    </div>
+    <div class="option-list-container pad-r-1 pad-b-1"
+         data-ng-show="config.mode === 'opCat'">
+        <div class="rad-25 pad-b-50p pad-t-1">
+            <div class="search-input-wrapper rad-25">
+                <input type="text"
+                   data-ng-model="config.query.token.f"
+                   data-ng-model-options="{debounce: 100}"
+                   data-ng-change="filterCategory('opCat', config.query.token.f)"
+                   class="margin-0"
+                   style="padding: .5rem .75rem; font-size: .9rem; border: 0 none; background: transparent;"
+                   name="f"
+                   placeholder="Search operating categories&hellip;" />
+            </div>
+        </div>
+        <label data-ng-repeat="(idx, option) in config.options.opCat track by idx | orderBy: 'label'"
+               data-ng-class="{'active': option.selected, 'not-allowed': disableInputs}"
+               style="display: grid; grid-template-columns: min-content 1fr; font-size: .9rem;"
+               class="pad-50p"
+               title="{{ option.label }}">
+        <span class="margin-r-50p"
+              style="font-size: .9rem;"
+              data-ng-if="option.selected">
+            <span class="material-icons md-18">
+                check_box
+            </span>
+        </span>
+            <span class="margin-r-50p"
+                  style="font-size: .9rem;"
+                  data-ng-if="!option.selected">
+            <span class="material-icons md-18">
+                check_box_outline_blank
+            </span>
+        </span>
+            <input type="checkbox"
+                   name="active-enum"
+                   style="display: none;"
+                   data-ng-disabled="disableInputs"
+                   data-ng-model="option.selected">
+            <span style="font-size: .9rem;">
+            {{ option.label }}
+        </span>
+        </label>
+    </div>
+    <div class="option-list-container pad-r-1 pad-b-1"
+         data-ng-show="config.mode === '_type'">
+        <div class="rad-25 pad-b-50p pad-t-1">
+            <div class="search-input-wrapper rad-25">
+                <input type="text"
+                   data-ng-model="config.query.token.g"
+                   data-ng-model-options="{debounce: 100}"
+                   data-ng-change="filterCategory('_type', config.query.token.g)"
+                   class="margin-0"
+                   style="padding: .5rem .75rem; font-size: .9rem; border: 0 none; background: transparent;"
+                   name="g"
+                   placeholder="Search project types&hellip;" />
+            </div>
+        </div>
+        <label data-ng-repeat="(idx, option) in config.options._type track by idx | orderBy: 'label'"
+               data-ng-class="{'active': option.selected, 'not-allowed': disableInputs}"
+               style="display: grid; grid-template-columns: min-content 1fr; font-size: .9rem;"
+               class="pad-50p"
+               title="{{ option.label }}">
+        <span class="margin-r-50p"
+              style="font-size: .9rem;"
+              data-ng-if="option.selected">
+            <span class="material-icons md-18">
+                check_box
+            </span>
+        </span>
+            <span class="margin-r-50p"
+                  style="font-size: .9rem;"
+                  data-ng-if="!option.selected">
+            <span class="material-icons md-18">
+                check_box_outline_blank
+            </span>
+        </span>
+            <input type="checkbox"
+                   name="active-enum"
+                   style="display: none;"
+                   data-ng-disabled="disableInputs"
+                   data-ng-model="option.selected">
+            <span style="font-size: .9rem;">
+            {{ option.label }}
+        </span>
+        </label>
+    </div>
+</div>

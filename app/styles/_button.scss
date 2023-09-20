@@ -1,0 +1,492 @@
+//
+// _button.scss
+//
+// This stylesheet is written in SASS(1) and contains site wide form
+// specifications.
+//
+// @see (1) http://sass-lang.com/documentation/file.SASS_REFERENCE.html
+//
+
+
+//
+// Buttons
+//
+
+button {
+    font-family: $font-sans;
+    appearance: none;
+}
+
+button {
+    appearance: none;
+    cursor: pointer;
+    outline: none;
+    background: transparent;
+}
+
+a.button,
+.button {
+    background-color: $color-green-base;
+    border: 0;
+    -webkit-border-radius: 4em;
+    -moz-border-radius: 4em;
+    border-radius: 4em;
+    box-shadow: 0 2px 3px rgba(0,0,0,0.2);
+    color: rgb(255, 255, 255);
+    cursor: pointer;
+    display: inline-block;
+    font-family: $font-sans;
+    font-size: 0.6125em;
+    font-weight: 400;
+    font-style: normal;
+    letter-spacing: 0.125em;
+    padding: 0.6875em 2em;
+    text-decoration: none;
+    text-align: center;
+    text-transform: uppercase;
+    white-space: nowrap;
+
+    &:hover {
+        background-color: $color-green-base;
+    }
+
+    &.button-large {
+        font-size: 1em;
+    }
+
+    em {
+        font-style: italic;
+
+        &.fancy {
+            font-family: $font-serif;
+            font-weight: 300;
+            text-transform: none;
+            -webkit-font-smoothing: antialiased;
+        }
+    }
+
+}
+
+a.button-outline,
+.button-outline {
+    background-color: $color-white-base;
+    border: 1px solid $color-green-base;
+    color: $color-green-base;
+    font-weight: 600;
+    text-shadow: none;
+
+    &:hover {
+        background-color: rgb(252,252,252);
+    }
+}
+
+
+a.button-warning,
+.button-warning {
+    background-color: $color-gold-base;
+    font-weight: 600;
+    text-shadow: none;
+
+    &:hover {
+        background-color: $color-gold-base;
+    }
+
+    &.button-outline {
+        background-color: $color-white-base;
+        border-color: $color-gold-base;
+        color: $color-gold-base;
+    }
+}
+
+a.button-danger,
+.button-danger {
+    background-color: $color-red-base;
+    font-weight: 600;
+    text-shadow: none;
+
+    &:hover {
+        background-color: $color-red-base;
+    }
+
+    &.button-outline {
+        background-color: $color-white-base;
+        border-color: $color-red-base;
+        color: $color-red-base;
+    }
+}
+
+a.button-reverse,
+.button-reverse {
+    background-color: $color-white-base;
+    font-weight: 600;
+    text-shadow: none;
+
+    &:hover {
+        background-color: $color-white-base;
+    }
+
+    &.button-outline {
+        background-color: transparent;
+        border-color: $color-white-base;
+        color: $color-white-base;
+    }
+}
+
+a.button-link,
+.button-link {
+    background-color: transparent;
+    color: $color-gray-light;
+    box-shadow: none;
+    letter-spacing: 0.025em;
+    text-shadow: none;
+
+    &:hover {
+        background-color: transparent;
+    }
+
+    &.button-outline {
+        border-color: $color-gray-light;
+    }
+}
+
+.button-success.button-link,
+a.button-success.button-link {
+    color: $color-green-base;
+}
+
+.button-danger.button-link,
+a.button-danger.button-link {
+    color: $color-red-base;
+}
+
+
+a.button:focus,
+.button:focus {
+    outline: none;
+}
+
+a.button:active,
+.button:active {
+    position:relative;
+    top: 1px;
+}
+
+
+.button.button-info,
+a.button.button-info {
+    background-color: $color-blue-bright;
+
+    &:hover {
+        background-color: darken($color-blue-bright, 3%);
+    }
+
+    &.button-outline {
+        background-color: $color-white-base;
+        border: 1px solid $color-blue-bright;
+        color: $color-blue-bright;
+        font-weight: 600;
+        text-shadow: none;
+
+        &:hover {
+            background-color: rgb(252,252,252);
+        }
+
+    }
+}
+
+.button.button-center,
+a.button.button-center {
+    display: block;
+    margin: 0 auto;
+}
+
+.button.button-delete,
+a.button.button-delete {
+    background-color: transparent;
+    box-shadow: none;
+    color: rgb(161, 162, 166);
+    text-shadow: none;
+
+    &:hover {
+        background-color: transparent;
+        text-decoration: underline;
+    }
+}
+
+a.button-delete.button-outline,
+.button-delete.button-outline {
+    background-color: rgb(242,242,242);
+    border: 1px solid rgb(161, 162, 166);
+    color: rgb(161, 162, 166);
+    font-weight: 600;
+    text-shadow: none;
+
+    &:hover {
+        background-color: rgb(252,252,252);
+    }
+}
+
+
+
+//
+//
+//
+.button-left {
+    float: left;
+}
+
+.button-center {
+    display: block;
+    margin: 0 auto;
+}
+
+.button-right {
+    float: right;
+}
+
+.button-indent {
+    margin-left: 10%;
+}
+
+.fab {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+
+    button {
+        appearance: none;
+        border: 0 none;
+        outline: none;
+        height: 56px;
+        width: 56px;
+        display: flex;
+        flex-flow: column;
+        color: #fff;
+        background: rgb(41,204,130);
+        font-size: 2em;
+        border-radius: 50%;
+        justify-content: center;
+        align-items: center;
+        align-content: center;
+        -webkit-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+        -moz-box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2);
+        transition: all 250ms ease 0s;
+        cursor: pointer;
+
+        &:hover {
+            background: rgb(37,183,116);
+            color: #fff;
+            outline: 0 none;
+            text-decoration: none;
+        }
+
+    }
+
+    button[disabled] {
+        background: #9E9E9E;
+        cursor: not-allowed;
+
+        &:hover {
+            background: #9E9E9E;
+            cursor: not-allowed;
+        }
+
+    }
+
+    span {
+        display: inline-block;
+        margin-right: 10px;
+        padding: 4px 8px;
+        background: rgba(0,0,0,0.75);
+        border-radius: 4px;
+        font-size: 14px;
+        color: #fff;
+        opacity: 0;
+        visibility: hidden;
+        whitespace: nowrap;
+        transition: all 250ms ease 0s;
+    }
+
+    &:hover {
+
+        span {
+            opacity: 1;
+            visibility: visible;
+        }
+
+    }
+
+}
+
+.default-btn {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    flex-grow: 0;
+    flex-shrink: 0;
+    border-radius: 4px;
+    padding: .5rem 1rem;
+    color: #FFFFFF;
+    background: #313131;
+    border: 1px solid #313131;
+    outline: 0 none;
+    margin: 0;
+    font-size: 1rem;
+    cursor: pointer;
+    user-select: none;
+    box-shadow: none;
+    text-decoration: none !important;
+    transition: all .2s cubic-bezier(.4,0,.2,1);
+}
+
+.default-btn:hover {
+    background: #212121;
+    border: 1px solid #212121;
+    font-size: 1rem;
+    outline: none;
+    box-shadow: none;
+}
+
+.relation-dialog-btn {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: flex-start;
+    border: 0 none;
+    border-radius: .25rem;
+    padding: .5rem .75rem;
+    background: #E0E0E0;
+    font-size: .9rem;
+    font-weight: 500;
+    //line-height: 1;
+    transition: all 200ms ease 0s;
+
+    .btn-label {
+        display: block;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        text-align: left;
+        line-height: 1.125rem;
+    }
+
+}
+
+.relation-dialog-btn:hover {
+    background: #CECECE;
+}
+
+.active-enum-selector {
+    background: #F5F5F5 !important;
+    padding: 0.4rem 0.2rem !important;
+    border: 1px solid #E0E0E0 !important;
+    transition: all .2s cubic-bezier(0.4,0,0.2,1);
+}
+
+.halo-btn {
+    position: relative;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    padding: 0.5rem;
+    margin: 0.5rem;
+    background: #FAFAFA;
+    border-radius: 50%;
+    cursor: pointer;
+    user-select: none;
+
+    .halo {
+        transition: transform .05s cubic-bezier(0.4,0,0.2,1);
+        background-color: #202124;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        height: 40px;
+        width: 40px;
+        left: 0;
+        top: 0;
+        opacity: .04;
+        position: absolute;
+        transform-origin: center;
+        transform: scale(0);
+    }
+
+}
+
+.halo-btn:hover {
+    .halo {
+        transform: scale(1);
+    }
+}
+
+#sort-order-btns,
+#filter-btns {
+
+    button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: flex-start;
+        border: 0 none;
+        border-radius: .25rem;
+        padding: .5rem .75rem;
+        background: #E0E0E0;
+        color: #222222;
+        font-size: .9rem;
+        font-weight: 500;
+        line-height: 1;
+        transition: all 200ms ease 0s;
+
+        &.active,
+        &:hover {
+            background: #CECECE;
+        }
+
+    }
+
+}
+
+.conjunctive-operator-ctrl {
+    background: #F5F5F5;
+    padding: 4px 6px;
+    border: 1px solid #E0E0E0;
+
+    button {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        display: flex;
+        flex-flow: row nowrap;
+        align-items: center;
+        justify-content: center;
+        width: 52px;
+        border: 0 none;
+        border-radius: .25rem;
+        padding: .5rem .75rem;
+        background: transparent;
+        color: #222222;
+        font-size: .8rem;
+        font-weight: 500;
+        line-height: 1;
+        transition: all 200ms ease 0s;
+
+        &.active,
+        &:hover {
+            background: #2196F3;
+            color: #FFFFFF;
+        }
+
+    }
+
+}

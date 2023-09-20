@@ -1,0 +1,85 @@
+.map-filter-modal {
+
+    button {
+        display: flex;
+        flex-flow: row nowrap;
+        justify-content: start;
+        align-items: center;
+        appearance: none;
+        cursor: pointer;
+        border: 0 none;
+        outline: none;
+        box-shadow: none;
+        font-size: .9rem;
+        background: transparent;
+        position: relative;
+    }
+
+    button:not(.tab-btn) {
+        font-weight: 500;
+        border-radius: .25rem;
+
+        &:hover,
+        &.active {
+            //color: #fff;
+            background: #E0E0E0;
+            //background: #222;
+        }
+
+    }
+
+    .dirty-indicator {
+        display: block;
+        height: .5rem;
+        width: .5rem;
+        border-radius: 50%;
+        background: transparent;
+        transition: all 150ms ease-in-out;
+    }
+
+    .filled {
+        background: #FF3333;
+    }
+
+    .tab-btn {
+        position: relative;
+        justify-content: flex-start;
+        align-items: flex-start;
+
+        &.active:after {
+            content: "";
+            position: absolute;
+            display: block;
+            margin-bottom: -1px;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #222222;
+            height: 2px;
+        }
+
+    }
+
+}
+
+.option-list-container {
+    display: grid;
+    align-items: start;
+    align-content: start;
+    height: 100%;
+    overflow: auto;
+    overscroll-behavior: none;
+
+    > div {
+        position: sticky;
+        top: 0;
+        align-self: start;
+        background: #FAFAFA;
+
+        .search-input-wrapper {
+            border: 1px solid #E0E0E0;
+        }
+
+    }
+
+}

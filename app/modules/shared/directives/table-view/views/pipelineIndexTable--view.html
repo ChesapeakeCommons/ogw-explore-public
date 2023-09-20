@@ -1,0 +1,232 @@
+<div id="grid-tools-top"
+     style="width: 100%; border-bottom: 1px solid #E0E0E0;"
+     class="flex flex-dir-row flex-nwrap flex-align-center pad-t-1 pad-b-1 pad-r-2 pad-l-1"
+     data-ng-if="visible && addControls">
+
+    <div>
+        <span style="font-size: .9rem;">
+            {{ frameRecords.length | number }}
+        </span>
+        <span style="font-size: .9rem;">
+            <ng-pluralize count="frameRecords.length"
+                          when="{'one': 'project','other': 'projects'}"></ng-pluralize>
+        </span>
+    </div>
+
+    <div class="margin-l-2"
+         grid-sort
+         columns="columns"
+         node-type="nodeType"
+         params="queryParams"></div>
+
+    <div class="margin-l-2"
+         grid-filter
+         collection="project"
+         columns="columns"
+         node-type="nodeType"
+         params="queryParams"></div>
+
+    <div class="margin-l-2"
+         export-table-dialog
+         active-rows="records"
+         columns="columns"
+         filtered-rows="frameRecords"
+         frame="frameData"
+         mapping="pipeline"
+         record-src="recordSrc"
+         table="nodeType"></div>
+
+</div>
+
+<!--<div id="grid"-->
+<!--     style="border-top: 1px solid #E0E0E0; overflow: auto;">-->
+
+    <div class="table-view"
+         id="table-container"
+         style="overflow: auto; border: 0 none; border-radius: 0; margin-bottom: 40px;"
+         data-ng-if="visible">
+
+        <div class="progress--modal reveal fade-in t0 flex flex-dir-col flex-align-center flex-justify-center"
+             style="position: relative; width: 100%; background: #F5F5F5;"
+             data-ng-if="!columns || !records || !frameData">
+            <div class="progress--container flex flex-dir-col flex-align-center flex-justify-center"
+                 style="width: auto;">
+                <p style="font-weight: bold; font-size: .9rem;"
+                   class="color-pulse pad-0 margin-0 pad-t-4">
+                    Loading {{ nodeType.name }} records&hellip;
+                </p>
+            </div>
+        </div>
+
+        <table class="margin-0"
+               style="width: 100%; font-size: .9rem;"
+               data-ng-if="columns && records && frameData">
+
+            <thead>
+
+            <tr>
+                <th class="pad-75p">
+                    <div class="pad-l-3">
+                        Company
+                    </div>
+                </th>
+                <th class="pad-75p">
+                    Pipeline Project Name
+                </th>
+                <th class="pad-75p">
+                    Associated Facilities
+                </th>
+                <th class="pad-75p"
+                    style="width: 1%; max-width: 20rem;">
+                    Project Type
+                </th>
+                <th class="pad-75p"
+                    style="width: 1%; max-width: 20rem;">
+                    Additional Capacity (units)
+                </th>
+                <th class="pad-75p"
+                    style="width: 1%; max-width: 15rem;">
+                    Product Type
+                </th>
+                <th class="pad-75p">
+                    Operating Status
+                </th>
+                <th class="pad-75p">
+                    Miles
+                </th>
+                <th class="pad-75p">
+                    Affected States
+                </th>
+            </tr>
+
+            </thead>
+
+            <tbody>
+
+            <tr
+                    data-ng-repeat="record in records track by $index">
+                <td class="pad-75p"
+                    style="width: 1%;">
+                    <div class="flex flex-flw-row-nw flex-align-center flex-justify-start">
+                        <div class="pad-x-50p no-grow"
+                             style="display: block; width: 40px; text-align: right; font-size: .8rem;">
+                            {{ ($index + 1) + (25 * ((queryParams.page || 1) - 1)) }}
+                        </div>
+                        <div class="pad-l-50p grow">
+                            <!-- Company -->
+                            {{ frameData[record.id]['relation:32'][0] | splitLast:'[' }}
+                        </div>
+                    </div>
+                </td>
+                <td class="pad-75p"
+                    style="width: 1%;">
+                    <!-- Pipeline -->
+                    <a href="/pipeline/{{ record.id }}">
+                        {{ record.name }}
+                    </a>
+                </td>
+                <td class="pad-75p">
+                    <!-- Associated Facilities -->
+                    <div class="flex flex-flw-col-nw flex-align-start flex-justify-center">
+                        <div class="tag margin-r-25p"
+                             data-ng-repeat="(idx, value) in frameData[record.id]['relation:7'] track by idx">
+                            <a href="/facility/{{ value | linkedRecordKey }}">
+                                {{ value | splitLast:'[' }}
+                            </a>
+                        </div>
+                    </div>
+                </td>
+                <td class="pad-75p">
+                    <!-- Project Type -->
+                    <div class="flex flex-flw-col-nw flex-align-start flex-justify-center">
+                        <div class="tag margin-r-25p"
+                             data-ng-repeat="(idx, value) in frameData[record.id]['enum:15'] track by idx">
+                            {{ value }}
+                        </div>
+                    </div>
+                </td>
+                <td class="pad-75p"
+                    style="width: 1%; max-width: 15rem;">
+                    <!-- Additional Capacity (bpd) -->
+                    <div data-ng-if="frameData[record.id]['float:38'][0]"
+                         class="flex flex-flw-row-nw flex-align-center">
+                        <span>
+                            {{ frameData[record.id]['float:38'][0] | number }}
+                        </span>
+                        <span class="margin-l-25p"
+                              data-ng-if="frameData[record.id]['enum:48'][0]">
+                            ({{ frameData[record.id]['enum:48'][0] }})
+                        </span>
+                    </div>
+                </td>
+                <td class="pad-75p">
+                    <!-- Product Type -->
+                    <div class="flex flex-flw-col-nw flex-align-start flex-justify-center">
+                        <div class="tag margin-r-25p"
+                             data-ng-repeat="(idx, value) in frameData[record.id]['enum:36'] track by idx">
+                            {{ value }}
+                        </div>
+                    </div>
+                </td>
+                <td class="pad-75p">
+                    <!-- Operating Status -->
+                    <div class="flex flex-flw-col-nw flex-align-start flex-justify-center">
+                        <div class="tag margin-r-25p"
+                             data-ng-repeat="(idx, value) in frameData[record.id]['enum:35'] track by idx">
+                            {{ value }}
+                        </div>
+                    </div>
+                </td>
+                <td class="pad-75p"
+                    style="width: 1%; text-align: right;">
+                    <!-- Miles -->
+                    {{ frameData[record.id]['float:37'][0] | number:2 }}
+                </td>
+                <td class="pad-75p">
+                    <!-- Affected States -->
+                    <div class="flex flex-flw-col-nw flex-align-start flex-justify-center">
+                        <div class="tag margin-r-25p"
+                             data-ng-repeat="(idx, value) in frameData[record.id]['enum:52'] track by idx">
+                            {{ value }}
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+<!--</div>-->
+
+<div id="grid-tools-bottom"
+     style="width: 100%;"
+     class="flex flex-dir-row flex-nwrap flex-align-center pad-r-1 pad-l-1"
+     data-ng-if="visible && addControls">
+
+    <div style="font-size: .9rem; flex-basis: 33%; flex-grow: 1; flex-shrink: 1;">
+        <span style="font-size: .875rem;">
+            {{ summary.feature_count | number }}
+        </span>
+        <span style="font-size: .875rem;">
+            <ng-pluralize count="summary.feature_count"
+                          when="{'one': 'record','other': 'records'}"></ng-pluralize>
+        </span>
+    </div>
+
+    <div style="font-size: .9rem; flex-basis: 33%; flex-grow: 1; flex-shrink: 1; text-align: center;">
+        &copy; 2022 <a href="https://environmentalintegrity.org" target="_blank">Environmental Integrity
+        Project</a>. All rights reserved.
+    </div>
+
+    <div class="flex flex-dir-row flex-nwrap flex-align-center flex-justify-end grow"
+         style="font-size: .9rem; flex-basis: 33%; flex-grow: 1; flex-shrink: 1;"
+         pagination
+         summary="summary"
+         rotate="shiftWindow(queryParams)"
+         params="queryParams"
+         update-params="true"></div>
+
+</div>

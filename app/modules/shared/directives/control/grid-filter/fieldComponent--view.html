@@ -1,0 +1,84 @@
+<div class="collection-filter drop-down margin-0">
+    <button style="padding: .4rem .5rem .4rem .75rem; font-size: .9rem; min-width: {{ btnMinWidth }}px; max-width: {{
+    btnMaxWidth }}px; height: 100%;"
+            class="relation-dialog-btn margin-r-1"
+            data-ng-click="toggleModal('select')">
+        <span class="btn-label grow"
+              data-ng-if="config.field.label">
+            {{ config.field.label }}
+        </span>
+        <span class="btn-label grow"
+              data-ng-if="!config.field.label">
+            Select field
+        </span>
+        <span class="material-icons md-18 margin-l-50p no-grow"
+              style="pointer-events: none;"
+              data-ng-click="toggleModal('select')"
+              data-ng-if="!modalDisplay.select">
+            arrow_drop_down
+        </span>
+        <span class="material-icons md-18 margin-l-50p no-grow"
+              style="pointer-events: none;"
+              data-ng-click="toggleModal('select')"
+              data-ng-if="modalDisplay.select">
+            arrow_drop_up
+        </span>
+    </button>
+    <form name="collection-filter-form"
+          class="collection-filter-modal"
+          style="width: auto; min-width: 400px;"
+          data-ng-if="modalDisplay.select">
+        <div style="border-bottom: 1px solid #E0E0E0;">
+            <input type="text"
+                   data-ng-model="tokenQuery"
+                   data-ng-change="filterOptions($viewValue)"
+                   class="margin-0"
+                   style="padding: .75rem 1rem; font-size: .9rem; border: 0 none; background: transparent;"
+                   id="tokenQuery"
+                   name="tokenQuery"
+                   placeholder="Search fields&hellip;" />
+        </div>
+        <label data-ng-repeat="(idx, field) in filterOptions(tokenQuery)"
+               data-ng-class="{'active': config.field.key === field.key}"
+               data-ng-click="selectField(field)"
+               title="{{ field.label }}">
+            <span class="input-mask"
+                  data-ng-if="config.field.key === field.key">
+                <span class="material-icons md-18">
+                    radio_button_checked
+                </span>
+            </span>
+            <span class="input-mask"
+                  data-ng-if="config.field.key !== field.key">
+                <span class="material-icons md-18">
+                    radio_button_unchecked
+                </span>
+            </span>
+            <input type="radio"
+                   id="filter-option-{{ idx }}"
+                   name="active-filter"
+                   data-ng-model="config.field">
+            <span class="flex flex-flw-col-nw">
+                <span>
+                    {{ field.label }}
+                </span>
+                <span class="pad-t-25p sub-label"
+                      style="display: block;">
+                    {{ field.type }}
+                </span>
+            </span>
+<!--            <span style="flex-shrink: 0;"-->
+<!--                  data-ng-if="!(field.type | startsWith:'relation')">-->
+<!--                {{ field.label }}-->
+<!--            </span>-->
+<!--            <span style="flex-shrink: 0;"-->
+<!--                  data-ng-if="(field.type | startsWith:'relation') && field.source">-->
+<!--                {{ field.relation_type }} (via {{ field.label }})-->
+<!--            </span>-->
+<!--            <span style="flex-shrink: 0;"-->
+<!--                  data-ng-if="(field.type | startsWith:'relation') && !field.source">-->
+<!--                {{ field.node_type }} (via {{ field.label }})-->
+<!--            </span>-->
+        </label>
+    </form>
+</div>

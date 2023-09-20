@@ -1,0 +1,421 @@
+<div data-ng-include="'/templates/header--view.html'"></div>
+
+<main style="margin-top: -292px;"
+      class="site--content--flow fluid-content clearfix distinguish facility-content">
+
+    <div class="content--container pad-0" style="border-right: 1px solid #e0e0e0;">
+
+        <div class="progress--modal reveal fade-in t0" data-ng-if="page.status.loading">
+            <div class="progress--container">
+                <p style="font-weight: bold;" class="color-pulse">Loading state data&hellip;</p>
+            </div>
+        </div>
+
+        <div class="main--ui pad-0"
+             data-ng-if="!page.status.loading">
+
+            <div class="module--grid">
+
+                <div class="hero translucent">
+
+                    <div id="backdrop-map"
+                         style="overflow: hidden;"></div>
+
+                    <article style="text-align: center;"
+                             class="name pad space-right reveal fade-in t0">
+
+                        <h1 style="color: #FFFFFF;"
+                            class="margin-0 margin-b-1">
+                            {{ page.name }}
+                        </h1>
+
+                        <div class="flex flex-dir-col flex-align-center flex-justify-center">
+
+                            <a href="/project-index?filters={{ page.projectFilter }}&download=true"
+                               class="margin-0 margin-t-2 pad-t-1 pad-b-1 pad-l-2 pad-r-2"
+                               style="display: inline-block; color: #ffffff; background: #2196F3; border-radius: .25rem;
+                               text-decoration: none; font-weight: 500;">
+                                Download data
+                            </a>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+                <div style="width: 100%; max-width: 960px; min-height: 240px; margin-top: -4rem; position: relative;
+                z-index: 11; background: #FFFFFF;"
+                     class="flex flex-nwrap flex-dir-row pad-2">
+
+                    <div style="width: 50%;" class="flex flex-nwrap flex-dir-col">
+
+                        <div class="flex flex-dir-col margin-b-2"
+                             style="">
+                            <div class="margin-b-50p">
+                                <strong>Facilities</strong>
+                            </div>
+                            <div class="" style="font-size: 1.5rem;">
+                                {{ page.facilityCount | number }}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-dir-col margin-b-2"
+                             style="">
+                            <div class="margin-b-50p">
+                                <strong>Projects</strong>
+                            </div>
+                            <div class="" style="font-size: 1.5rem;">
+                                {{ page.projectCount | number }}
+                            </div>
+                        </div>
+
+                        <div class="flex flex-dir-col margin-b-2"
+                             style="">
+                            <div class="margin-b-50p">
+                                <strong>Potential CO<sub>2</sub>e (tons/year)</strong>
+                            </div>
+                            <div class="" style="font-size: 1.5rem;">
+                                {{ page.totalGHG | number:0 }}
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div style="width: 50%;"
+                         class="flex flex-nwrap flex-dir-col">
+
+                        <div id="static-map"
+                             style="width: 100%; height: 100%; min-height: 240px;"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div style="width: 100%;"
+                 class="flex flex-dir-col flex-nwrap flex-align-center">
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t3 pad-0 pad-r-2 pad-l-2 margin-b-3">
+
+                    <div class="create-heading margin-t-2 margin-b-1">
+                        <h2 class="margin-0">
+                            Potential Emissions
+                        </h2>
+                    </div>
+
+                    <p style="font-size: 1.125rem;">
+                        We are tracking <strong>{{ page.projectCount | number:0 }}</strong>
+                        <ng-pluralize
+                            count="page.projectCount"
+                            when="{'one': 'project','other': 'projects'}"></ng-pluralize> in <strong>{{ page.name
+                        }}</strong> that have been announced or approved since 2012. Together, they have the
+                        potential to emit <strong>{{ page.totalGHG | number:0 }}</strong> tons of greenhouse gases
+                        and <strong>{{ page.totalCriteria | number:0 }}</strong> tons of criteria air pollutants each
+                        year, according to government records.
+                    </p>
+
+                </section>
+
+            </div>
+
+            <!-- START PRACTICES PANEL-->
+
+            <div style="width: 100%;"
+                 class="flex flex-dir-col flex-nwrap flex-align-center">
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t3 pad-0 pad-r-2 pad-l-2 margin-b-2">
+
+                    <div class="create-heading margin-t-1 margin-b-2">
+                        <h2 class="margin-0">
+                            Projects
+                        </h2>
+                    </div>
+
+                    <p class="pad-0 margin-0 margin-b-1">
+                        Potential emissions increases (tons per year) of CO<sub>2</sub>e and criteria air pollutants
+                        for the top 10 projects in {{ page.name }} as ranked by proposed CO<sub>2</sub>e emissions.
+                    </p>
+
+                    <div data-ng-if="page.projects.length > 10">
+                        <a class="margin-0" href="/project-index?filters={{ page.projectFilter }}">
+                            View all {{ page.projects.length | number:0 }} projects &rarr;
+                        </a>
+                    </div>
+
+                </section>
+
+                <section style="width: 100%;"
+                         class="reveal fade-in t3 pad-0 pad-r-2 pad-l-2 margin-b-3">
+
+                    <div class="table-view"
+                         data-ng-if="page.projects.length">
+
+                        <table class="margin-0" style="width: 100%; font-size: .9rem;">
+
+                            <thead>
+
+                            <tr>
+                                <th class="pad-1"
+                                    style="width: 1%; max-width: 20rem; border-top-left-radius: .5rem; overflow:
+                                    hidden; position:static; box-shadow:none;">
+                                    Company
+                                </th>
+                                <th class="pad-1"
+                                    style="width:1%; max-width:20rem; position:static; box-shadow:none;">
+                                    Facility
+                                </th>
+                                <th class="pad-1"
+                                    style="width:1%; max-width:20rem; position:static; box-shadow:none;">
+                                    Project
+                                </th>
+                                <th class="pad-1"
+                                    style="position:static; box-shadow:none;">
+                                    Status
+                                </th>
+                                <th class="pad-1"
+                                    style="position:static; box-shadow:none;">
+                                    Sector
+                                </th>
+                                <th class="pad-1"
+                                    style="border-top-right-radius: .5rem; overflow: hidden; position:static;
+                                    box-shadow:none;">
+                                    Potential CO2e (tons/year)
+                                </th>
+                            </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                            <tr
+                                    data-ng-repeat="feature in page.projects | orderBy:'-ghg' | limitTo:10">
+                                <td class="pad-1" style="width: 1%; max-width: 20rem;">
+                                    {{ feature.company || 'N/A' }}
+                                </td>
+                                <td class="pad-1" style="width: 1%; max-width: 20rem;">
+                                    <a href="/facility/{{ feature.id }}">
+                                        {{ feature.facility }}
+                                    </a>
+                                </td>
+                                <td class="pad-1" style="width: 1%; max-width: 20rem;">
+                                    {{ feature.project || 'N/A' }}
+                                </td>
+                                <td class="pad-1" style="width: 1%;">
+                                    {{ feature.status || 'N/A' }}
+                                </td>
+                                <td class="pad-1" style="width: 1%;">
+                                    {{ feature.sector || 'N/A' }}
+                                </td>
+                                <td class="pad-1" style="width: 1%;">
+                                    {{ (feature.ghg || 0) | number:0 }}
+                                </td>
+                            </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+            <div style="width: 100%; position: relative;"
+                 class="flex flex-dir-col flex-nwrap flex-align-center margin-b-2">
+
+                <div class="create-heading margin-b-2"
+                     style="width: 100%; max-width: 960px;">
+                    <h2 class="margin-0">
+                        Project Locations
+                    </h2>
+                </div>
+
+                <div style="width: 100%; max-width: 1200px;"
+                     class="flex flex-dir-col flex-align-center flex-justify-center margin-b-2">
+                    <div style="width: 100%;"
+                         class="geocoder-container flex flex-justify-center flex-align-center">
+                        <div style="max-width: 50%; font-size: 1rem;" class="geocoder"></div>
+                    </div>
+                </div>
+
+                <div id="primary--map"
+                     class="map tall"
+                     style="width: 100%; max-width: 960px;">
+                    <div map-filter
+                         feature-collection="page.featureCollection"
+                         map="page.map"
+                         class="flex flex-dir-row flex-align-center flex-justify-start"
+                         style="position: absolute; top: 10px; left: 50px; width: 100%; z-index: 2;"></div>
+                    <div class="mapboxgl-layer-ctrl"
+                         data-ng-click="page.showLayerOptions = !page.showLayerOptions" title="Switch layers">
+                        <i class="material-icons">
+                            layers
+                        </i>
+                        <div class="layer-group"
+                             style="font-weight: normal; font-size: 14px; min-width: 240px; max-height: 400px;
+                             overflow: auto;"
+                             data-ng-show="page.showLayerOptions">
+                            <form>
+                                <label data-ng-repeat="style in page.mapStyles"
+                                       data-ng-class="{'active': page.activeStyle === $index}"
+                                       style="font-weight: normal;"
+                                       title="{{ style.name }}">
+                                    <input type="radio"
+                                           id="base-style-{{ $index }}"
+                                           name="active-style"
+                                           data-ng-model="page.activeStyle"
+                                           data-ng-value="{{ $index }}"
+                                           data-ng-change="page.switchMapStyle(style, $index)">
+                                    <span> {{ style.name }}</span>
+                                    <div class="selection-ctrl flex flex-dir-row flex-align-center flex-justify-end"
+                                         data-ng-if="page.activeStyle === $index">
+                                        <span class="material-icons md-18 margin-0">
+                                            radio_button_checked
+                                        </span>
+                                    </div>
+                                    <div class="selection-ctrl flex flex-dir-row flex-align-center flex-justify-end"
+                                         data-ng-if="page.activeStyle !== $index">
+                                        <span style="color: #616161;"
+                                              class="material-icons md-18 margin-0">
+                                            radio_button_unchecked
+                                        </span>
+                                    </div>
+                                </label>
+                            </form>
+                            <div style="font-size: .75rem; font-weight: bold; text-transform: uppercase; padding: .5rem
+                            .75rem; border-top: 1px solid #e0e0e0;"
+                                 data-ng-show="page.layers && page.layers.length">
+                                Layers
+                            </div>
+                            <form class="layers"
+                                  data-ng-show="page.layers && page.layers.length">
+                                <div class="flex flex-dir-col"
+                                     data-ng-repeat="layer in page.layers">
+                                    <label for="layer-{{ $index }}" style="font-weight: normal;"
+                                           data-ng-class="{'active': layer.selected}" title="{{ layer.name }}">
+                                        <input type="checkbox"
+                                               id="layer-{{ $index }}"
+                                               name="layer-{{ $index }}"
+                                               data-ng-model="layer.selected"
+                                               data-ng-value="{{ $index }}"
+                                               data-ng-change="page.toggleLayer(layer.id)">
+                                        <span> {{ layer.name }}</span>
+                                        <div class="selection-ctrl flex flex-dir-row flex-align-center flex-justify-end"
+                                             data-ng-if="layer.selected">
+                                            <span class="material-icons md-18 margin-0">
+                                                check_box
+                                            </span>
+                                        </div>
+                                        <div class="selection-ctrl flex flex-dir-row flex-align-center flex-justify-end"
+                                             data-ng-if="!layer.selected">
+                                            <span style="color: #616161;"
+                                                  class="material-icons md-18 margin-0">
+                                                check_box_outline_blank
+                                            </span>
+                                        </div>
+                                    </label>
+                                    <div data-ng-if="layer.selected && layer.legends && layer.legends.length">
+                                        <div data-ng-repeat="legend in layer.legends">
+                                            <div class="pad-t-50p pad-b-50p pad-l-75p pad-r-75p"
+                                                 data-ng-if="legend.title">
+                                                {{ legend.title }}
+                                            </div>
+                                            <div data-ng-if="legend.type === 'categorical'">
+                                                <div class="flex flex-dir-row flex-nwrap flex-align-center
+                                                        pad-t-50p pad-b-50p pad-l-75p pad-r-75p"
+                                                     data-ng-repeat="symbol in legend.symbols">
+                                                    <div style="height: 1rem; width: 1rem; border-radius: .25rem;
+                                                    background: {{ symbol.color }};" class="flex margin-r-1"></div>
+                                                    <div>
+                                                        {{ symbol.label }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div data-ng-if="legend.type === 'quantitative'">
+                                                <div class="flex flex-dir-row flex-nwrap flex-align-stretch
+                                                        pad-t-50p pad-b-50p pad-l-75p pad-r-75p">
+                                                    <div style="height: 160px; width: 1rem; border-radius: .25rem;
+                                                    background: {{ legend.gradient }};" class="flex margin-r-1"></div>
+                                                    <div style="height: 160px; position: relative;"
+                                                         class="flex grow flex-dir-col flex-justify-start">
+                                                        <div class="flex" style="height: 33.3333%;">
+                                                            {{ legend.labels.high }}
+                                                        </div>
+                                                        <div class="flex grow"
+                                                             style="position: relative; height: 33.3333%;"
+                                                             data-ng-if="legend.labels.middle">
+                                                            <div class="flex grow"
+                                                                 style="position: absolute; top: 50%; margin-top: -0.5rem;">
+                                                                {{ legend.labels.middle }}
+                                                            </div>
+                                                        </div>
+                                                        <div style="height: 33.3333%;"
+                                                             class="flex grow flex-dir-col flex-align-start flex-justify-end">
+                                                            {{ legend.labels.low }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="flex flex-dir-row flex-nwrap flex-align-center
+                                                        pad-t-50p pad-b-50p pad-l-75p pad-r-75p">
+                                                        <div style="height: 1rem; width: 1rem; border-radius: .25rem;
+                                                         background: #cccccc;" class="flex margin-r-1"></div>
+                                                        <div>
+                                                            No value
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <nav id="toolbar" class="toolbar" style="float: none; width: auto;" data-ng-if="$root.user.id">
+        <ul>
+
+            <!-- Map -->
+
+            <li data-ng-if="page.permissions.can_edit"
+                title="Launch map">
+                <a href="/atlas?{{ page.atlasParams }}">
+                    <span class="material-icons">
+                        map
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="transient--notification" data-ng-class="{show: page.alerts.length}">
+        <div class="event--container">
+            <div data-ng-repeat="alert in page.alerts"
+                 data-ng-class="{error: alert.type == 'error', success: alert.type == 'success'}">
+                <span class="event--message">{{ alert.msg }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div export-dialog
+         alerts="page.alerts"
+         feature="page.project"
+         reset-type="false"
+         type="'project'"
+         visible="page.showExportDialog"></div>
+
+</main>
+
+<div data-ng-include="'/templates/footer--view.html'"></div>

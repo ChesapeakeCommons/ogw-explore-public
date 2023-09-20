@@ -1,0 +1,70 @@
+<div>
+    <form class="flex flex-dir-row flex-align-center">
+        <div class="flex flex-dir-col"
+             style="flex-grow: 1; flex-shrink: 1;">
+            <label class="margin-b-50p"
+                   style="display: block; text-transform: uppercase; font-size: 0.75rem; font-weight: bold;">
+                Month
+            </label>
+<!--            <select style="margin: 0 0.5rem 0 0;"-->
+<!--                    data-ng-model="date[1]"-->
+<!--                    data-ng-change="generateDatesArray()">-->
+<!--                <option data-ng-repeat="month in months"-->
+<!--                        value="{{ month.value }}">{{ month.label }}</option>-->
+<!--            </select>-->
+            <input type="text"
+                   class="form-control animate margin-0 pad-0 pad-t-1 pad-r-1 pad-b-1 pad-l-1"
+                   data-ng-model="dateParts.month"
+                   data-ng-change="setDate()"
+                   placeholder="MM">
+        </div>
+        <div class="flex flex-justify-center flex-align-center pad-x-50p"
+             style="height: 100%;"></div>
+        <div class="flex flex-dir-col"
+             style="flex-grow: 1; flex-shrink: 1;">
+            <label class="margin-b-50p"
+                   style="display: block; text-transform: uppercase; font-size: 0.75rem; font-weight: bold;">
+                Day
+            </label>
+<!--            <input type="number"-->
+<!--                   class="form-control animate margin-0 pad-0 pad-t-1 pad-r-1 pad-b-1 pad-l-1"-->
+<!--                   step="0"-->
+<!--                   data-ng-model="date[2]"-->
+<!--                   min="days[0]"-->
+<!--                   max="days[days.length - 1]"-->
+<!--                   data-ng-change="search()"-->
+<!--                   placeholder="DD">-->
+            <input type="text"
+                   class="form-control animate margin-0 pad-0 pad-t-1 pad-r-1 pad-b-1 pad-l-1"
+                   data-ng-model="dateParts.day"
+                   data-ng-change="setDate()"
+                   placeholder="DD">
+<!--            <select style="margin: 0 0.5rem 0 0;"-->
+<!--                    data-ng-model="date[2]"-->
+<!--                    data-ng-change="search()">-->
+<!--                <option data-ng-repeat="day in days"-->
+<!--                        value="{{ day }}">{{ day }}</option>-->
+<!--            </select>-->
+        </div>
+        <div class="flex flex-justify-center flex-align-center pad-x-50p"
+             style="height: 100%;"></div>
+        <div class="flex flex-dir-col"
+             style="flex-grow: 1; flex-shrink: 1;">
+            <label class="margin-b-50p"
+                   style="display: block; text-transform: uppercase; font-size: 0.75rem; font-weight: bold;">
+                Year
+            </label>
+<!--            <select style="margin: 0;"-->
+<!--                    data-ng-model="date[0]"-->
+<!--                    data-ng-change="generateDatesArray()">-->
+<!--                <option data-ng-repeat="year in years"-->
+<!--                        value="{{ year }}">{{ year }}</option>-->
+<!--            </select>-->
+            <input type="text"
+                   class="form-control animate margin-0 pad-0 pad-t-1 pad-r-1 pad-b-1 pad-l-1"
+                   data-ng-model="dateParts.year"
+                   data-ng-change="setDate()"
+                   placeholder="YYYY">
+        </div>
+    </form>
+</div>

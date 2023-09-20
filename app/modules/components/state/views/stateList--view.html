@@ -1,0 +1,167 @@
+<div data-ng-include="'/templates/header--view.html'"></div>
+
+<main class="site--content--flow fluid-content clearfix distinguish facility-content margin-t-2">
+
+    <div class="content--container pad-0" style="border-right: 1px solid #e0e0e0;">
+
+        <div class="progress--modal reveal fade-in t0" data-ng-if="page.status.loading">
+            <div class="progress--container">
+                <p style="font-weight: bold;" class="color-pulse">Loading facility data&hellip;</p>
+            </div>
+        </div>
+
+        <div class="main--ui pad-0"
+             data-ng-if="!page.status.loading">
+
+            <div class="module--grid">
+
+                <article style="text-align: center;"
+                         class="name pad space-right reveal fade-in t0">
+
+                    <h1 class="margin-0 margin-b-1">
+                        Facilities
+                    </h1>
+
+                </article>
+
+            </div>
+
+            <div style="width: 100%;"
+                 class="flex flex-dir-col flex-nwrap flex-align-center">
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t3 pad-0 pad-r-2 pad-l-2 margin-b-3">
+
+                    <div class="collection-search reveal fade-in t0" style="margin-top: 1rem;">
+
+                        <input id="fac-search"
+                               style="float:left; display:inline-block; clear:right;"
+                               type="text"
+                               class="search-bar list-filter"
+                               data-ng-model="page.queryToken"
+                               data-ng-change="page.filterIndex(page.queryToken)"
+                               placeholder="Find a facility&hellip;">
+
+                    </div>
+
+                    <div alphabet-ctrl force-top="true" hidden-keys="page.hiddenKeys"
+                         letters="page.stateAbbrs" orientation="horizontal" visible="!page.zeroMatches"></div>
+
+                    <div data-ng-if="page.zeroMatches"
+                         style="width: 100%; display: flex; flex-grow: 1; flex-shrink: 0;">
+
+                        <ul class="selectable-group-items list-unstyled" style="margin-top: 2rem;">
+
+                            <li class="card reveal fade-in">
+
+                                <div class="card--content" style="display: flex; flex-flow: row nowrap; box-shadow: none; border:
+                1px solid #e0e0e0; border-radius: 4px; overflow: hidden;">
+
+                                    <div class="description" style="width: 100%;">
+
+                                        <div class="body" style="padding: 4rem 0;">
+                                            <p style="font-style: normal; font-size: 1.2em; padding: 0; margin: 0; text-align: center;">
+                                                <em>No matches found.</em>
+                                            </p>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                    <div data-ng-repeat="(key, group) in page.index">
+
+                        <h2 class="index-group-heading" id="{{ key | lowercase }}"
+                            data-ng-if="!page.hiddenKeys[key]">
+                            <a href="#{{ key }}"></a>
+                            <span>{{ key }}</span>
+                        </h2>
+
+                        <ul class="selectable-group-items list-unstyled"
+                            data-ng-if="group.length">
+
+                            <li class="card reveal fade-in"
+                                style="animation-delay: {{ $index * 20 }}ms; min-height: 0; flex-flow: column; margin-bottom: 2rem;"
+                                id="type-{{ node.id }}"
+                                data-ng-repeat="node in group | orderBy:'name'"
+                                data-ng-if="!node.hide">
+
+                                <div class="card--content" style="display: flex; flex-flow: row nowrap; margin-bottom: 0; min-width:270px;"
+                                     data-ng-class="{selected: node.selected, 'confirmation-pending': node.showConfirmation}">
+
+                                    <div class="description" style="min-width:200px;"
+                                         data-ng-class="{'description-border-right': enableSelection}">
+
+                                        <div class="name" style="flex-flow: column; align-items: flex-start;">
+                                            <span>
+                                                {{ node.name }}
+                                            </span>
+                                        </div>
+
+                                        <div class="body">
+                                            <p style="font-style: normal; font-size: 1em; color: #616161; padding: 0 0 1em; margin: 0;">
+                                                <a href="/facility/{{ node.id }}">
+                                                    View profile
+                                                </a>
+                                            </p>
+                                        </div>
+
+                                    </div>
+
+                                </div>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <nav id="toolbar" class="toolbar" style="float: none; width: auto;" data-ng-if="$root.user.id">
+        <ul>
+
+            <!-- Map -->
+
+            <li data-ng-if="page.permissions.can_edit"
+                title="Launch map">
+                <a href="/atlas?{{ page.atlasParams }}">
+                    <span class="material-icons">
+                        map
+                    </span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="transient--notification" data-ng-class="{show: page.alerts.length}">
+        <div class="event--container">
+            <div data-ng-repeat="alert in page.alerts"
+                 data-ng-class="{error: alert.type == 'error', success: alert.type == 'success'}">
+                <span class="event--message">{{ alert.msg }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div export-dialog
+         alerts="page.alerts"
+         feature="page.project"
+         reset-type="false"
+         type="'project'"
+         visible="page.showExportDialog"></div>
+
+</main>
+
+<div data-ng-include="'/templates/footer--view.html'"></div>

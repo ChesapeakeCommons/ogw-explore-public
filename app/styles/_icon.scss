@@ -1,0 +1,83 @@
+//
+// Icon Overrides
+//
+.icon-button,
+.icon-button:active,
+.icon-button:link,
+.icon-button:visited {
+  background-color: rgb(255,255,255);
+  /*  border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+  */
+  color: $color-blue-base;
+  padding: 6px 12px;
+  font-family: $font-sans;
+  font-weight: 100;
+  text-align: center;
+  text-transform: uppercase;
+
+  .icon-button-label {
+    margin-right: 8px;
+  }
+
+  &:hover {
+    background-color: $color-blue-base;
+    color: rgb(255,255,255);
+    text-decoration: none;
+  }
+}
+
+.icon-matrix {
+  font-size: 32px;
+  line-height: 2.0;
+  padding-top: 64px;
+  .icon-large {
+    font-size: 48px;
+    line-height: 1.0;
+  }
+}
+
+.icon {
+  &.icon-blue {
+    color: $color-blue-base;
+  }
+  &.icon-blue-dark {
+    color: darken($color-blue-base, 15%);
+  }
+  &.icon-green {
+    color: $color-green-base;
+  }
+  &.icon-green-dark {
+    color: darken($color-green-base, 15%);
+  }
+  &.icon-green-darker {
+    color: darken($color-green-base, 25%);
+  }
+  &.icon-gray {
+    color: $color-black-base;
+  }
+  &.icon-gold {
+    color: darken($color-gold-base, 5%);
+  }
+}
+
+
+//
+//
+//
+p {
+  .icon {
+    font-size: 16px;
+    position: relative;
+    top: 2px;
+  }
+}
+
+a {
+  .icon {
+    font-size: 80%;
+    position: relative;
+    top: 2px;
+  }
+}

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+
+<html class="no-js" data-ng-app="OilGasWatch">
+
+    <head>
+
+        <meta charset="utf-8" />
+
+        <!-- Sitewide meta tags -->
+        <meta data-ng-repeat="tag in $root.site.meta" name="{{ tag.name }}" content="{{ tag.content }}" />
+
+        <!-- Page specific meta tags -->
+        <meta data-ng-repeat="tag in $root.page.meta" name="{{ tag.name }}" content="{{ tag.content }}" />
+
+        <!-- Page Title based on either the root site title or the page specific site title -->
+        <title>Oil and Gas Watch | {{ $root.page.title || 'Home' }}</title>
+
+        <!-- Polyfill.io -->
+
+        <script src="https://polyfill.io/v3/polyfill.js?features=es5,es6,es7&flags=gated"></script>
+
+        <!-- markdown-it -->
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/markdown-it/13.0.1/markdown-it.min.js"
+                integrity="sha512-SYfDUYPg5xspsG6OOpXU366G8SZsdHOhqk/icdrYJ2E/WKZxPxze7d2HD3AyXpT7U22PZ5y74xRpqZ6A2bJ+kQ=="
+                crossorigin="anonymous"
+                referrerpolicy="no-referrer"></script>
+
+        <!-- Material icons -->
+
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="stylesheet" href="/styles/mapbox-gl.css" />
+        <link rel="stylesheet" href="/styles/mapbox-gl-draw.css" />
+        <link rel="stylesheet" href="/styles/mapbox-gl-geocoder.css" />
+
+        <!-- build:css(.) styles/vendor.css -->
+        <!-- bower:css -->
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- build:css(.tmp) /styles/main.css -->
+        <link rel="stylesheet" href="/styles/main.css" media="screen" />
+        <!-- endbuild -->
+
+        <link href="/styles/print.css" rel="stylesheet" media="print" />
+
+        <link rel="author" href="/humans.txt" />
+
+        <link data-ng-repeat="link in $root.site.links" rel="{{ link.rel }}" href="{{ link.href }}" />
+
+        <base href="/" />
+
+    </head>
+
+    <body class="{{ $root.page.class }}"
+          data-ng-class="{'no-scroll': $root.disableBodyScroll}">
+
+        <div id="base-container" data-ng-view=""></div>
+
+        <!-- build:js(.) /scripts/oldieshim.js -->
+        <!--[if lt IE 9]>
+        <script src="bower_components/es5-shim/es5-shim.js"></script>
+        <script src="bower_components/json3/lib/json3.js"></script>
+        <![endif]-->
+        <!-- endbuild -->
+
+        <!-- build:js(.) /modules/vendor.js -->
+        <!-- bower:js -->
+        <script src="bower_components/angular/angular.js"></script>
+        <script src="bower_components/json3/lib/json3.min.js"></script>
+        <script src="bower_components/angular-resource/angular-resource.js"></script>
+        <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+        <script src="bower_components/angular-touch/angular-touch.js"></script>
+        <script src="bower_components/angular-route/angular-route.js"></script>
+        <script src="bower_components/angular-cookie/angular-cookie.js"></script>
+        <script src="bower_components/angularjs-geolocation/src/geolocation.js"></script>
+        <script src="bower_components/angular-elastic/elastic.js"></script>
+        <script src="bower_components/ng-file-upload/angular-file-upload.js"></script>
+        <script src="bower_components/ng-file-upload-shim/angular-file-upload-shim.js"></script>
+        <script src="bower_components/angular-mocks/angular-mocks.js"></script>
+        <script src="bower_components/angular-aria/angular-aria.js"></script>
+        <script src="bower_components/moment/moment.js"></script>
+        <script src="bower_components/angular-moment/angular-moment.js"></script>
+        <script src="bower_components/jspdf/dist/jspdf.min.js"></script>
+        <script src="bower_components/html2canvas/build/html2canvas.js"></script>
+        <script src="bower_components/angular-save2pdf/angular-save2pdf.js"></script>
+        <script src="bower_components/angular-progress-arc/angular-progress-arc.js"></script>
+        <script src="bower_components/tinycolor/tinycolor.js"></script>
+        <!-- endbower -->
+        <!-- endbuild -->
+
+        <!-- build:js({.tmp,app}) /modules/modules.js -->
+
+        <script src="modules/shared/papa-parse/papaparse.min.js"></script>
+
+        <script src="modules/shared/turf/turf.min.js"></script>
+
+        <script src="modules/shared/mapboxgl/mapbox-gl.js"></script>
+        <script src="modules/shared/mapboxgl/mapbox-gl-draw.js"></script>
+        <script src="modules/shared/mapboxgl/mapbox-gl-geocoder.min.js"></script>
+
+        <script src="modules/shared/typeahead/ui-bootstrap-typeahead-tpls-2.5.0.min.js"></script>
+
+        <script src="modules/shared/storage/storage--service.js"></script>
+
+        <script src="modules/app--module.js"></script>
+        <script src="modules/app--routes.js"></script>
+        <script src="config/environment.js"></script>
+
+        <script src="modules/shared/pdf/save2pdf.js"></script>
+
+        <script src="modules/shared/anchor-scroll/anchorScroll--service.js"></script>
+
+        <!-- Facility Module -->
+        <script src="modules/components/facility/facility--routes.js"></script>
+        <script src="modules/components/facility/facilityList--controller.js"></script>
+        <script src="modules/components/facility/facilitySummary--controller.js"></script>
+
+        <!-- Permit Module -->
+        <script src="modules/components/permit/permit--routes.js"></script>
+        <script src="modules/components/permit/permitList--controller.js"></script>
+        <script src="modules/components/permit/permitSummary--controller.js"></script>
+
+        <!-- Pipeline Module -->
+        <script src="modules/components/pipeline/pipeline--routes.js"></script>
+        <script src="modules/components/pipeline/pipelineList--controller.js"></script>
+        <script src="modules/components/pipeline/pipelineSummary--controller.js"></script>
+
+        <!-- State Module -->
+        <script src="modules/components/state/state--routes.js"></script>
+        <script src="modules/components/state/stateList--controller.js"></script>
+        <script src="modules/components/state/stateSummary--controller.js"></script>
+
+        <!-- Home Module -->
+        <script src="modules/components/home/home--routes.js"></script>
+        <script src="modules/components/home/home--controller.js"></script>
+
+        <!-- Explore Module -->
+        <script src="modules/components/explore/explore--routes.js"></script>
+        <script src="modules/components/explore/explore--controller.js"></script>
+
+        <!-- Glossary Module -->
+        <script src="modules/components/glossary/glossary--routes.js"></script>
+        <script src="modules/components/glossary/glossary--controller.js"></script>
+
+        <!-- Contact Module -->
+        <script src="modules/components/contact/contact--routes.js"></script>
+        <script src="modules/components/contact/contact--controller.js"></script>
+
+        <!-- About Module -->
+        <script src="modules/components/about/about--routes.js"></script>
+        <script src="modules/components/about/about--controller.js"></script>
+
+        <!-- Atlas Module -->
+        <script src="modules/components/atlas/atlas--routes.js"></script>
+        <script src="modules/components/atlas/atlas--controller.js"></script>
+        <script src="modules/components/atlas/atlasMapManager--service.js"></script>
+        <script src="modules/components/atlas/atlasDataManager--service.js"></script>
+        <script src="modules/components/atlas/layerUtil--service.js"></script>
+        <script src="modules/components/atlas/sourceUtil--service.js"></script>
+        <script src="modules/components/atlas/popupUtil--service.js"></script>
+        <script src="modules/components/atlas/mapUtil--service.js"></script>
+        <script src="modules/components/atlas/atlasLayoutUtil--service.js"></script>
+        <script src="modules/components/atlas/labelLayer--service.js"></script>
+        <script src="modules/components/atlas/dataLayer--service.js"></script>
+        <script src="modules/components/atlas/zoomUtil--service.js"></script>
+        <script src="modules/components/atlas/esriLayer--service.js"></script>
+        <script src="modules/components/atlas/map--controller.js"></script>
+        <script src="modules/components/atlas/project--constant.js"></script>
+
+        <!-- Mapbox Module -->
+        <script src="modules/shared/mapbox/mapbox--module.js"></script>
+        <script src="modules/shared/mapbox/mapbox--constant.js"></script>
+        <script src="modules/shared/mapbox/states--constant.js"></script>
+        <script src="modules/shared/mapbox/stateIdx--constant.js"></script>
+        <script src="modules/shared/mapbox/template--service.js"></script>
+        <script src="modules/shared/mapbox/staticMap--directive.js"></script>
+
+        <!-- Viable Modules -->
+        <script src="modules/shared/mapboxgl/mapboxgl--module.js"></script>
+        <script src="modules/shared/mapboxgl/mapboxgl--constant.js"></script>
+        <script src="modules/shared/mapboxgl/mapboxgl--directive.js"></script>
+        <script src="modules/shared/mapboxgl/extent/estimatedExtent--directive.js"></script>
+
+        <script src="modules/shared/mapboxgl/mapManager--service.js"></script>
+        <script src="modules/shared/mapboxgl/facilityFilter--service.js"></script>
+
+        <script src="modules/shared/mapboxgl-geocoding/mapboxglGeocoding--module.js"></script>
+        <script src="modules/shared/mapboxgl-geocoding/mapboxglGeocoding--service.js"></script>
+        <script src="modules/shared/mapboxgl-geocoding/mapboxglGeocoding--directive.js"></script>
+
+        <!-- Providers -->
+        <script src="modules/shared/api/ejScreen--service.js"></script>
+        <script src="modules/shared/api/filter--service.js"></script>
+        <script src="modules/shared/api/frame--service.js"></script>
+        <script src="modules/shared/api/compositeFrame--service.js"></script>
+        <script src="modules/shared/api/layer--service.js"></script>
+        <script src="modules/shared/api/node--service.js"></script>
+        <script src="modules/shared/api/nodeType--service.js"></script>
+        <script src="modules/shared/api/outcome--service.js"></script>
+        <script src="modules/shared/api/permit--service.js"></script>
+        <script src="modules/shared/api/search--service.js"></script>
+        <script src="modules/shared/api/utility--service.js"></script>
+        <script src="modules/shared/api/queryParam--service.js"></script>
+        <script src="modules/shared/api/preprocessors--service.js"></script>
+        <script src="modules/shared/api/export--service.js"></script>
+        <script src="modules/shared/api/map--service.js"></script>
+        <script src="modules/shared/api/variable--service.js"></script>
+        <script src="modules/shared/api/appConfig--service.js"></script>
+        <script src="modules/shared/api/datum--service.js"></script>
+        <script src="modules/shared/api/rollup--service.js"></script>
+        <script src="modules/shared/api/projectIndex--service.js"></script>
+        <script src="modules/shared/api/facilityIndex--service.js"></script>
+        <script src="modules/shared/api/pipelineIndex--service.js"></script>
+        <script src="modules/shared/api/stat--service.js"></script>
+        <script src="modules/shared/api/mdParser--service.js"></script>
+
+        <!-- Factories -->
+
+        <script src="modules/shared/filter-store/filter-store--service.js"></script>
+        <script src="modules/shared/project-store/project-store--service.js"></script>
+
+        <!-- Directives -->
+        <script src="modules/shared/directives/search/search--directive.js"></script>
+
+        <script src="modules/shared/directives/viewFeatures--directive.js"></script>
+
+        <script src="modules/shared/directives/viewFrame--directive.js"></script>
+
+        <script src="modules/shared/directives/datePicker--directive.js"></script>
+
+        <script src="modules/shared/directives/gridScroll--directive.js"></script>
+
+        <script src="modules/shared/directives/control/collection-filter/collectionFilter--directive.js"></script>
+
+        <script src="modules/shared/directives/control/grid-filter/gridFilter--directive.js"></script>
+
+        <script src="modules/shared/directives/control/grid-filter/boolFilterComponent--directive.js"></script>
+
+        <script src="modules/shared/directives/control/grid-filter/dateFilterComponent--directive.js"></script>
+
+        <script src="modules/shared/directives/control/grid-filter/enumComponent--directive.js"></script>
+
+        <script src="modules/shared/directives/control/grid-filter/numberFilterComponent--directive.js"></script>
+
+        <script src="modules/shared/directives/control/grid-filter/textFilterComponent--directive.js"></script>
+
+        <script src="modules/shared/directives/control/grid-filter/fieldComponent--directive.js"></script>
+
+        <script src="modules/shared/directives/control/grid-filter/filterManager--service.js"></script>
+
+        <script src="modules/shared/directives/control/grid-filter/nodeNameMap--service.js"></script>
+
+        <script src="modules/shared/directives/control/grid-filter/operatorComponent--directive.js"></script>
+
+        <script src="modules/shared/directives/control/grid-filter/saveFilter--directive.js"></script>
+
+        <script src="modules/shared/directives/control/grid-filter/storedFilterList--directive.js"></script>
+
+        <script src="modules/shared/directives/control/grid-filter/conjunctiveOperatorToggle--directive.js"></script>
+
+        <script src="modules/shared/directives/control/grid-sort/gridSort--directive.js"></script>
+
+        <script src="modules/shared/directives/control/legend/legend--directive.js"></script>
+
+        <script src="modules/shared/directives/control/map-filter/mapFilter--directive.js"></script>
+
+        <script src="modules/shared/directives/control/pagination/pagination--directive.js"></script>
+
+        <script src="modules/shared/directives/control/single-select/singleSelect--directive.js"></script>
+
+        <script src="modules/shared/directives/control/multi-select/multiSelect--directive.js"></script>
+
+        <script src="modules/shared/directives/dialog/dialogDispatch--service.js"></script>
+
+        <script src="modules/shared/directives/list/datum/editDatumDialog--directive.js"></script>
+
+        <script src="modules/shared/directives/list/feature-index/featureIndex--directive.js"></script>
+
+        <script src="modules/shared/directives/breadcrumb/breadcrumb--directive.js"></script>
+
+        <script src="modules/shared/directives/table-view/data--service.js"></script>
+
+        <script src="modules/shared/directives/table-view/permitSort--service.js"></script>
+
+        <script src="modules/shared/directives/table-view/frameManager--service.js"></script>
+
+        <script src="modules/shared/directives/table-view/tableView--directive.js"></script>
+
+        <script src="modules/shared/directives/table-view/tableLayoutUtil--service.js"></script>
+
+        <script src="modules/shared/directives/table-view/tableFilter--service.js"></script>
+
+        <script src="modules/shared/directives/table-view/tableSort--service.js"></script>
+
+        <script src="modules/shared/directives/table-view/memberTable--directive.js"></script>
+
+        <script src="modules/shared/directives/table-view/tableSettingManager--service.js"></script>
+
+        <script src="modules/shared/directives/dialog/export/exportDialog--directive.js"></script>
+        <script src="modules/shared/directives/dialog/export/exportConfig--service.js"></script>
+
+        <script src="modules/shared/directives/dialog/map-filter/filterDialog--directive.js"></script>
+
+        <script src="modules/shared/directives/dialog/map-filter/option-list/optionList.directive.js"></script>
+
+        <script src="modules/shared/directives/dialog/map-filter/tabs/facility/facilityTab--directive.js"></script>
+
+        <script src="modules/shared/directives/dialog/map-filter/tabs/pipeline/pipelineTab--directive.js"></script>
+
+        <!-- Location management -->
+        <script src="modules/shared/directives/location/location--directive.js"></script>
+
+        <!-- Filters -->
+        <script src="modules/shared/filters/toAcres--filter.js"></script>
+        <script src="modules/shared/filters/toArray--filter.js"></script>
+        <script src="modules/shared/filters/isArray--filter.js"></script>
+        <script src="modules/shared/filters/truncate--filter.js"></script>
+        <script src="modules/shared/filters/areaConversion--filter.js"></script>
+        <script src="modules/shared/filters/rawHtml--filter.js"></script>
+        <script src="modules/shared/filters/pathSplit--filter.js"></script>
+        <script src="modules/shared/filters/capitalAttribute--filter.js"></script>
+        <script src="modules/shared/filters/localTime--filter.js"></script>
+        <script src="modules/shared/filters/elapsedTime--filter.js"></script>
+        <script src="modules/shared/filters/fileExtExtract--filter.js"></script>
+        <script src="modules/shared/filters/fileSize--filter.js"></script>
+        <script src="modules/shared/filters/boolToString--filter.js"></script>
+        <script src="modules/shared/filters/browserName--filter.js"></script>
+        <script src="modules/shared/filters/platformName--filter.js"></script>
+        <script src="modules/shared/filters/replaceChar--filter.js"></script>
+        <script src="modules/shared/filters/startsWith--filter.js"></script>
+        <script src="modules/shared/filters/splitLast--filter.js"></script>
+        <script src="modules/shared/filters/linkedRecordKey--filter.js"></script>
+        <script src="modules/shared/filters/normalizeString--filter.js"></script>
+        <script src="modules/shared/filters/stateCode--filter.js"></script>
+        <script src="modules/shared/filters/numStr--filter.js"></script>
+        <!-- endbuild -->
+
+    </body>
+
+</html>

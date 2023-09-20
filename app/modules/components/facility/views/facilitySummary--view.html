@@ -1,0 +1,1216 @@
+<div data-ng-include="'/templates/header--view.html'"></div>
+
+<main style="margin-top: -292px;"
+      class="site--content--flow fluid-content clearfix distinguish facility-content">
+
+    <div class="content--container pad-0" style="border-right: 1px solid #e0e0e0;">
+
+        <div class="progress--modal reveal fade-in t0" data-ng-if="page.status.loading">
+            <div class="progress--container">
+                <p style="font-weight: bold;" class="color-pulse">Loading facility data&hellip;</p>
+            </div>
+        </div>
+
+        <section class="privacy-message reveal fade-in t0"
+                 data-ng-if="!page.status.loading && page.makePrivate">
+
+            <p>
+                <i class="material-icons">
+                    lock
+                </i>
+            </p>
+
+            <p>This facility is not available.</p>
+
+        </section>
+
+        <div class="main--ui pad-0"
+             data-ng-if="!page.status.loading && !page.makePrivate">
+
+            <div class="module--grid">
+
+                <div breadcrumb class="full-width"
+                     program="page.node.program"
+                     project="page.project"></div>
+
+                <div class="hero translucent facility-hero">
+
+                    <div id="backdrop-map"
+                         style="overflow: hidden;"></div>
+
+                    <article style="text-align: center;"
+                             class="name pad reveal fade-in t0 flex flex-dir-col flex-align-center flex-justify-center">
+
+                        <h1 style="color: #FFFFFF; max-width: 75%;"
+                            class="margin-0 margin-b-1">
+                            {{ page.node.name || 'Un-named' }}
+                        </h1>
+
+                        <div class="last-modified-summary">
+
+                            <div data-ng-if="page.node.id &&
+                                             page.node.last_modified_by.first_name &&
+                                             page.node.last_modified_by.last_name"
+                                 class="modtime">
+                                Last updated on {{ page.node.modified_on | localTime
+                                | date:'fullDate' }} at {{ page.node.modified_on | localTime | date:'h:mm' }} {{ page.node.modified_on | localTime | date:'a' }}
+                            </div>
+
+                        </div>
+
+                    </article>
+
+                </div>
+
+                <div style="width: 100%; max-width: 960px; min-height: 240px; margin-top: -4rem; position: relative;
+                z-index: 11; background: #FFFFFF;"
+                     class="flex flex-nwrap flex-dir-row pad-2">
+
+                    <div style="width: 50%;" class="flex flex-nwrap flex-dir-col">
+
+                        <div class="flex flex-dir-col margin-b-2"
+                             style="">
+                            <div class="margin-b-50p">
+                                <strong>Company</strong>
+                            </div>
+                            <div data-ng-repeat="datum in page.varIndex.company.values">
+                                {{ datum.linked_node.name }}
+                            </div>
+                        </div>
+
+                        <div class="margin-b-1">
+                            <div class="margin-b-50p">
+                                <strong>Address</strong>
+                            </div>
+                            <div data-ng-if="page.varIndex.street_address.value"
+                                 class="pad-0 margin-0">
+                                {{ page.varIndex.street_address.value }}
+                            </div>
+                            <div class="pad-0 pad-b-1 margin-0">
+                                <span data-ng-if="page.varIndex.city.value">
+                                    {{ page.varIndex.city.value }},
+                                </span>
+                                <span data-ng-if="page.varIndex.state.value">
+                                    {{ page.varIndex.state.value }}
+                                </span>
+                                <span data-ng-if="page.varIndex.zip_code.value">
+                                    {{ page.varIndex.zip_code.value }}
+                                </span>
+                            </div>
+                            <div class="pad-0 margin-0 margin-t-50p"
+                               data-ng-if="!page.location">
+                                <span class="pad-75p rad-25"
+                                      style="display: inline-flex; font-size: .9rem; background: #FAFAFA; border: 1px
+                                      solid #E0E0E0;">
+                                    Full location pending.
+                                </span>
+                            </div>
+                        </div>
+
+                        <div data-ng-if="page.varIndex.state.value"
+                             class="flex flex-dir-col margin-b-2"
+                             style="">
+                            <a href="/state/{{ page.varIndex.state.value }}"
+                               class="pad-0 margin-0">
+                                View state profile &rarr;
+                            </a>
+                        </div>
+
+                    </div>
+
+                    <div style="width: 50%;"
+                         class="flex flex-nwrap flex-dir-col"
+                         data-ng-if="page.location">
+
+                        <div class="static-map flex flex-dir-col flex-justify-center flex-align-center"
+                             style="width: 100%; height: 100%; background: url({{ page.staticUrl }}) center center
+                             no-repeat; min-height: 240px;"></div>
+
+                    </div>
+
+                </div>
+
+                <div style="width: 100%; max-width: 960px; background: #FFFFFF;"
+                     class="flex flex-nwrap flex-dir-row pad-l-2 pad-r-2 pad-b-2">
+
+                    <div style="width: 100%;" class="flex flex-nwrap flex-dir-col">
+
+                        <div class="margin-b-50p">
+                            <strong>Description</strong>
+                        </div>
+
+                        <div style="font-size: 1.125rem;"
+                           data-ng-bind-html="page.varIndex['text_variable:86'].value"
+                           data-ng-if="page.varIndex && page.varIndex['text_variable:86'].value"></div>
+
+                        <p style="font-size: 1.125rem;"
+                           data-ng-if="!page.varIndex['text_variable:86'].value">
+                            <em>No description provided.</em>
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div data-ng-if="page.varIndex && page.varIndex['text_variable:155'].value"
+                     style="width: 100%; max-width: 960px; background: #FFFFFF;"
+                     class="flex flex-nwrap flex-dir-row pad-l-2 pad-r-2 pad-b-2">
+
+                    <div style="width: 100%;" class="flex flex-nwrap flex-dir-col">
+
+                        <div class="margin-b-50p">
+                            <strong>Latest Updates</strong>
+                        </div>
+
+                        <div style="font-size: 1.125rem;"
+                           data-ng-bind-html="page.varIndex['text_variable:155'].value"></div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Associated facilities -->
+
+            <div style="width: 100%;"
+                 class="flex flex-dir-col flex-nwrap flex-align-center margin-b-2"
+                 data-ng-if="page.assocFacilities.length">
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-1">
+
+                    <div class="create-heading margin-0 margin-t-1 margin-b-1">
+                        <h2 class="margin-0">
+                            Associated Facilities
+                        </h2>
+                    </div>
+
+                    <div class="flex flex-flw-row-wr flex-align-center flex-justify-start">
+                        <div class="margin-r-1 margin-b-1"
+                             data-ng-repeat="feature in page.assocFacilities">
+                            <a
+                                    class="flex flex-flw-col-nw flex-align-center pad-t-50p pad-b-50p pad-l-75p pad-r-75p rad-25"
+                               style="border: 1px solid #E0E0E0;"
+                               href="/facility/{{ feature.key }}">
+                                {{ feature.name }}
+                            </a>
+                        </div>
+                    </div>
+
+                </section>
+
+            </div>
+
+            <!-- Associated pipelines -->
+
+            <div style="width: 100%;"
+                 class="flex flex-dir-col flex-nwrap flex-align-center margin-b-2"
+                 data-ng-if="page.assocPipelines.length">
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-1">
+
+                    <div class="create-heading margin-0 margin-t-1 margin-b-1">
+                        <h2 class="margin-0">
+                            Associated Pipelines
+                        </h2>
+                    </div>
+
+                    <div class="flex flex-flw-row-wr flex-align-center flex-justify-start">
+                        <div class="margin-r-1 margin-b-1"
+                             data-ng-repeat="feature in page.assocPipelines">
+                            <a
+                                    class="flex flex-flw-col-nw flex-align-center pad-t-50p pad-b-50p pad-l-75p pad-r-75p rad-25"
+                                    style="border: 1px solid #E0E0E0;"
+                                    href="/pipeline/{{ feature.key }}">
+                                {{ feature.name }}
+                            </a>
+                        </div>
+                    </div>
+
+                </section>
+
+            </div>
+
+            <div style="width: 100%;"
+                 class="flex flex-dir-col flex-nwrap flex-align-center">
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-3">
+
+                    <div class="create-heading margin-b-1">
+                        <h2 class="margin-0">
+                            Potential Emissions
+                        </h2>
+                    </div>
+
+                    <p style="font-size: 1.125rem;"
+                       data-ng-if="page.stats.totalGHG !== null &&
+                                   page.stats.totalCriteria !== null">
+                        Projects announced or authorized at <strong>{{ page.node.name }}</strong> since 2012 have
+                        the potential to emit <strong>{{ page.stats.totalGHG | number:0 }}</strong> tons of
+                        greenhouse gases and <strong>{{ page.stats.totalCriteria | number:0 }}</strong> tons of
+                        criteria air pollutants each year, according to government records.
+                    </p>
+
+                    <p style="font-size: 1.125rem;"
+                       data-ng-if="page.stats.totalGHG !== null &&
+                                   page.stats.totalCriteria === null">
+                        <span>
+                            Projects announced or authorized at <strong>{{ page.node.name }}</strong> since 2012 have
+                            the potential to emit <strong>{{ page.stats.totalGHG | number:0 }}</strong> tons of
+                            greenhouse gases each year, according to government records.
+                        </span>
+                        <span>
+                            The potential criteria air pollutant emissions from this facility are unknown.
+                        </span>
+                    </p>
+
+                    <p style="font-size: 1.125rem;"
+                       data-ng-if="page.stats.totalGHG === null &&
+                                   page.stats.totalCriteria !== null">
+                        <span>
+                            The potential greenhouse gas emissions from this facility are unknown.
+                        </span>
+                        <span>
+                            Projects announced or authorized at <strong>{{ page.node.name }}</strong> since 2012 have
+                            the potential to emit <strong>{{ page.stats.totalCriteria | number:0 }}</strong> tons of
+                            criteria air pollutants each year, according to government records.
+                        </span>
+                    </p>
+
+                    <p style="font-size: 1.125rem;"
+                       data-ng-if="page.stats.totalGHG === null &&
+                                   page.stats.totalCriteria === null">
+                        The potential greenhouse gas and criteria air pollutant emissions from this facility are
+                        unknown.
+                    </p>
+
+                </section>
+
+            </div>
+
+            <!-- Project table -->
+
+            <div style="width: 100%;"
+                 class="flex flex-dir-col flex-nwrap flex-align-center">
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-2">
+
+                    <div class="create-heading margin-0 margin-t-1">
+                        <h2 class="margin-0 grow">
+                            Projects
+                        </h2>
+                        <div data-ng-click="page.display.projects = !page.display.projects"
+                             data-ng-if="!page.display.projects"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -0.5rem;"
+                             title="Show more">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
+                            </div>
+                        </div>
+                        <div data-ng-click="page.display.projects = !page.display.projects"
+                             data-ng-if="page.display.projects"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -0.5rem;"
+                             title="Show less">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_less
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2"
+                         data-ng-show="page.display.projects"
+                         data-ng-if="page.projectKeys.length &&
+                                     page.recordTypeIdx[3]">
+
+                    <div style="position: relative;"
+                         class="flex flex-dir-row flex-nwrap flex-justify-start flex-align-center"
+                         data-record-type-key="3"
+                         table-view
+                         alerts="page.alerts"
+                         feature-type="projectTwoCol"
+                         hide-when-empty="true"
+                         limit-domain="true"
+                         node-type="page.recordTypeIdx[3]"
+                         query-params="page.queryParams"
+                         record-domain="page.projectKeys"
+                         visible="page.projectKeys"></div>
+
+                </section>
+
+            </div>
+
+            <!-- Permit tables -->
+
+            <div style="width: 100%;"
+                 class="flex flex-dir-col flex-nwrap flex-align-center"
+                 data-ng-if="page.permitCount > 0">
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-1">
+
+                    <div class="create-heading margin-0 margin-t-1">
+                        <h2 class="margin-0 grow">
+                            Permits
+                        </h2>
+                        <div data-ng-click="page.display.permits = !page.display.permits"
+                             data-ng-if="!page.display.permits"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show more">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
+                            </div>
+                        </div>
+                        <div data-ng-click="page.display.permits = !page.display.permits"
+                             data-ng-if="page.display.permits"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show less">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_less
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-2"
+                         data-ng-show="page.display.permits"
+                         data-ng-if="page.permitIdx['relation:6'] &&
+                                     !page.display.force.permit1">
+
+                    <div class="create-heading margin-0 margin-t-1">
+                        <h4 class="margin-0 grow">
+                            Clean Air Act - New Source Construction Permits
+                        </h4>
+                        <div data-ng-click="page.display.permit1 = !page.display.permit1"
+                             data-ng-if="!page.display.permit1"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show more">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
+                            </div>
+                        </div>
+                        <div data-ng-click="page.display.permit1 = !page.display.permit1"
+                             data-ng-if="page.display.permit1"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show less">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_less
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2"
+                         data-ng-show="page.display.permits && page.display.permit1"
+                         data-ng-if="page.permitIdx['relation:6'] &&
+                                     page.recordTypeIdx[4] &&
+                                     !page.display.force.permit1">
+
+                    <div style="position: relative;"
+                         class="flex flex-dir-row flex-nwrap flex-justify-start flex-align-center"
+                         data-record-type-key="4"
+                         table-view
+                         alerts="page.alerts"
+                         feature-type="permit4TwoCol"
+                         hide-when-empty="true"
+                         hide-callback="page.hidePermitSection('permit1')"
+                         limit-domain="true"
+                         node-type="page.recordTypeIdx[4]"
+                         query-params="page.queryParams"
+                         record-domain="page.permitIdx['relation:6']"
+                         visible="page.permitIdx['relation:6']"></div>
+
+                </section>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-2"
+                         data-ng-show="page.display.permits"
+                         data-ng-if="page.permitIdx['relation:30'] &&
+                                     page.recordTypeIdx[12] &&
+                                     !page.display.force.permit2">
+
+                    <div class="create-heading margin-0 margin-t-1">
+                        <h4 class="margin-0 grow">
+                            Natural Gas Act - Certificates of Public Necessity
+                        </h4>
+                        <div data-ng-click="page.display.permit2 = !page.display.permit2"
+                             data-ng-if="!page.display.permit2"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show more">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
+                            </div>
+                        </div>
+                        <div data-ng-click="page.display.permit2 = !page.display.permit2"
+                             data-ng-if="page.display.permit2"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show less">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_less
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2"
+                         data-ng-show="page.display.permits && page.display.permit2"
+                         data-ng-if="page.permitIdx['relation:30'] &&
+                                     page.recordTypeIdx[12] &&
+                                     !page.display.force.permit2">
+
+                    <div style="position: relative;"
+                         class="flex flex-dir-row flex-nwrap flex-justify-start flex-align-center"
+                         data-record-type-key="12"
+                         table-view
+                         alerts="page.alerts"
+                         feature-type="permit12TwoCol"
+                         hide-when-empty="true"
+                         hide-callback="page.hidePermitSection('permit2')"
+                         limit-domain="true"
+                         node-type="page.recordTypeIdx[12]"
+                         query-params="page.queryParams"
+                         record-domain="page.permitIdx['relation:30']"
+                         visible="page.permitIdx['relation:30']"
+                         data-ng-if="page.permitIdx['relation:30'] &&
+                                     page.recordTypeIdx[12]"></div>
+
+                </section>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-2"
+                         data-ng-show="page.display.permits"
+                         data-ng-if="page.permitIdx['relation:37'] &&
+                                     page.recordTypeIdx[18] &&
+                                     !page.display.force.permit3">
+
+                    <div class="create-heading margin-0 margin-t-1">
+                        <h4 class="margin-0 grow">
+                            Clean Air Act - Operating Permits
+                        </h4>
+                        <div data-ng-click="page.display.permit3 = !page.display.permit3"
+                             data-ng-if="!page.display.permit3"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show more">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
+                            </div>
+                        </div>
+                        <div data-ng-click="page.display.permit3 = !page.display.permit3"
+                             data-ng-if="page.display.permit3"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show less">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_less
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2"
+                         data-ng-show="page.display.permits && page.display.permit3"
+                         data-ng-if="page.permitIdx['relation:37'] &&
+                                     page.recordTypeIdx[18] &&
+                                     !page.display.force.permit3">
+
+                    <div style="position: relative;"
+                         class="flex flex-dir-row flex-nwrap flex-justify-start flex-align-center"
+                         data-record-type-key="18"
+                         table-view
+                         alerts="page.alerts"
+                         feature-type="permit18TwoCol"
+                         hide-when-empty="true"
+                         hide-callback="page.hidePermitSection('permit3')"
+                         limit-domain="true"
+                         node-type="page.recordTypeIdx[18]"
+                         query-params="page.queryParams"
+                         record-domain="page.permitIdx['relation:37']"
+                         visible="page.permitIdx['relation:37']"
+                         data-ng-if="page.permitIdx['relation:37'] &&
+                                     page.recordTypeIdx[18]"></div>
+
+                </section>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-2"
+                         data-ng-show="page.display.permits"
+                         data-ng-if="page.permitIdx['relation:34'] &&
+                                     page.recordTypeIdx[16] &&
+                                     !page.display.force.permit4">
+
+                    <div class="create-heading margin-0 margin-t-1">
+                        <h4 class="margin-0 grow">
+                            Clean Water Act - Wastewater Discharge Permits
+                        </h4>
+                        <div data-ng-click="page.display.permit4 = !page.display.permit4"
+                             data-ng-if="!page.display.permit4"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show more">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
+                            </div>
+                        </div>
+                        <div data-ng-click="page.display.permit4 = !page.display.permit4"
+                             data-ng-if="page.display.permit4"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show less">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_less
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2"
+                         data-ng-show="page.display.permits && page.display.permit4"
+                         data-ng-if="page.permitIdx['relation:34'] &&
+                                     page.recordTypeIdx[16] &&
+                                     !page.display.force.permit4">
+
+                    <div style="position: relative;"
+                         class="flex flex-dir-row flex-nwrap flex-justify-start flex-align-center"
+                         data-record-type-key="16"
+                         table-view
+                         alerts="page.alerts"
+                         feature-type="permit16TwoCol"
+                         hide-when-empty="true"
+                         hide-callback="page.hidePermitSection('permit4')"
+                         limit-domain="true"
+                         node-type="page.recordTypeIdx[16]"
+                         query-params="page.queryParams"
+                         record-domain="page.permitIdx['relation:34']"
+                         visible="page.permitIdx['relation:34']"></div>
+
+                </section>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-2"
+                         data-ng-show="page.display.permits"
+                         data-ng-if="page.permitIdx['relation:41'] &&
+                                     page.recordTypeIdx[17] &&
+                                     !page.display.force.permit5">
+
+                    <div class="create-heading margin-0 margin-t-1">
+                        <h4 class="margin-0 grow">
+                            Clean Water Act - Wetland Permits
+                        </h4>
+                        <div data-ng-click="page.display.permit5 = !page.display.permit5"
+                             data-ng-if="!page.display.permit5"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show more">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
+                            </div>
+                        </div>
+                        <div data-ng-click="page.display.permit5 = !page.display.permit5"
+                             data-ng-if="page.display.permit5"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show less">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_less
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-3"
+                         data-ng-show="page.display.permits && page.display.permit5"
+                         data-ng-if="page.permitIdx['relation:41'] &&
+                                     page.recordTypeIdx[17] &&
+                                     !page.display.force.permit5">
+
+                    <div style="position: relative;"
+                         class="flex flex-dir-row flex-nwrap flex-justify-start flex-align-center"
+                         data-record-type-key="17"
+                         table-view
+                         alerts="page.alerts"
+                         feature-type="permit17TwoCol"
+                         hide-when-empty="true"
+                         hide-callback="page.hidePermitSection('permit5')"
+                         limit-domain="true"
+                         node-type="page.recordTypeIdx[17]"
+                         query-params="page.queryParams"
+                         record-domain="page.permitIdx['relation:41']"
+                         visible="page.permitIdx['relation:41']"></div>
+
+                </section>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-2"
+                         data-ng-show="page.display.permits"
+                         data-ng-if="page.permitIdx['relation:48'] &&
+                                     page.recordTypeIdx[48] &&
+                                     !page.display.force.permit7">
+
+                    <div class="create-heading margin-0 margin-t-1">
+                        <h4 class="margin-0 grow">
+                            MARAD
+                        </h4>
+                        <div data-ng-click="page.display.permit7 = !page.display.permit7"
+                             data-ng-if="!page.display.permit7"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show more">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
+                            </div>
+                        </div>
+                        <div data-ng-click="page.display.permit7 = !page.display.permit7"
+                             data-ng-if="page.display.permit7"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show less">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_less
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-3"
+                         data-ng-show="page.display.permits && page.display.permit7"
+                         data-ng-if="page.permitIdx['relation:48'] &&
+                                     page.recordTypeIdx[48] &&
+                                     !page.display.force.permit7">
+
+                    <div style="position: relative;"
+                         class="flex flex-dir-row flex-nwrap flex-justify-start flex-align-center"
+                         data-record-type-key="48"
+                         table-view
+                         alerts="page.alerts"
+                         feature-type="permit48TwoCol"
+                         hide-when-empty="true"
+                         hide-callback="page.hidePermitSection('permit7')"
+                         limit-domain="true"
+                         node-type="page.recordTypeIdx[48]"
+                         query-params="page.queryParams"
+                         record-domain="page.permitIdx['relation:48']"
+                         visible="page.permitIdx['relation:48']"
+                         data-ng-if="page.permitIdx['relation:48'] &&
+                                     page.recordTypeIdx[48]"></div>
+
+                </section>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-2"
+                         data-ng-show="page.display.permits"
+                         data-ng-if="page.permitIdx['relation:42'] &&
+                                     page.recordTypeIdx[45] &&
+                                     !page.display.force.permit6">
+
+                    <div class="create-heading margin-0 margin-t-1">
+                        <h4 class="margin-0 grow">
+                            Other Permits
+                        </h4>
+                        <div data-ng-click="page.display.permit6 = !page.display.permit6"
+                             data-ng-if="!page.display.permit6"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show more">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_more
+                                </span>
+                            </div>
+                        </div>
+                        <div data-ng-click="page.display.permit6 = !page.display.permit6"
+                             data-ng-if="page.display.permit6"
+                             class="flex flex-dir-col flex-justify-center flex-align-center no-grow"
+                             style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                             title="Show less">
+                            <div class="halo-btn">
+                                <div class="halo"></div>
+                                <span class="material-icons">
+                                    expand_less
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-3"
+                         data-ng-show="page.display.permits && page.display.permit6"
+                         data-ng-if="page.permitIdx['relation:42'] &&
+                                     page.recordTypeIdx[45] &&
+                                     !page.display.force.permit6">
+
+                    <div style="position: relative;"
+                         class="flex flex-dir-row flex-nwrap flex-justify-start flex-align-center"
+                         data-record-type-key="45"
+                         table-view
+                         alerts="page.alerts"
+                         feature-type="permit45TwoCol"
+                         hide-when-empty="true"
+                         hide-callback="page.hidePermitSection('permit6')"
+                         limit-domain="true"
+                         node-type="page.recordTypeIdx[45]"
+                         query-params="page.queryParams"
+                         record-domain="page.permitIdx['relation:42']"
+                         visible="page.permitIdx['relation:42']"></div>
+
+                </section>
+
+            </div>
+
+            <div style="width: 100%;"
+                 class="flex flex-flw-col-nw flex-align-center flex-justify-center margin-t-2 margin-b-2">
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="pad-0 pad-r-2 pad-l-2">
+
+                    <div style="width: 100%; position: relative;"
+                         class="flex flex-dir-col flex-nwrap flex-align-center margin-t-1">
+
+                        <div class="create-heading margin-b-1"
+                             style="width: 100%;">
+                            <h2 class="margin-0">
+                                Location and Demographics
+                            </h2>
+                        </div>
+
+                        <p class="pad-0 margin-0 margin-y-1">
+                            The information below comes from the US Environmental Protection Agency’s <a
+                                href="https://www.epa.gov/ejscreen" target="_blank">Environmental Justice Screening
+                            Tool</a>. For more information about the location and demographic information on Oil &
+                            Gas Watch, visit <a href="about">About</a> and <a href="glossary">Glossary</a>. Please
+                            note that demographic estimates for areas with small populations are highly uncertain.
+                        </p>
+
+                        <div style="width: 100%;"
+                             class="flex flex-dir-row flex-nwrap flex-align-center margin-b-1">
+                            <div style="flex-grow: 1; flex-shrink: 1;">
+                                <strong>Demographic indicators</strong>
+                            </div>
+                            <div data-ng-click="page.showIndicators = !page.showIndicators"
+                                 data-ng-if="!page.showIndicators"
+                                 class="flex flex-dir-col flex-justify-center flex-align-center"
+                                 style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                                 title="Show more">
+                                <div class="halo-btn">
+                                    <div class="halo"></div>
+                                    <span class="material-icons">
+                                        expand_more
+                                    </span>
+                                </div>
+                            </div>
+                            <div data-ng-click="page.showIndicators = !page.showIndicators"
+                                 data-ng-if="page.showIndicators"
+                                 class="flex flex-dir-col flex-justify-center flex-align-center"
+                                 style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                                 title="Show less">
+                                <div class="halo-btn">
+                                    <div class="halo"></div>
+                                    <span class="material-icons">
+                                        expand_less
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="two-column-records"
+                             style="height: 100%; width: 100%; border: 0 none; border-radius: 0; position: relative;"
+                             data-ng-if="page.varIndex && page.showIndicators">
+
+                            <div class="record-container rad-25 margin-b-2">
+
+                                <table style="transform: rotateX(0deg);">
+
+                                    <thead></thead>
+
+                                    <tbody>
+
+                                        <tr class="grid-row"
+                                            data-ng-repeat="(idx, variable) in page.popVars track by $index">
+
+                                            <th class="pad-75p"
+                                                style="width: 1%; white-space: nowrap;">
+                                                <div data-ng-if="variable.alias">
+                                                    {{ variable.alias }}
+                                                </div>
+                                                <div data-ng-if="!variable.alias">
+                                                    {{ variable.name }}
+                                                </div>
+                                            </th>
+
+                                            <td class="pad-75p"
+                                                style="">
+
+                                                <div class="flex flex-dir-row flex-justify-end flex-align-start"
+                                                     data-ng-if="page.varIndex[variable.key].value === undefined ||
+                                                                 page.varIndex[variable.key].value === null">
+                                                    <span style="color: #757575;"
+                                                          data-ng-if="variable.no_data">
+                                                        {{ variable.no_data }}
+                                                    </span>
+                                                    <span style="color: #BDBDBD;"></span>
+                                                </div>
+
+                                                <div class="flex flex-dir-row flex-justify-end flex-align-start"
+                                                     data-ng-if="page.varIndex[variable.key].value !== undefined &&
+                                                                 page.varIndex[variable.key].value !== null">
+                                                    {{ page.varIndex[variable.key].value | numStr }}
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                        <div style="width: 100%;"
+                             class="flex flex-dir-row flex-nwrap flex-align-center margin-b-1">
+                            <div style="flex-grow: 1; flex-shrink: 1;">
+                                <strong>Environmental indicators</strong>
+                            </div>
+                            <div data-ng-click="page.showEnvIndicators = !page.showEnvIndicators"
+                                 data-ng-if="!page.showEnvIndicators"
+                                 class="flex flex-dir-col flex-justify-center flex-align-center"
+                                 style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                                 title="Show more">
+                                <div class="halo-btn">
+                                    <div class="halo"></div>
+                                    <span class="material-icons">
+                                        expand_more
+                                    </span>
+                                </div>
+                            </div>
+                            <div data-ng-click="page.showEnvIndicators = !page.showEnvIndicators"
+                                 data-ng-if="page.showEnvIndicators"
+                                 class="flex flex-dir-col flex-justify-center flex-align-center"
+                                 style="flex-grow: 0; flex-shrink: 0; margin-right: -1rem;"
+                                 title="Show less">
+                                <div class="halo-btn">
+                                    <div class="halo"></div>
+                                    <span class="material-icons">
+                                        expand_less
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="two-column-records"
+                             style="height: 100%; width: 100%; border: 0 none; border-radius: 0; position: relative;"
+                             data-ng-if="page.varIndex && page.showEnvIndicators">
+
+                            <div class="record-container rad-25 margin-b-2">
+
+                                <table style="transform: rotateX(0deg);">
+
+                                    <thead></thead>
+
+                                    <tbody>
+
+                                        <tr class="grid-row"
+                                            data-ng-repeat="(idx, variable) in page.envVars track by $index">
+
+                                            <th class="pad-75p"
+                                                style="width: 1%; white-space: nowrap;">
+                                                <div data-ng-if="variable.alias">
+                                                    {{ variable.alias }}
+                                                </div>
+                                                <div data-ng-if="!variable.alias">
+                                                    {{ variable.name }}
+                                                </div>
+                                            </th>
+
+                                            <td class="pad-75p"
+                                                style="">
+
+                                                <div class="flex flex-dir-row flex-justify-end flex-align-start"
+                                                     data-ng-if="page.varIndex[variable.key].value === undefined ||
+                                                                 page.varIndex[variable.key].value === null">
+                                                    <span style="color: #757575;"
+                                                          data-ng-if="variable.no_data">
+                                                        {{ variable.no_data }}
+                                                    </span>
+                                                    <span style="color: #BDBDBD;"></span>
+                                                </div>
+
+                                                <div class="flex flex-dir-row flex-justify-end flex-align-start"
+                                                     data-ng-if="page.varIndex[variable.key].value !== undefined &&
+                                                                 page.varIndex[variable.key].value !== null">
+                                                    {{ page.varIndex[variable.key].value | numStr }}
+                                                </div>
+
+                                            </td>
+
+                                        </tr>
+
+                                    </tbody>
+
+                                </table>
+
+                            </div>
+
+                        </div>
+
+                        <div style="width: 100%; max-width: 1200px;"
+                             class="flex flex-dir-col flex-align-center flex-justify-center margin-t-2">
+                            <div style="width: 100%;"
+                                 class="geocoder-container flex flex-justify-center flex-align-center">
+                                <div style="max-width: 50%; font-size: 1rem;" class="geocoder"></div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+            <div style="width: 100%;"
+                 class="flex flex-flw-col-nw flex-align-center flex-justify-center">
+
+                <section style="width: 100%; max-width: 1200px;"
+                         class="pad-0 pad-r-2 pad-l-2 margin-b-3">
+
+                    <div id="primary--map"
+                         class="map tall"
+                         style="width: 100%;">
+                        <div map-legend
+                             class="flex flex-dir-row flex-align-center flex-justify-start"
+                             style="position: absolute; top: 10px; left: 50px; width: auto; z-index: 2;"></div>
+                        <div class="mapboxgl-layer-ctrl"
+                             data-ng-click="page.showLayerOptions = !page.showLayerOptions" title="Switch layers">
+                            <span class="material-icons">
+                                layers
+                            </span>
+                            <div class="layer-group"
+                                 style="font-weight: normal; font-size: 14px; min-width: 240px; max-height: 400px;
+                                 overflow: auto;"
+                                 data-ng-show="page.showLayerOptions">
+                                <form>
+                                    <label data-ng-repeat="style in page.mapStyles"
+                                           data-ng-class="{'active': page.activeStyle === $index}"
+                                           style="font-weight: normal;"
+                                           title="{{ style.name }}">
+                                        <input type="radio"
+                                               id="base-style-{{ $index }}"
+                                               name="active-style"
+                                               data-ng-model="page.activeStyle"
+                                               data-ng-value="{{ $index }}"
+                                               data-ng-change="page.switchMapStyle(style, $index)">
+                                        <span> {{ style.name }}</span>
+                                        <div class="selection-ctrl flex flex-dir-row flex-align-center flex-justify-end"
+                                             data-ng-if="page.activeStyle === $index">
+                                            <span class="material-icons md-18 margin-0">
+                                                radio_button_checked
+                                            </span>
+                                        </div>
+                                        <div class="selection-ctrl flex flex-dir-row flex-align-center flex-justify-end"
+                                             data-ng-if="page.activeStyle !== $index">
+                                            <span style="color: #616161;"
+                                                  class="material-icons md-18 margin-0">
+                                                radio_button_unchecked
+                                            </span>
+                                        </div>
+                                    </label>
+                                </form>
+                                <div style="font-size: .75rem; font-weight: bold; text-transform: uppercase; padding: .5rem
+                                .75rem; border-top: 1px solid #e0e0e0;"
+                                     data-ng-show="page.layers && page.layers.length">
+                                    Layers
+                                </div>
+                                <form class="layers"
+                                      data-ng-show="page.layers && page.layers.length">
+                                    <div class="flex flex-dir-col"
+                                         data-ng-repeat="layer in page.layers">
+                                        <label for="layer-{{ $index }}" style="font-weight: normal;"
+                                               data-ng-class="{'active': layer.selected}" title="{{ layer.name }}">
+                                            <input type="checkbox"
+                                                   id="layer-{{ $index }}"
+                                                   name="layer-{{ $index }}"
+                                                   data-ng-model="layer.selected"
+                                                   data-ng-value="{{ $index }}"
+                                                   data-ng-change="page.toggleLayer(layer.id)">
+                                            <span> {{ layer.name }}</span>
+                                            <div class="selection-ctrl flex flex-dir-row flex-align-center flex-justify-end"
+                                                 data-ng-if="layer.selected">
+                                                <span class="material-icons md-18 margin-0">
+                                                    check_box
+                                                </span>
+                                            </div>
+                                            <div class="selection-ctrl flex flex-dir-row flex-align-center flex-justify-end"
+                                                 data-ng-if="!layer.selected">
+                                                <span style="color: #616161;"
+                                                      class="material-icons md-18 margin-0">
+                                                    check_box_outline_blank
+                                                </span>
+                                            </div>
+                                        </label>
+                                        <div data-ng-if="layer.selected && layer.legends && layer.legends.length">
+                                            <div data-ng-repeat="legend in layer.legends">
+                                                <div class="pad-t-50p pad-b-50p pad-l-75p pad-r-75p"
+                                                     data-ng-if="legend.title">
+                                                    {{ legend.title }}
+                                                </div>
+                                                <div data-ng-if="legend.type === 'categorical'">
+                                                    <div class="flex flex-dir-row flex-nwrap flex-align-center
+                                                            pad-t-50p pad-b-50p pad-l-75p pad-r-75p"
+                                                         data-ng-repeat="symbol in legend.symbols">
+                                                        <div style="height: 1rem; width: 1rem; border-radius: .25rem;
+                                                        background: {{ symbol.color }};" class="flex margin-r-1"></div>
+                                                        <div>
+                                                            {{ symbol.label }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div data-ng-if="legend.type === 'quantitative'">
+                                                    <div class="flex flex-dir-row flex-nwrap flex-align-stretch
+                                                            pad-t-50p pad-b-50p pad-l-75p pad-r-75p">
+                                                        <div style="height: 160px; width: 1rem; border-radius: .25rem;
+                                                        background: {{ legend.gradient }};" class="flex margin-r-1"></div>
+                                                        <div style="height: 160px; position: relative;"
+                                                             class="flex grow flex-dir-col flex-justify-start">
+                                                            <div class="flex" style="height: 33.3333%;">
+                                                                {{ legend.labels.high }}
+                                                            </div>
+                                                            <div class="flex grow"
+                                                                 style="position: relative; height: 33.3333%;"
+                                                                 data-ng-if="legend.labels.middle">
+                                                                <div class="flex grow"
+                                                                     style="position: absolute; top: 50%; margin-top: -0.5rem;">
+                                                                    {{ legend.labels.middle }}
+                                                                </div>
+                                                            </div>
+                                                            <div style="height: 33.3333%;"
+                                                                 class="flex grow flex-dir-col flex-align-start flex-justify-end">
+                                                                {{ legend.labels.low }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex flex-dir-row flex-nwrap flex-align-center
+                                                            pad-t-50p pad-b-50p pad-l-75p pad-r-75p">
+                                                            <div style="height: 1rem; width: 1rem; border-radius: .25rem;
+                                                             background: #cccccc;" class="flex margin-r-1"></div>
+                                                            <div>
+                                                                No value
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="transient--notification" data-ng-class="{show: page.alerts.length}">
+        <div class="event--container">
+            <div data-ng-repeat="alert in page.alerts"
+                 data-ng-class="{error: alert.type == 'error', success: alert.type == 'success'}">
+                <span class="event--message">{{ alert.msg }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div export-dialog
+         alerts="page.alerts"
+         feature="page.project"
+         reset-type="false"
+         type="'project'"
+         visible="page.showExportDialog"></div>
+
+</main>
+
+<div data-ng-include="'/templates/footer--view.html'"></div>

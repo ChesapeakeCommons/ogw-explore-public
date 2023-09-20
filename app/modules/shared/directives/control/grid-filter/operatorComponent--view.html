@@ -1,0 +1,56 @@
+<div class="collection-filter drop-down margin-0">
+    <div id="filter-btns"
+         style="height: 100%;"
+         class="flex flex-flw-row-nw flex-align-stretch">
+        <button style="padding: .4rem .75rem; font-size: .9rem;"
+                class="relation-dialog-btn dir-btn margin-r-50p"
+                title="Filter operator"
+                data-ng-click="toggleModal('select')">
+            <span data-ng-if="config.operator.label">
+                {{ config.operator.label }}
+            </span>
+            <span data-ng-if="!config.operator.label">
+                {{ operators[0].label }}
+            </span>
+        </button>
+    </div>
+    <form name="collection-filter-form"
+          class="collection-filter-modal"
+          style="width: auto;"
+          data-ng-if="modalDisplay.select">
+        <div style="border-bottom: 1px solid #E0E0E0;">
+            <input type="text"
+                   data-ng-model="tokenQuery"
+                   data-ng-change="filterOptions($viewValue)"
+                   class="margin-0"
+                   style="padding: .75rem 1rem; font-size: .9rem; border: 0 none; background: transparent;"
+                   id="tokenQuery"
+                   name="tokenQuery"
+                   placeholder="Search operators&hellip;" />
+        </div>
+        <label data-ng-repeat="(idx, op) in filterOptions(tokenQuery)"
+               data-ng-class="{'active': config.operator.key === op.key}"
+               data-ng-click="selectOperator(op)"
+               title="{{ op.label }}">
+            <span class="input-mask"
+                  data-ng-if="config.operator.key === op.key">
+                <span class="material-icons md-18">
+                    radio_button_checked
+                </span>
+            </span>
+            <span class="input-mask"
+                  data-ng-if="config.operator.key !== op.key">
+                <span class="material-icons md-18">
+                    radio_button_unchecked
+                </span>
+            </span>
+            <input type="radio"
+                   id="operator-option-{{ idx }}"
+                   name="active-op"
+                   data-ng-model="config.operator">
+            <span>
+                {{ op.label }}
+            </span>
+        </label>
+    </form>
+</div>

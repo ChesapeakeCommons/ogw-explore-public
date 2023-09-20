@@ -1,0 +1,67 @@
+<div id="pagination-ctrl">
+
+    <div class="prev-ctrl">
+
+        <!-- FIRST PAGE -->
+        <button type="button"
+                class="flex flex-flw-col-nw flex-justify-center flex-align-center"
+                data-ng-click="getPage('first')"
+                data-ng-class="{inactive: params.page === 1}"
+                title="First page">
+            <span class="material-icons">
+                first_page
+            </span>
+        </button>
+
+        <!-- PREVIOUS PAGE -->
+        <button type="button"
+                class="flex flex-flw-col-nw flex-justify-center flex-align-center"
+                data-ng-click="getPage('prev')"
+                data-ng-class="{inactive: params.page === 1}"
+                title="Previous page">
+            <span class="material-icons">
+                chevron_left
+            </span>
+        </button>
+
+    </div>
+
+    <div class="summary-ctrl margin-x-1">
+        <!-- START VIEW COUNT -->
+        <span data-ng-if="summary.feature_count > 0">
+            {{ boundaryLow | number }} - {{ boundaryHigh | number }} of {{ summary.feature_count |
+            number }}
+        </span>
+        <span data-ng-if="summary.feature_count === 0">
+            No matches
+        </span>
+        <!-- END VIEW COUNT -->
+    </div>
+
+    <div class="next-ctrl">
+
+        <!-- NEXT PAGE -->
+        <button type="button"
+                class="flex flex-flw-col-nw flex-justify-center flex-align-center"
+                data-ng-click="getPage('next')"
+                data-ng-class="{inactive: params.page === summary.page_count}"
+                title="Next page">
+            <span class="material-icons" >
+                chevron_right
+            </span>
+        </button>
+
+        <!-- LAST PAGE -->
+        <button type="button"
+                class="flex flex-flw-col-nw flex-justify-center flex-align-center"
+                data-ng-click="getPage('last')"
+                data-ng-class="{inactive: params.page === summary.page_count}"
+                title="Last page">
+            <span class="material-icons">
+                last_page
+            </span>
+        </button>
+
+    </div>
+
+</div>

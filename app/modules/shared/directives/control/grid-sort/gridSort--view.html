@@ -1,0 +1,74 @@
+<div class="collection-filter drop-down">
+    <div class="flex flex-flw-row-nw flex-align-stretch">
+        <button id="sort-btn"
+                style="padding: .4rem .75rem .4rem .5rem; font-size: .9rem;"
+                class="default-btn margin-r-1"
+                data-ng-click="toggleModal()">
+            <span class="material-icons md-18 margin-r-50p">
+                sort
+            </span>
+            <span style="max-width: 160px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                Sorted by {{ sortField.label }}
+            </span>
+        </button>
+        <div id="sort-order-btns" class="flex flex-flw-row-nw flex-align-stretch">
+            <button style="padding: .4rem .75rem; font-size: .9rem;"
+                    class="relation-dialog-btn dir-btn margin-r-50p"
+                    title="Ascending"
+                    data-ng-class="{'active': sortOrder === 'asc'}"
+                    data-ng-click="setOrder('asc')">
+                <span class="material-icons md-18">
+                    arrow_upward
+                </span>
+            </button>
+            <button style="padding: .4rem .75rem; font-size: .9rem;"
+                    class="relation-dialog-btn dir-btn"
+                    title="Descending"
+                    data-ng-class="{'active': sortOrder === 'desc'}"
+                    data-ng-click="setOrder('desc')">
+                <span class="material-icons md-18">
+                    arrow_downward
+                </span>
+            </button>
+        </div>
+    </div>
+    <form name="collection-filter-form"
+          class="collection-filter-modal"
+          style="width: auto;"
+          data-ng-if="modalDisplay.select">
+        <div style="border-bottom: 1px solid #E0E0E0;">
+            <input type="text"
+                   data-ng-model="tokenQuery"
+                   data-ng-change="filterOptions($viewValue)"
+                   class="margin-0"
+                   style="padding: .75rem 1rem; font-size: .9rem; border: 0 none; background: transparent;"
+                   id="tokenQuery"
+                   name="tokenQuery"
+                   placeholder="Search fields&hellip;" />
+        </div>
+        <label data-ng-repeat="(idx, field) in filterOptions(tokenQuery)"
+               data-ng-class="{'active': sortField.key === field.key}"
+               data-ng-click="setField(field)"
+               title="{{ field.label }}">
+            <span class="input-mask"
+                  data-ng-if="sortField.key === field.key">
+                <span class="material-icons md-18">
+                    radio_button_checked
+                </span>
+            </span>
+            <span class="input-mask"
+                  data-ng-if="sortField.key !== field.key">
+                <span class="material-icons md-18">
+                    radio_button_unchecked
+                </span>
+            </span>
+            <input type="radio"
+                      id="sort-option-{{ idx }}"
+                   name="active-sort"
+                   data-ng-model="sortField">
+            <span>
+                {{ field.label }}
+            </span>
+        </label>
+    </form>
+</div>

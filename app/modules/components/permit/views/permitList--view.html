@@ -1,0 +1,194 @@
+<div data-ng-include="'/templates/sm-header--view.html'"></div>
+
+<main style="margin-top: -212px;"
+      class="site--content--flow fluid-content clearfix distinguish facility-content">
+
+    <div class="content--container pad-0" style="border-right: 1px solid #e0e0e0;">
+
+        <div class="progress--modal reveal fade-in t0" data-ng-if="page.status.loading">
+            <div class="progress--container">
+                <p style="font-weight: bold;" class="color-pulse">Loading permit data&hellip;</p>
+            </div>
+        </div>
+
+        <div class="main--ui pad-0"
+             data-ng-if="!page.status.loading">
+
+            <div class="module--grid">
+
+                <div class="hero translucent">
+
+                    <div id="backdrop-map"
+                         style="overflow: hidden; background-image: url('/images/alt-banner-1.png'); background-repeat:
+                         no-repeat; background-size: cover; background-position: center center; height: 240px;">
+                    </div>
+
+                    <article style="text-align: center;"
+                             class="name pad space-right reveal fade-in t0 margin-t-2">
+
+                        <h1 style="color: #FFFFFF; font-size: 2.5rem;"
+                            class="margin-0">
+                            Permits
+                        </h1>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+            <div style="width: 100%;"
+                 class="flex flex-dir-col flex-nwrap flex-align-center">
+
+                <section style="width: 100%;"
+                         class="reveal fade-in t3 pad-0 margin-0">
+
+                    <div id="usage-instructions"
+                         class="flex flex-dir-col flex-align-center flex-justify-center">
+
+                        <p class="pad-0 margin-0 margin-t-2 margin-b-1"
+                           style="width: 50%; max-width: 50%;">
+                            This is a list of permits tracked in the Oil & Gas Watch database. It is automatically
+                            filtered to spotlight pending air construction permit applications and draft and expired
+                            permits. Click on the links in the table to view detailed information and access permit
+                            documents and other public records. Use the permit category drop down list to select the
+                            type of permit you’d like to view. Use <strong>Sort</strong> and <strong>Filter</strong> to
+                            explore the list and click <strong>Export</strong> to download data into a spreadsheet.
+                            You can also bookmark your filtered search to return to it later or copy the URL in your
+                            browser to share it. For additional information about the data, visit our <strong>About
+                        </strong> page and <strong>Glossary</strong>.
+                        </p>
+
+                        <div class="flex flex-flw-row-nw flex-align-center flex-justify-start margin-b-2"
+                             style="width: 50%; max-width: 50%;">
+
+                            <div class="pad-0 margin-0 margin-r-1">
+                                Select permit category:
+                            </div>
+
+                            <div class="collection-filter-group margin-0">
+
+                                <div style="max-width: 100%;"
+                                     single-select
+                                     allow-search="false"
+                                     attr-key="name"
+                                     auto-select="true"
+                                     options="page.categories"
+                                     post-select="page.setCategory(selection)"
+                                     selection="page.activeCategory"></div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div id="grid"
+                         style="border-top: 1px solid #E0E0E0; position: sticky;">
+
+                        <div style="position: relative;"
+                             class="flex flex-dir-col flex-nwrap flex-justify-start flex-align-center"
+                             data-record-type-key="3"
+                             data-ng-if="page.category && page.category.id === 3"
+                             table-view
+                             add-controls="true"
+                             alerts="page.alerts"
+                             autosize="true"
+                             composite="true"
+                             feature-type="permit4"
+                             node-type="page.category"
+                             query-params="page.queryParams"
+                             visible="page.category && page.category.id === 3"></div>
+
+                        <div style="position: relative;"
+                             class="flex flex-dir-col flex-nwrap flex-justify-start flex-align-center"
+                             data-record-type-key="4"
+                             data-ng-if="page.category && page.category.id === 4"
+                             table-view
+                             add-controls="true"
+                             alerts="page.alerts"
+                             autosize="true"
+                             composite="true"
+                             feature-type="permit18"
+                             node-type="page.category"
+                             query-params="page.queryParams"
+                             visible="page.category && page.category.id === 4"></div>
+
+                        <div style="position: relative;"
+                             class="flex flex-dir-col flex-nwrap flex-justify-start flex-align-center"
+                             data-record-type-key="5"
+                             data-ng-if="page.category && page.category.id === 5"
+                             table-view
+                             add-controls="true"
+                             alerts="page.alerts"
+                             autosize="true"
+                             composite="true"
+                             feature-type="permit12"
+                             node-type="page.category"
+                             query-params="page.queryParams"
+                             visible="page.category && page.category.id === 5"></div>
+
+                        <div style="position: relative;"
+                             class="flex flex-dir-col flex-nwrap flex-justify-start flex-align-center"
+                             data-record-type-key="6"
+                             data-ng-if="page.category && page.category.id === 6"
+                             table-view
+                             add-controls="true"
+                             alerts="page.alerts"
+                             autosize="true"
+                             composite="true"
+                             feature-type="permit16"
+                             node-type="page.category"
+                             query-params="page.queryParams"
+                             visible="page.category && page.category.id === 6"></div>
+
+                        <div style="position: relative;"
+                             class="flex flex-dir-col flex-nwrap flex-justify-start flex-align-center"
+                             data-record-type-key="7"
+                             data-ng-if="page.category && page.category.id === 7"
+                             table-view
+                             add-controls="true"
+                             alerts="page.alerts"
+                             autosize="true"
+                             composite="true"
+                             feature-type="permit17"
+                             node-type="page.category"
+                             query-params="page.queryParams"
+                             visible="page.category && page.category.id === 7"></div>
+
+                        <div style="position: relative;"
+                             class="flex flex-dir-col flex-nwrap flex-justify-start flex-align-center"
+                             data-record-type-key="9"
+                             data-ng-if="page.category && page.category.id === 9"
+                             table-view
+                             add-controls="true"
+                             alerts="page.alerts"
+                             autosize="true"
+                             composite="true"
+                             feature-type="permit45"
+                             node-type="page.category"
+                             query-params="page.queryParams"
+                             visible="page.category && page.category.id === 9"></div>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="transient--notification" data-ng-class="{show: page.alerts.length}">
+        <div class="event--container">
+            <div data-ng-repeat="alert in page.alerts"
+                 data-ng-class="{error: alert.type == 'error', success: alert.type == 'success'}">
+                <span class="event--message">{{ alert.msg }}</span>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!--<div data-ng-include="'/templates/footer&#45;&#45;view.html'"></div>-->

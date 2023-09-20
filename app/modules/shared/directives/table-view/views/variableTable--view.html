@@ -1,0 +1,261 @@
+<div class="table-view"
+     style="width: 100%;"
+     data-ng-if="index.length && visible">
+
+    <table>
+
+        <thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th class="pad-50p"
+                    style="border-left: 1px solid #E0E0E0;">
+                    <strong>Name</strong>
+                </th>
+                <th class="pad-50p"
+                    style="border-left: 1px solid #E0E0E0;">
+                    <strong>Created</strong>
+                </th>
+                <th class="pad-50p"
+                    style="border-left: 1px solid #E0E0E0;">
+                    <strong>Updated</strong>
+                </th>
+                <th class="pad-50p"
+                    style="border-left: 1px solid #E0E0E0;">
+                    <strong>Description</strong>
+                </th>
+                <th class="pad-50p"
+                    style="border-left: 1px solid #E0E0E0;">
+                    <strong>Type</strong>
+                </th>
+                <th class="pad-50p"
+                    style="border-left: 1px solid #E0E0E0;">
+                    <strong>Status</strong>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody dragula='"tbody-bag"' dragula-model='index'>
+
+            <tr data-ng-repeat="(idx, variable) in index | filter: q"
+                class="gu-table-row">
+                <td class="pad-50p" style="width: .1%">
+                    <span style="display: block; width: 100%; text-align: right; font-size: .8rem;">
+                        {{ ($index + 1) }}
+                    </span>
+                </td>
+                <td class="pad-50p more-actions" style="width: .01%; overflow: visible;">
+                    <div class="action-modal-container">
+                        <div class="action-modal"
+                             data-ng-if="modalManager.action === variable.key">
+                            <ul>
+                                <li data-ng-click="setTargetNode(variable)">
+                                    <span class="material-icons margin-r-1">
+                                        edit
+                                    </span>
+                                    <span>
+                                        Edit
+                                    </span>
+                                </li>
+<!--                                <li data-ng-if="!variable.archived"-->
+<!--                                    data-ng-click="archiveProject(variable, true)">-->
+<!--                                    <span class="material-icons margin-r-1">-->
+<!--                                        archive-->
+<!--                                    </span>-->
+<!--                                    <span>-->
+<!--                                        Archive-->
+<!--                                    </span>-->
+<!--                                </li>-->
+<!--                                <li data-ng-if="variable.archived"-->
+<!--                                    data-ng-click="archiveProject(variable, false)">-->
+<!--                                    <span class="material-icons margin-r-1">-->
+<!--                                        unarchive-->
+<!--                                    </span>-->
+<!--                                    <span>-->
+<!--                                        Restore-->
+<!--                                    </span>-->
+<!--                                </li>-->
+                                <li class="delete-trigger"
+                                    data-ng-click="presentDeletionDialog(variable, idx)">
+                                    <span class="material-icons margin-r-1"
+                                          style="pointer-events: none;">
+                                        delete
+                                    </span>
+                                    <span style="pointer-events: none;">
+                                        Delete
+                                    </span>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="action-modal-icon"
+                             data-ng-click="toggleActionModal(variable.key)">
+                            <div class="halo"></div>
+                            <span class="material-icons">
+                                more_horiz
+                            </span>
+                        </div>
+                    </div>
+                </td>
+                <td class="pad-50p"
+                    style="width: .01%;">
+                    <div class="drag-handle">
+                        <div class="halo"></div>
+                        <span class="material-icons">
+                            drag_handle
+                        </span>
+                    </div>
+                </td>
+                <td class="pad-50p"
+                    style="width: 1%; max-width: 20rem; border-left: 1px solid #E0E0E0;">
+                    <span style="display: block; width: 100%;">
+                        <a href="#" data-ng-click="setTargetNode(variable)">
+                            {{ variable.name | truncate:100 }}
+                        </a>
+                    </span>
+                </td>
+                <td class="info-enabled pad-50p"
+                    style="width: 1%; border-left: 1px solid #E0E0E0;">
+                    <div>
+                        <div class="info-tip" data-ng-if="tipManager.created === variable.key">
+                            This variable was added to Commons Cloud by {{ variable.creator.first_name }} {{
+                            variable.creator.last_name }} on {{ variable.created_on | date : 'fullDate' }}.
+                        </div>
+                        <span>
+                            <time datetime="{{ variable.created_on }}"
+                                  title="{{ variable.created_on }}">
+                                {{ variable.created_on | localTime | date : 'mediumDate' }} at {{ variable.created_on |
+                                localTime | date:'h:mm' }} {{ variable.created_on | localTime | date:'a' }}
+                            </time>
+                        </span>
+                        <button type="button" class="margin-l-50p"
+                                data-ng-click="resetTip('created', variable.key)">
+                            <span class="material-icons md-18">
+                                info
+                            </span>
+                        </button>
+                    </div>
+                </td>
+                <td class="info-enabled pad-50p"
+                    style="width: 1%; border-left: 1px solid #E0E0E0;">
+                    <div>
+                        <div class="info-tip" data-ng-if="tipManager.modified === variable.key">
+                            This variable was last edited by {{ variable.modified_by.first_name
+                            }} {{
+                            variable.modified_by.last_name }} on {{ variable.modified_on | date : 'fullDate' }}.
+                        </div>
+                        <span>
+                            <time datetime="{{ variable.modified_on }}"
+                                  title="{{ variable.modified_on }}">
+                                {{ variable.modified_on | localTime | date : 'mediumDate' }} at {{ variable.modified_on |
+                                localTime | date:'h:mm' }} {{ variable.modified_on | localTime | date:'a' }}
+                            </time>
+                        </span>
+                        <button type="button" class="margin-l-50p"
+                                data-ng-click="resetTip('modified', variable.key)">
+                            <span class="material-icons md-18">
+                                info
+                            </span>
+                        </button>
+                    </div>
+                </td>
+                <td class="pad-50p"
+                    style="width: 1%; max-width: 20rem; border-left: 1px solid #E0E0E0;">
+                    {{ (variable.description || 'No description') | truncate:100 }}
+                </td>
+                <td class="pad-50p"
+                    style="width: .01%; border-left: 1px solid #E0E0E0;">
+                    <div class="flex flex-dir-row flex-nwrap flex-align-center flex-justify-start">
+                        <span class="material-icons md-18 margin-r-50p"
+                              title="Boolean"
+                              data-ng-if="variable.type | startsWith:'bool'">
+                                toggle_on
+                            </span>
+                        <span class="material-icons md-18 margin-r-50p"
+                              title="Date"
+                              data-ng-if="variable.type | startsWith:'date'">
+                            event
+                        </span>
+                        <span class="material-icons md-18 margin-r-50p"
+                              title="Document"
+                              data-ng-if="variable.type | startsWith:'document'">
+                            insert_drive_file
+                        </span>
+                        <span class="material-icons md-18 margin-r-50p"
+                              title="Selection"
+                              data-ng-if="variable.type | startsWith:'enum'">
+                            list
+                        </span>
+                        <span class="material-icons md-18 margin-r-50p"
+                              title="Number"
+                              data-ng-if="variable.type | startsWith:'float'">
+                            tag
+                        </span>
+                        <span class="material-icons md-18 margin-r-50p"
+                              title="Number"
+                              data-ng-if="variable.type | startsWith:'integer'">
+                            tag
+                        </span>
+                        <span class="material-icons md-18 margin-r-50p"
+                              title="Location"
+                              data-ng-if="variable.type | startsWith:'location'">
+                            place
+                        </span>
+                        <span class="material-icons md-18 margin-r-50p"
+                              title="Relation"
+                              data-ng-if="variable.type | startsWith:'relation'">
+                            sync_alt
+                        </span>
+                        <span class="material-icons md-18 margin-r-50p"
+                              title="Text"
+                              data-ng-if="variable.type | startsWith:'text'">
+                            notes
+                        </span>
+                        <span data-ng-if="!variable.type.startsWith('bool')">
+                            {{ variable.type | capitalAttribute | splitPart:' ' }}
+                        </span>
+                        <span data-ng-if="variable.type.startsWith('bool')">
+                            Boolean
+                        </span>
+                    </div>
+                </td>
+                <td class="pad-50p"
+                    style="width: .01%; border-left: 1px solid #E0E0E0;">
+                    <div class="status-wrapper pad-0" title="Privacy status">
+                        <div class="status"
+                             data-ng-class="{'status-private': variable.private, 'status-public': !variable.private}">
+                            <!--                            <span class="dot"></span>-->
+                            <span data-ng-if="variable.private">Private</span>
+                            <span data-ng-if="!variable.private">Public</span>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+        </tbody>
+
+    </table>
+
+</div>
+
+<div deletion-dialog
+     alerts="alerts"
+     callback="callback()"
+     feature="record"
+     feature-type="'variable'"
+     node-type="nodeType"
+     table-name="'variables'"
+     visible="showDeletionDialog"></div>
+
+<div export-dialog
+     alerts="alerts"
+     feature="variable"
+     reset-type="false"
+     type="'variable'"
+     visible="showExportDialog"></div>
+
+<div variable-form-dialog
+     alerts="page.alerts"
+     organization="$root.user.organization_id"
+     variable="targetNode"
+     visible="showFormModal"></div>

@@ -1,0 +1,75 @@
+<div class="map--module" style="position:relative;" xmlns="http://www.w3.org/1999/html">
+
+    <div id="{{ mapId }}-geocoder" class="geocoder"></div>
+
+    <div id="{{ mapId }}" class="map tall" style="border-radius: 4px; overflow: hidden;">
+        <div class="mapboxgl-layer-ctrl"
+             data-ng-click="showLayerOptions = !showLayerOptions" title="Switch layers">
+            <i class="material-icons">
+                layers
+            </i>
+            <div class="layer-group" data-ng-show="showLayerOptions">
+                <form>
+                    <label data-ng-repeat="style in mapStyles track by $index"
+                           data-ng-click="switchMapStyle(style, $index)"
+                           data-ng-class="{'active': activeStyle === $index}"
+                           title="{{ style.name }}">
+                        <input type="radio" id="base-style-{{ $index }}" name="active-style"
+                               data-ng-model="activeStyle" data-ng-value="{{ $index }}"><span> {{ style.name }}</span>
+                    </label>
+                </form>
+                <form class="layers" data-ng-show="layers && layers.length">
+                    <label for="layer-{{ $index }}" data-ng-repeat="layer in layers"
+                           data-ng-class="{'active': layer.selected}" title="{{ layer.name }}">
+                        <input type="checkbox" id="layer-{{ $index }}" name="layer-{{ $index }}"
+                               data-ng-model="layer.selected" data-ng-value="{{ $index }}"
+                               data-ng-change="toggleLayer(layer)">
+                        <span> {{ layer.name }}</span>
+                        <div class="symbol-group" data-ng-if="layer.symbol && layer.symbol.colors">
+                            <div class="color" data-ng-repeat="color in layer.symbol.colors"
+                                 style="background: {{ color }};"></div>
+                        </div>
+                    </label>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Estimated geometry measurement -->
+
+    <div est-extent options="dimension"
+         feature-type="{{ nodeType.name }}"
+         data-ng-if="dimension && dimension.measurement"></div>
+
+    <div class="dyad" data-ng-if="variable.geometry && variable.geometry.type === 'Point'">
+        <div class="pad-r-50p">
+            <div class="form-element margin-0 margin-t-1 margin-b-1 pad-0 flex flex-dir-col">
+                <span class="margin-b-50p" style="font-size: .8rem; font-weight: 500;">
+                    Latitude
+                </span>
+                <input type="number"
+                       step="0.000001"
+                       class="form-control animate margin-0 pad-0 pad-t-1 pad-r-1 pad-b-1 pad-l-1"
+                       style="font-size: 1rem; background: #f5f5f5;"
+                       data-ng-model="variable.geometry.coordinates[1]"
+                       data-ng-change="populateMap(map, variable, true, 400)"
+                       placeholder="&hellip;">
+            </div>
+        </div>
+        <div class="pad-l-50p">
+            <div class="form-element margin-0 margin-t-1 margin-b-1 pad-0 flex flex-dir-col">
+                <span class="margin-b-50p" style="font-size: .8rem; font-weight: 500;">
+                    Longitude
+                </span>
+                <input type="number"
+                       step="0.000001"
+                       class="form-control animate margin-0 pad-0 pad-t-1 pad-r-1 pad-b-1 pad-l-1"
+                       style="font-size: 1rem; background: #f5f5f5;"
+                       data-ng-model="variable.geometry.coordinates[0]"
+                       data-ng-change="populateMap(map, variable, true, 400)"
+                       placeholder="&hellip;">
+            </div>
+        </div>
+    </div>
+
+</div>

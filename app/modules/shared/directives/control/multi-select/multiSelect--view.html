@@ -1,0 +1,94 @@
+<div class="collection-filter drop-down margin-0">
+    <button style="padding: .4rem .5rem .4rem .75rem; font-size: .9rem;"
+            type="button"
+            id="{{ buttonId }}"
+            class="relation-dialog-btn"
+            data-ng-click="toggleModal('select')">
+        <span style="font-size: {{ fontSize }}rem;"
+              data-ng-if="selection && attrKey">
+            {{ selection[attrKey] }}
+        </span>
+        <span style="font-size: {{ fontSize }}rem;"
+              data-ng-if="selection && !attrKey">
+            {{ selection }}
+        </span>
+        <span style="font-size: {{ fontSize }}rem;"
+              data-ng-if="!selection.length && !selection[attrKey]">
+            {{ placeholder }}
+        </span>
+        <span class="material-icons md-18 margin-l-50p"
+              style="pointer-events: none; font-size: {{ fontSize }}rem;"
+              data-ng-if="!modalDisplay.select">
+            arrow_drop_down
+        </span>
+        <span class="material-icons md-18 margin-l-50p"
+              style="pointer-events: none; font-size: {{ fontSize }}rem;"
+              data-ng-if="modalDisplay.select">
+            arrow_drop_up
+        </span>
+    </button>
+    <div class="collection-filter-modal"
+         id="{{ modalId }}"
+         style="width: auto; min-width: {{ dropdownMinWidth }}px; margin-top: {{ topMargin }};"
+         data-ng-if="modalDisplay.select">
+        <div style="border-bottom: 1px solid #E0E0E0;"
+             data-ng-if="allowSearch">
+            <input type="text"
+                   data-ng-model="query.token"
+                   data-ng-change="filterOptions()"
+                   class="margin-0"
+                   style="padding: .75rem 1rem; font-size: .9rem; border: 0 none; background: transparent;"
+                   id="tokenQuery"
+                   name="tokenQuery"
+                   placeholder="Search fields&hellip;" />
+        </div>
+        <label data-ng-class="{'active': selection === noopLabel, 'not-allowed': disableInputs}"
+               data-ng-if="noop && noopLabel"
+               style="padding: {{ styleConfig[layout].padding.label }}; font-size: {{ fontSize }}rem;"
+               title="{{ noopLabel }}">
+            <span class="input-mask flex flex-dir-col flex-justify-center flex-align-start"
+                  style="margin: {{ styleConfig[layout].margin.radio }}; font-size: {{ fontSize }}rem;">
+                <span class="material-icons md-18">
+                    refresh
+                </span>
+            </span>
+            <input type="checkbox"
+                   id="noop-option"
+                   name="noopOption"
+                   data-ng-disabled="disableInputs"
+                   data-ng-change="setSelection(noopLabel, true)"
+                   data-ng-model="selection">
+            <span>
+                {{ noopLabel }}
+            </span>
+        </label>
+        <label data-ng-repeat="(idx, option) in filterOptions() track by idx | orderBy: 'toString()'"
+               data-ng-class="{'active': selectionIdx[option], 'not-allowed': disableInputs}"
+               style="padding: {{ styleConfig[layout].padding.label }}; font-size: {{ fontSize }}rem;"
+               title="{{ option }}">
+            <span class="input-mask flex flex-dir-col flex-justify-center flex-align-start"
+                  style="margin: {{ styleConfig[layout].margin.radio }}; font-size: {{ fontSize }}rem;"
+                  data-ng-if="selectionIdx[option]">
+                <span class="material-icons md-18">
+                    check_box
+                </span>
+            </span>
+            <span class="input-mask flex flex-dir-col flex-justify-center flex-align-start"
+                  style="margin: {{ styleConfig[layout].margin.radio }}; font-size: {{ fontSize }}rem;"
+                  data-ng-if="!selectionIdx[option]">
+                <span class="material-icons md-18">
+                    check_box_outline_blank
+                </span>
+            </span>
+            <input type="checkbox"
+                   id="enum-option-{{ idx }}"
+                   name="active-enum"
+                   data-ng-disabled="disableInputs"
+                   data-ng-change="setSelection(option)"
+                   data-ng-model="selection">
+            <span style="font-size: {{ fontSize }}rem;">
+                {{ option }}
+            </span>
+        </label>
+    </div>
+</div>

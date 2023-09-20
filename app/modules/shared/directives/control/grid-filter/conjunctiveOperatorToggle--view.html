@@ -1,0 +1,23 @@
+<div class="collection-filter drop-down margin-0">
+    <div style="height: 100%;"
+         class="flex flex-flw-row-nw flex-align-stretch conjunctive-operator-ctrl rad-25">
+        <button style="padding: .4rem .75rem;"
+                class="relation-dialog-btn margin-r-50p"
+                data-ng-class="{active: config.logicOperator === 'AND'}"
+                title="AND"
+                data-ng-click="selectOperator('AND')">
+            <span>
+                AND
+            </span>
+        </button>
+        <button style="padding: .4rem .75rem;"
+                class="relation-dialog-btn"
+                data-ng-class="{active: config.logicOperator === 'OR'}"
+                title="OR"
+                data-ng-click="selectOperator('OR')">
+            <span>
+                OR
+            </span>
+        </button>
+    </div>
+</div>

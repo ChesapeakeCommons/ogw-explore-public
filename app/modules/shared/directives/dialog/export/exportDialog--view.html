@@ -1,0 +1,107 @@
+<div class="collection-filter drop-down">
+    <div class="flex flex-flw-row-nw flex-align-stretch">
+        <button id="filter-toggle-btn"
+                style="padding: .4rem .75rem .4rem .5rem; font-size: .9rem;"
+                class="default-btn margin-r-1"
+                data-ng-click="toggleModal('dialog')">
+            <span class="material-icons md-18 margin-r-50p">
+                file_download
+            </span>
+            <span>
+                Export
+            </span>
+        </button>
+    </div>
+</div>
+
+<div class="creation-dialog-container"
+     data-ng-click="forceClose($event)"
+     data-ng-if="modalDisplay.dialog">
+    <div class="dialog"
+         style="width: auto;">
+        <div class="title">
+            <span class="title-text">
+                Export {{ table.name }} records
+            </span>
+            <div class="dismiss-container">
+                <div class="dismiss"
+                     data-ng-click="toggleModal('dialog')">
+                    <div class="halo"></div>
+                    <span class="material-icons">
+                        close
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="inputs">
+            <div class="flex flex-flw-col-nw">
+                <div data-ng-click="setDomain('all')"
+                     class="pad-1 margin-b-1 flex flex-flw-row-nw flex-align-center rad-50"
+                     style="background: #EEEEEE; cursor: pointer;">
+                    <span class="material-icons">
+                        table_view
+                    </span>
+                    <p class="pad-0 pad-l-1 margin-0">
+                        Export all records ({{ recordSrc.length }})
+                    </p>
+                    <div class="margin-l-1"
+                         data-ng-class="{'visible': domainSelector === 'all'}"
+                         style="opacity: 0;">
+                        <span class="material-icons">
+                            check_circle
+                        </span>
+                    </div>
+                </div>
+                <div data-ng-click="setDomain('page')"
+                     class="pad-1 flex flex-flw-row-nw flex-align-center rad-50"
+                     data-ng-class="{'margin-b-1': filteredRows.length !== recordSrc.length}"
+                     style="background: #EEEEEE; cursor: pointer;">
+                    <span class="material-icons">
+                        note
+                    </span>
+                    <p class="pad-0 pad-l-1 margin-0">
+                        Export records from the current page ({{ activeRows.length }})
+                    </p>
+                    <div class="margin-l-1"
+                         data-ng-class="{'visible': domainSelector === 'page'}"
+                         style="opacity: 0;">
+                        <span class="material-icons">
+                            check_circle
+                        </span>
+                    </div>
+                </div>
+                <div data-ng-click="setDomain('filtered')"
+                     class="pad-1 flex flex-flw-row-nw flex-align-center rad-50"
+                     style="background: #EEEEEE; cursor: pointer;"
+                     data-ng-if="filteredRows.length !== recordSrc.length">
+                    <span class="material-icons">
+                        filter_list
+                    </span>
+                    <p class="pad-0 pad-l-1 margin-0">
+                        Export filtered records only ({{ filteredRows.length }})
+                    </p>
+                    <div class="margin-l-1"
+                         data-ng-class="{'visible': domainSelector === 'filtered'}"
+                         style="opacity: 0;">
+                        <span class="material-icons">
+                            check_circle
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="dyad pad-t-1"
+             style="border-top: 1px solid #E0E0E0; width: 100%; flex-grow: 0; flex-shrink: 0;">
+            <div class="dialog-actions">
+                <button type="button" class="cancel"
+                        data-ng-click="toggleModal('dialog')">
+                    Cancel
+                </button>
+                <button type="submit" class="confirm"
+                        data-ng-click="createExport('csv')">
+                    Download .{{ fileFormat }}
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

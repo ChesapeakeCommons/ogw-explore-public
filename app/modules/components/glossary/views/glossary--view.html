@@ -1,0 +1,203 @@
+<div data-ng-include="'/templates/header--view.html'"></div>
+
+<main style="margin-top: -292px;"
+      class="site--content--flow fluid-content clearfix distinguish facility-content">
+
+    <div class="content--container pad-0"
+         style="border-right: 1px solid #e0e0e0;">
+
+        <div class="main--ui pad-0">
+
+            <div class="module--grid">
+
+                <div breadcrumb class="full-width"
+                     program="page.node.program"
+                     project="page.project"></div>
+
+                <div class="hero translucent">
+
+                    <div id="backdrop-map"
+                         style="overflow: hidden; background-image: url('/images/alt-banner-1.png'); background-repeat:
+                         no-repeat; background-size: cover; background-position: center center; height: 600px;">
+                    </div>
+
+                    <article style="text-align: center;"
+                             class="name pad space-right reveal fade-in t0 margin-t-2">
+
+                        <h1 style="color: #FFFFFF; font-size: 2.5rem;"
+                            class="margin-0 margin-b-1">
+                            Glossary
+                        </h1>
+
+                    </article>
+
+                </div>
+
+                <div style="width: 100%;"
+                     class="reveal fade-in t0 flex flex-dir-col flex-nwrap flex-align-center">
+
+                    <div style="width: 100%; max-width: 960px;"
+                         class="flex flex-dir-col flex-nwrap flex-align-center">
+
+                        <p class="pad-0 pad-r-2 pad-l-2 margin-0 margin-t-4 margin-b-2"
+                           style="font-size: 1.25rem;">
+                            <strong>
+                                Categories
+                            </strong>
+                        </p>
+
+                        <ul style="width: 100%; max-width: 960px;"
+                            class="flex flex-flw-row-wr reveal fade-in t0 pad-0 pad-r-2 pad-l-2">
+
+                            <li style="width: 33.3333%;"
+                                class="pad-50p"
+                                data-ng-repeat="group in page.groups">
+                                <a href="glossary#{{ group | lowercase }}">
+                                    {{ group }}
+                                </a>
+                            </li>
+
+                        </ul>
+
+                        <section style="width: 100%; max-width: 960px;"
+                                 class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2 margin-b-3">
+
+<!--                            <div style="position: relative;"-->
+<!--                                 class="flex flex-dir-col flex-nwrap flex-justify-start flex-align-center"-->
+<!--                                 data-record-type-key="19"-->
+<!--                                 table-view-->
+<!--                                 add-controls="true"-->
+<!--                                 alerts="page.alerts"-->
+<!--                                 autosize="true"-->
+<!--                                 feature-type="glossary"-->
+<!--                                 node-type="page.recordTypeIdx[19]"-->
+<!--                                 query-params="page.queryParams"-->
+<!--                                 visible="page.recordTypeIdx[19]"></div>-->
+
+                            <div class="two-column-records"
+                                 style="height: 100%; width: 100%; border: 0 none; border-radius: 0; position: relative;">
+
+                                <div class="progress--modal reveal fade-in t0 flex flex-dir-col flex-align-center flex-justify-center"
+                                     style="position: relative; width: 100%; background: #F5F5F5;"
+                                     data-ng-if="page.loading">
+                                    <div class="progress--container flex flex-dir-col flex-align-center flex-justify-center"
+                                         style="width: auto;">
+                                        <p style="font-size: .9rem;"
+                                           class="color-pulse pad-0 margin-0 pad-t-4 pad-b-4">
+                                            <em>Loading records&hellip;</em>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="progress--modal reveal fade-in t0 flex flex-dir-col flex-align-center flex-justify-center"
+                                     style="position: relative; width: 100%; background: #F5F5F5;"
+                                     data-ng-if="(!page.frameRecords || !page.frameData) && !page.loading">
+                                    <div class="progress--container flex flex-dir-col flex-align-center flex-justify-center"
+                                         style="width: auto;">
+                                        <p style="font-size: .9rem;"
+                                           class="pad-0 margin-0 pad-t-4 pad-b-4">
+                                            <em>No records found.</em>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div data-ng-if="page.frameRecords && page.frameData && !page.loading">
+
+                                    <div data-ng-if="page.groupIdx['misc']">
+
+                                        <ul>
+
+                                            <li class="reveal fade-in margin-0 margin-b-2 rad-25"
+                                                style="flex-flow: column; border: 1px solid #E0E0E0;"
+                                                data-ng-repeat="feature in page.groupIdx['misc'] | orderBy:'name'">
+
+                                                <div class="pad-50p"
+                                                     style="border-bottom: 1px solid #E0E0E0;">
+
+                                                    <strong>
+                                                        {{ feature.label }}
+                                                    </strong>
+
+                                                </div>
+
+                                                <div class="pad-50p">
+
+                                                    <p class="pad-0 margin-0"
+                                                       data-ng-if="feature.def"
+                                                       data-ng-bind-html="feature.def"></p>
+
+                                                    <p class="pad-0 margin-0"
+                                                       data-ng-if="!feature.def">
+                                                        <em>No description provided.</em>
+                                                    </p>
+
+                                                </div>
+
+                                            </li>
+
+                                        </ul>
+
+                                    </div>
+
+                                    <div data-ng-if="key !== 'misc'"
+                                         data-ng-repeat="(key, group) in page.groupIdx">
+
+                                        <h2 class="margin-0 pad-0 pad-t-1 pad-b-2"
+                                            id="{{ key | lowercase }}">
+                                            <a href="#{{ key }}"></a>
+                                            <span>{{ key }}</span>
+                                        </h2>
+
+                                        <ul data-ng-if="group.length">
+
+                                            <li class="reveal fade-in margin-0 margin-b-2 rad-25"
+                                                style="flex-flow: column; border: 1px solid #E0E0E0;"
+                                                data-ng-repeat="feature in group | orderBy:'name'">
+
+                                                <div class="pad-50p"
+                                                     style="border-bottom: 1px solid #E0E0E0;">
+
+                                                    <strong>
+                                                        {{ feature.label }}
+                                                    </strong>
+
+                                                </div>
+
+                                                <div class="pad-50p">
+
+                                                    <p class="pad-0 margin-0"
+                                                       data-ng-if="feature.def"
+                                                       data-ng-bind-html="feature.def"></p>
+
+                                                    <p class="pad-0 margin-0"
+                                                       data-ng-if="!feature.def">
+                                                        <em>No description provided.</em>
+                                                    </p>
+
+                                                </div>
+
+                                            </li>
+
+                                        </ul>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </section>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</main>
+
+<div data-ng-include="'/templates/footer--view.html'"></div>

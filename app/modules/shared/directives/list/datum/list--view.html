@@ -1,0 +1,245 @@
+<section class="reveal fade-in t3 pad-0">
+
+    <div class="create-heading margin-t-1 margin-b-2">
+        <h2 class="margin-0">
+            Variables
+            <span class="tally">
+                {{ variables.length | number }}
+            </span>
+        </h2>
+    </div>
+
+    <div>
+
+        <div>
+
+            <ul class="snapshot--cards list-unstyled">
+
+                <li class="card" data-ng-repeat="variable in variables track by $index">
+
+                    <div class="card--content">
+
+                        <div class="name"
+                             style="background: #fff; padding: 10px 16px 10px 16px; border-bottom: none;">
+                            <span>{{ variable.name }}</span>
+                            <span class="sub-label"
+                                  style="text-transform: uppercase; font-size: .75rem; color: #2196F3;">
+                                {{ variable.type }}
+                            </span>
+                        </div>
+
+                        <div class="body">
+
+                            <div data-ng-if="!variable.value">
+                                <em>No value</em>
+                            </div>
+
+                            <div data-ng-if="variable.value">
+                                <div data-ng-if="variable.type === 'date'">
+                                    {{ variable.value | date:'mediumDate' }}
+                                </div>
+                            </div>
+
+                            <div data-ng-if="variable.value">
+                                <div data-ng-if="variable.type === 'enum'">
+                                    {{ variable.value | truncate:100 }}
+                                </div>
+                            </div>
+
+                            <div class="flex flex-dir-col flex-justify-center flex-align-center"
+                                 data-ng-if="variable.value">
+                                <div style="font-size: 1.25rem;"
+                                     data-ng-if="variable.type === 'float'">
+                                    {{ variable.value | number }}
+                                </div>
+                            </div>
+
+                            <div class="flex flex-dir-col flex-justify-center flex-align-center"
+                                 data-ng-if="variable.value">
+                                <div style="font-size: 1.25rem;"
+                                     data-ng-if="variable.type === 'integer'">
+                                    {{ variable.value | number:0 }}
+                                </div>
+                            </div>
+
+                            <div data-ng-if="variable.value">
+                                <div data-ng-if="variable.type === 'relation'">
+                                    {{ variable.value | truncate:100 }}
+                                </div>
+                            </div>
+
+                            <div data-ng-if="variable.value">
+                                <div data-ng-if="variable.type === 'text'">
+                                    {{ variable.value | truncate:100 }}
+                                </div>
+                            </div>
+
+                            <div class="actions">
+                                <a class="snapshot--title" href="#"
+                                   title="Edit data"
+                                   data-ng-click="setTarget(variable)"
+                                   data-ng-if="node.permissions.write">
+                                    <span class="material-icons">
+                                        edit
+                                    </span>
+                                </a>
+                            </div>
+                            <span><time datetime="{{ variable.modified_on }}"
+                                        title="{{ variable.modified_on }}">Last updated on {{ variable.modified_on | date : 'mediumDate' }}</time></span>
+                        </div>
+
+                    </div>
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+</section>
+
+<div class="creation-dialog-container import-dialog-container"
+     style="min-width: 400px;"
+     data-ng-if="target && target.id">
+    <div class="dialog">
+        <div class="title">
+            <span class="title-text">{{ target.name }}</span>
+            <div class="dismiss-container">
+                <div class="dismiss" data-ng-click="closeChildModal()">
+                    <div class="halo"></div>
+                    <span class="material-icons">
+                        close
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="inputs">
+
+            <div>
+
+                <!-- Date input -->
+
+                <div class="form-element margin-0 margin-b-1 pad-0"
+                     data-ng-if="target.type === 'date'">
+<!--                    <input type="text"-->
+<!--                           class="form-control animate margin-0 pad-0 pad-t-1 pad-r-1 pad-b-1 pad-l-1"-->
+<!--                           style="font-size: 1.125rem;"-->
+<!--                           data-ng-model="target.value"-->
+<!--                           placeholder="…">-->
+                    <div date-options
+                         extend="true"
+                         date="target.value"></div>
+                </div>
+
+                <!-- Enum input -->
+
+                <div class="form-element margin-0 margin-b-1 pad-0"
+                     data-ng-if="target.type === 'enum' && target.options.length">
+                    <input type="text"
+                           class="form-control animate margin-0 pad-0 pad-t-1 pad-r-1 pad-b-1 pad-l-1"
+                           style="font-size: 1.125rem;"
+                           value=""
+                           placeholder="Select one of&hellip;"
+                           data-ng-model="target.value"
+                           uib-typeahead="option as option for option in target.options | filter:$viewValue"
+                           typeahead-min-length="0">
+                </div>
+
+                <!-- Float input -->
+
+                <div class="form-element margin-0 margin-b-1 pad-0"
+                     data-ng-if="target.type === 'float'">
+                    <input type="number"
+                           step="0.0001"
+                           class="form-control animate margin-0 pad-0 pad-t-1 pad-r-1 pad-b-1 pad-l-1"
+                           style="font-size: 1.125rem;"
+                           data-ng-model="target.value"
+                           placeholder="&hellip;">
+                </div>
+
+                <!-- Integer input -->
+
+                <div class="form-element margin-0 margin-b-1 pad-0"
+                     data-ng-if="target.type === 'integer'">
+                    <input type="number"
+                           step="0"
+                           class="form-control animate margin-0 pad-0 pad-t-1 pad-r-1 pad-b-1 pad-l-1"
+                           style="font-size: 1.125rem;"
+                           data-ng-model="target.value"
+                           placeholder="&hellip;">
+                </div>
+
+                <!-- Relation input -->
+
+                <div class="form-element margin-0 margin-b-1 pad-0"
+                     data-ng-if="target.type === 'relation'">
+                    <input type="search"
+                           class="form-control animate margin-0 pad-0 pad-t-1 pad-r-1 pad-b-1 pad-l-1"
+                           style="position: relative; font-size: 1.125rem; line-height: 1.5rem;"
+                           value=""
+                           placeholder="Search {{ target.target_type }} collection&hellip;"
+                           data-ng-model="relation"
+                           uib-typeahead="suggestion as suggestion.name for suggestion in searchRelatedNodes($viewValue)"
+                           typeahead-on-select="setRelationId($item, $model, $label)"
+                           typeahead-wait-ms="100"
+                           typeahead-template-url="templates/search--tpl.html">
+<!--                    <input type="number"-->
+<!--                           step="0"-->
+<!--                           class="form-control animate margin-0 pad-0 pad-t-1 pad-r-1 pad-b-1 pad-l-1"-->
+<!--                           style="font-size: 1.125rem;"-->
+<!--                           data-ng-model="target.value"-->
+<!--                           placeholder="&hellip;">-->
+                </div>
+
+                <!-- Text input -->
+
+                <div class="form-element margin-0"
+                     data-ng-if="target.type === 'text'">
+                    <textarea class="form-control animate pad-0 pad-t-1 pad-r-1 pad-b-1 pad-l-1"
+                              style="font-size: 1.125rem; line-height: 1.5rem;"
+                              data-ng-model="target.value"
+                              msd-elastic
+                              id="annotation"
+                              name="annotation"
+                              rows="5"
+                              placeholder="&hellip;"
+                              maxlength="250">{{ target.value }}</textarea>
+                </div>
+
+                <p style="color: #616161; font-size: 0.9rem; font-style: normal; margin-top: 1rem;"
+                    data-ng-if="target.instructions && target.instructions.length">
+                    <strong>Hint:</strong> {{ target.instructions }}
+                </p>
+
+            </div>
+
+        </div>
+        <div class="dyad">
+            <div class="dialog-actions">
+                <button type="button" class="cancel"
+                        style="height: 2.5rem;"
+                        data-ng-click="closeChildModal()">
+                    <span>
+                        Cancel
+                    </span>
+                </button>
+                <button type="button" class="confirm"
+                        style="height: 2.5rem;"
+                        data-ng-class="{complete: uploadComplete}"
+                        data-ng-click="saveValue()">
+                    <span class="material-icons margin-r-50p" data-ng-if="uploadComplete">
+                        done
+                    </span>
+                    <span data-ng-if="!processing">
+                        OK
+                    </span>
+                    <span data-ng-if="processing && progressMessage">
+                        {{ progressMessage }}
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

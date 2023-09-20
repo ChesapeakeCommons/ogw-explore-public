@@ -1,0 +1,94 @@
+<div class="two-column-records"
+     style="height: 100%; width: 100%; border: 0 none; border-radius: 0; position: relative;"
+     data-ng-if="visible">
+
+    <div class="progress--modal reveal fade-in t0 flex flex-dir-col flex-align-center flex-justify-center"
+         style="position: relative; width: 100%; background: #F5F5F5;"
+         data-ng-if="(!columns || !records || !frameData) && !emptyRecordSet">
+        <div class="progress--container flex flex-dir-col flex-align-center flex-justify-center"
+             style="width: auto;">
+            <p style="font-size: .9rem;"
+               class="color-pulse pad-0 margin-0 pad-t-4 pad-b-4">
+                <em>Loading records&hellip;</em>
+            </p>
+        </div>
+    </div>
+
+    <div class="progress--modal reveal fade-in t0 flex flex-dir-col flex-align-center flex-justify-center"
+         style="position: relative; width: 100%; background: #F5F5F5;"
+         data-ng-if="emptyRecordSet">
+        <div class="progress--container flex flex-dir-col flex-align-center flex-justify-center"
+             style="width: auto;">
+            <p style="font-size: .9rem;"
+               class="pad-0 margin-0 pad-t-4 pad-b-4">
+                <em>No records found.</em>
+            </p>
+        </div>
+    </div>
+
+    <div class="record-container rad-25 margin-b-2"
+         data-ng-repeat="node in records track by $index"
+         data-ng-if="columns && records && frameData">
+
+        <table style="transform: rotateX(0deg);">
+
+            <thead></thead>
+
+            <tbody>
+
+            <tr class="grid-row">
+                <td class="pad-75p"
+                    style="width: 75%;">
+                    <div data-variable-key="name-{{ $index + 1 }}">
+                        <strong>{{ node.name || 'Un-named' }}</strong>
+                    </div>
+                </td>
+            </tr>
+
+            <tr class="grid-row"
+                data-ng-repeat="(idx, variable) in columns track by $index | orderBy:'index'">
+
+                <td class="pad-75p {{ variable.key }}"
+                    style="width: 75%;">
+
+                    <div data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                         style=""
+                         data-ng-if="!frameData[node.id][variable.key]">
+                        <span style="color: #BDBDBD;"></span>
+                    </div>
+
+                    <div style="display: flex; flex-flow: row wrap; align-items: center;"
+                         data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                         data-ng-if="frameData[node.id][variable.key] && variable.type | startsWith:'document'">
+                        <div class="tag margin-r-25p margin-b-25p"
+                             data-ng-repeat="(idx, value) in frameData[node.id][variable.key] track by idx | orderBy:'-modified_on'">
+                            <a href="{{ value.url }}" target="_blank">
+                                {{ value.name }}
+                            </a>
+                        </div>
+                    </div>
+
+                    <div style=""
+                         data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                         data-ng-if="frameData[node.id][variable.key] && (variable.type | startsWith:'enum') && !variable.multi_select">
+                        <div class="tag">
+                            {{ frameData[node.id][variable.key][0] }}
+                        </div>
+                    </div>
+
+                    <div data-variable-key="{{ variable.key }}-{{ idx + 1 }}"
+                         data-ng-if="frameData[node.id][variable.key]">
+                        <div data-ng-if="variable.type | startsWith:'text'"
+                             data-ng-bind-html="frameData[node.id][variable.key][0]"></div>
+                    </div>
+
+                </td>
+            </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

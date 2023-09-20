@@ -1,0 +1,429 @@
+<div data-ng-include="'/templates/header--view.html'"></div>
+
+<main style="margin-top: -292px;"
+      class="site--content--flow fluid-content clearfix distinguish facility-content">
+
+    <div class="content--container pad-0" style="border-right: 1px solid #e0e0e0;">
+
+        <div class="progress--modal reveal fade-in t0" data-ng-if="page.status.loading">
+            <div class="progress--container">
+                <p style="font-weight: bold;" class="color-pulse">Loading data&hellip;</p>
+            </div>
+        </div>
+
+        <div class="main--ui pad-0"
+             data-ng-if="!page.status.loading && !page.makePrivate">
+
+            <div class="module--grid">
+
+                <div breadcrumb class="full-width"
+                     program="page.node.program"
+                     project="page.project"></div>
+
+                <div class="hero translucent">
+
+                    <div id="backdrop-map"
+                         style="overflow: hidden; background-image: url('/images/alt-banner-1.png'); background-repeat:
+                         no-repeat; background-size: cover; background-position: center center; height: 600px;">
+                    </div>
+
+                    <article style="text-align: center;"
+                             class="name pad space-right reveal fade-in t0 margin-t-3">
+
+                        <h1 style="color: #FFFFFF; font-size: 3.5rem;"
+                            class="margin-0 margin-b-1">
+                            Oil &amp; Gas Watch
+                        </h1>
+
+                        <h1 style="color: #FFFFFF; font-size: 3.5rem;"
+                            class="margin-0 margin-b-2">
+                            Database
+                        </h1>
+
+                        <div style="color: #FFFFFF; font-weight: normal; font-size: 2rem;"
+                             class="margin-0 margin-b-1">
+                            Spotlighting the Environmental Impact of Oil, Gas, and Petrochemical Expansion
+                        </div>
+
+                    </article>
+
+                </div>
+
+            </div>
+
+            <!-- National map section -->
+
+            <div style="width: 100%; position: relative;"
+                 class="flex flex-dir-col flex-nwrap flex-align-center margin-b-2 margin-t-4">
+
+                <div style="width: 100%; max-width: 960px; position: relative;"
+                     class="flex flex-dir-col flex-nwrap flex-align-center">
+
+                    <div class="create-heading margin-b-2"
+                         style="width: 100%; max-width: 960px;">
+                        <h2 class="margin-0 flex-justify-center">
+                            Explore the Buildout
+                        </h2>
+                    </div>
+
+                    <p class="margin-0 pad-0 pad-l-2 pad-r-2 margin-b-1"
+                       style="font-size: 1.125rem;">
+                        The interactive map below shows the locations of proposed new and expanding oil, gas, and
+                        petrochemical infrastructure projects that were approved or announced since 2012.
+                    </p>
+                    <p class="margin-0 pad-0 pad-l-2 pad-r-2 margin-b-3"
+                       style="font-size: 1.125rem;">
+                        <strong>{{ page.operatingRollups.project_count | number:0 }}</strong> of these projects
+                        have been built over the last decade and are permitted to release up to <strong>{{
+                        page.operatingRollups.total_ghg | number:0 }}</strong> tons of greenhouse gases per year. An
+                        additional <strong>{{ page.rollups.project_count | number:0 }}</strong> projects have not yet
+                        been constructed, but have the potential to release an additional <strong>{{
+                        page.rollups.total_ghg | number:0 }}</strong> tons of greenhouse gases per year.
+                    </p>
+
+                </div>
+
+                <div style="width: 100%; position: relative;"
+                     class="flex flex-dir-col flex-nwrap flex-align-center pad-0 pad-l-2 pad-r-2">
+
+                    <div style="width: 100%; max-width: 1200px;"
+                         class="flex flex-dir-col flex-align-center flex-justify-center margin-b-2">
+                        <div style="width: 100%;"
+                             class="geocoder-container flex flex-justify-center flex-align-center">
+                            <div style="max-width: 50%; font-size: 1rem;" class="geocoder"></div>
+                        </div>
+                    </div>
+
+                    <div id="primary--map"
+                         class="map tall"
+                         style="width: 100%; height: 40rem;">
+                        <div map-filter
+                             feature-collection="page.featureCollection"
+                             map="page.map"
+                             set-defaults="false"
+                             class="flex flex-dir-row flex-align-center flex-justify-start"
+                             style="position: absolute; top: 10px; left: 50px; width: auto; z-index: 2;"></div>
+                        <div class="mapboxgl-layer-ctrl"
+                             data-ng-click="page.showLayerOptions = !page.showLayerOptions" title="Switch layers">
+                            <i class="material-icons">
+                                layers
+                            </i>
+                            <div class="layer-group"
+                                 style="font-weight: normal; font-size: 14px; min-width: 240px;"
+                                 data-ng-show="page.showLayerOptions">
+                                <form>
+                                    <label data-ng-repeat="style in page.mapStyles"
+                                           data-ng-class="{'active': page.activeStyle === $index}"
+                                           style="font-weight: normal;"
+                                           title="{{ style.name }}">
+                                        <input type="radio"
+                                               id="base-style-{{ $index }}"
+                                               name="active-style"
+                                               data-ng-model="page.activeStyle"
+                                               data-ng-value="{{ $index }}"
+                                               data-ng-change="page.switchMapStyle(style, $index)">
+                                        <span> {{ style.name }}</span>
+                                        <div class="selection-ctrl flex flex-dir-row flex-align-center flex-justify-end"
+                                             data-ng-if="page.activeStyle === $index">
+                                            <span class="material-icons md-18 margin-0">
+                                                radio_button_checked
+                                            </span>
+                                        </div>
+                                        <div class="selection-ctrl flex flex-dir-row flex-align-center flex-justify-end"
+                                             data-ng-if="page.activeStyle !== $index">
+                                            <span style="color: #616161;"
+                                                  class="material-icons md-18 margin-0">
+                                                radio_button_unchecked
+                                            </span>
+                                        </div>
+                                    </label>
+                                </form>
+                                <div style="font-size: .75rem; font-weight: bold; text-transform: uppercase; padding: .5rem
+                                .75rem; border-top: 1px solid #e0e0e0;"
+                                     data-ng-show="page.layers && page.layers.length">
+                                    Layers
+                                </div>
+                                <form class="layers"
+                                      data-ng-show="page.layers && page.layers.length">
+                                    <div class="flex flex-dir-col"
+                                         data-ng-repeat="layer in page.layers">
+                                        <label for="layer-{{ $index }}" style="font-weight: normal;"
+                                               data-ng-class="{'active': layer.selected}" title="{{ layer.name }}">
+                                            <input type="checkbox"
+                                                   id="layer-{{ $index }}"
+                                                   name="layer-{{ $index }}"
+                                                   data-ng-model="layer.selected"
+                                                   data-ng-value="{{ $index }}"
+                                                   data-ng-change="page.toggleLayer(layer.id)">
+                                            <span> {{ layer.name }}</span>
+                                            <div class="selection-ctrl flex flex-dir-row flex-align-center flex-justify-end"
+                                                 data-ng-if="layer.selected">
+                                                <span class="material-icons md-18 margin-0">
+                                                    check_box
+                                                </span>
+                                            </div>
+                                            <div class="selection-ctrl flex flex-dir-row flex-align-center flex-justify-end"
+                                                 data-ng-if="!layer.selected">
+                                                <span style="color: #616161;"
+                                                      class="material-icons md-18 margin-0">
+                                                    check_box_outline_blank
+                                                </span>
+                                            </div>
+                                        </label>
+                                        <div data-ng-if="layer.selected && layer.legends && layer.legends.length">
+                                            <div data-ng-repeat="legend in layer.legends">
+                                                <div class="pad-t-50p pad-b-50p pad-l-75p pad-r-75p"
+                                                     data-ng-if="legend.title">
+                                                    {{ legend.title }}
+                                                </div>
+                                                <div data-ng-if="legend.type === 'categorical'">
+                                                    <div class="flex flex-dir-row flex-nwrap flex-align-center
+                                                        pad-t-50p pad-b-50p pad-l-75p pad-r-75p"
+                                                         data-ng-repeat="symbol in legend.symbols">
+                                                        <div style="height: 1rem; width: 1rem; border-radius: .25rem;
+                                                    background: {{ symbol.color }};" class="flex margin-r-1"></div>
+                                                        <div>
+                                                            {{ symbol.label }}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div data-ng-if="legend.type === 'quantitative'">
+                                                    <div class="flex flex-dir-row flex-nwrap flex-align-stretch
+                                                        pad-t-50p pad-b-50p pad-l-75p pad-r-75p">
+                                                        <div style="height: 160px; width: 1rem; border-radius: .25rem;
+                                                    background: {{ legend.gradient }};" class="flex margin-r-1"></div>
+                                                        <div style="height: 160px; position: relative;"
+                                                             class="flex grow flex-dir-col flex-justify-start">
+                                                            <div class="flex" style="height: 33.3333%;">
+                                                                {{ legend.labels.high }}
+                                                            </div>
+                                                            <div class="flex grow"
+                                                                 style="position: relative; height: 33.3333%;"
+                                                                 data-ng-if="legend.labels.middle">
+                                                                <div class="flex grow"
+                                                                     style="position: absolute; top: 50%; margin-top: -0.5rem;">
+                                                                    {{ legend.labels.middle }}
+                                                                </div>
+                                                            </div>
+                                                            <div style="height: 33.3333%;"
+                                                                 class="flex grow flex-dir-col flex-align-start flex-justify-end">
+                                                                {{ legend.labels.low }}
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex flex-dir-row flex-nwrap flex-align-center
+                                                        pad-t-50p pad-b-50p pad-l-75p pad-r-75p">
+                                                            <div style="height: 1rem; width: 1rem; border-radius: .25rem;
+                                                         background: #cccccc;" class="flex margin-r-1"></div>
+                                                            <div>
+                                                                No value
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- News detail -->
+
+            <div style="width: 100%;"
+                 class="flex flex-dir-col flex-nwrap flex-align-center">
+
+                <section style="position: relative; width: 100%; max-width: 960px;"
+                         class="pad-0 margin-b-3 pad-t-2 pad-l-2 pad-r-2">
+
+                    <div class="create-heading margin-t-1 margin-b-2">
+                        <h2 class="margin-0 flex-justify-center">
+                            Oil & Gas Watch News
+                        </h2>
+                    </div>
+
+                    <p style="font-size: 1.125rem;">
+                        The Oil & Gas Watch News <a href="https://news.oilandgaswatch.org" target="_blank">website
+                    </a> builds on our oil and gas database by providing in-depth analyses and timely reports based on
+                        the public records and data we have collected, adding original reporting, research, interviews
+                        in the field, and photos by the journalists, analysts, and experts in the Environmental
+                        Integrity Project’s <a
+                            href="https://environmentalintegrity.org/the-center-for-environmental-investigations/" target="_blank"
+                    >Center for Environmental Investigations</a>.
+                    </p>
+
+                    <div style="width: 100%;"
+                         class="flex flex-dir-row flex-align-center flex-justify-center pad-t-1">
+                        <a href="https://news.oilandgaswatch.org"
+                           target="_blank"
+                           style="background: #f5f5f5; border-radius: .5rem; display: inline-flex; text-decoration: none;"
+                           class="flex-dir-row flex-align-center flex-justify-center pad-0 pad-t-50p pad-b-50p pad-l-1 pad-r-1">
+                            <span class="margin-r-50p">
+                                Latest news
+                            </span>
+                            <span class="material-icons">
+                                open_in_new
+                            </span>
+                        </a>
+                    </div>
+
+                </section>
+
+            </div>
+
+            <!-- News frame -->
+
+            <div class="news-frame">
+                <iframe src="https://news.oilandgaswatch.org/article-embed"
+                        width="100%"
+                        height="100%"
+                        scrolling="no"
+                        frameborder="0"
+                        marginheight="0"
+                        marginwidth="0"
+                        webkitallowfullscreen
+                        mozallowfullscreen
+                        allowfullscreen></iframe>
+            </div>
+
+            <!-- Narrative detail -->
+
+            <div style="width: 100%;"
+                 class="flex flex-dir-col flex-nwrap flex-align-center">
+
+                <section style="position: relative; width: 100%; max-width: 960px;"
+                         class="pad-0 margin-b-3 pad-t-2 pad-l-2 pad-r-2">
+
+                    <div class="create-heading margin-t-1 margin-b-2">
+                        <h2 class="margin-0 flex-justify-center">
+                            Cheap Oil and Gas Spark Industrial Boom
+                        </h2>
+                    </div>
+
+                    <p style="font-size: 1.125rem;">
+                        The Environmental Integrity Project (EIP) created Oil & Gas Watch to give the public access
+                        to information about the rapid expansion of the oil, gas, and petrochemical industries in
+                        the United States.
+                    </p>
+
+                    <p style="font-size: 1.125rem;">
+                        In less than a decade, fracking and other new drilling techniques have turned the United
+                        States into the largest producer of oil and gas in the world. But the buildup of the
+                        industry does not just involve drilling sites and wells – although that’s what people most
+                        often associate with oil and gas.
+                    </p>
+
+                    <p style="font-size: 1.125rem;">
+                        Downstream from those oil and gas wells, a vast web of pipelines, tanks, compressor
+                        stations, processing plants, refineries, liquefied natural gas export terminals, and
+                        chemical plants is also spreading across the U.S., often outside the consciousness of the
+                        public.
+                    </p>
+
+                    <p style="font-size: 1.125rem;">
+                        It is this oil and gas infrastructure – and the massive amount of pollution that it
+                        produces, out of sight and out of mind – that is the focus of Oil & Gas Watch.
+                    </p>
+
+                    <div style="width: 100%;"
+                         class="flex flex-dir-row flex-align-center flex-justify-center"
+                         data-ng-if="!page.fullIntro"
+                         data-ng-click="page.fullIntro = true">
+                        <div style="background: #f5f5f5; border-radius: .5rem; display: inline-flex; cursor: default;"
+                             class="flex-dir-row flex-align-center flex-justify-center pad-0 pad-t-50p pad-b-50p pad-l-1 pad-r-1">
+                            <span>More</span>
+                            <span class="material-icons">
+                                expand_more
+                            </span>
+                        </div>
+                    </div>
+
+                    <div data-ng-if="page.fullIntro">
+
+                        <p style="font-size: 1.125rem;">
+                            Monitoring the expansion of the industry’s infrastructure and downstream refineries and
+                            chemical plants has become increasingly important. The growth of the web of pipelines and
+                            downstream facilities means not only more pollution, but also the long-term locking-in of
+                            demand for oil, gas, and other petroleum products for decades to come. People living near or
+                            working at these sites also face dangers from explosions, fires, and leaks of toxic gases.
+                            These hazards to nearby communities become even greater with climate change, as many
+                            refineries and chemical plants are built in flood zones and are overwhelmed by hurricane and
+                            floods.
+                        </p>
+
+                        <p style="font-size: 1.125rem;">
+                            The U.S. is already struggling to meet its commitments to reduce greenhouse gas pollution
+                            and ensure fence line communities are not harmed by toxic pollutants from nearby refineries
+                            and other industrial plants. The corporations responsible for driving fossil fuel production
+                            need to be held accountable for the damage they are causing to the often lower-income and
+                            minority communities next door and to the global climate.
+                        </p>
+
+                        <p style="font-size: 1.125rem;">
+                            The information in Oil & Gas Watch comes from public sources, including state and federal
+                            government records and public filings and press releases from industry. For more information
+                            about methods and data sources, visit the About page and Glossary.
+                        </p>
+
+                    </div>
+
+                </section>
+
+            </div>
+
+            <!-- New Proposed Projects section -->
+
+            <div style="width: 100%; position: relative;"
+                 class="flex flex-dir-col flex-nwrap flex-align-center margin-b-2">
+
+                <div class="create-heading margin-t-2 margin-b-2"
+                     style="width: 100%; max-width: 960px;">
+                    <h2 class="margin-0 flex-justify-center">
+                        New Proposed Projects
+                    </h2>
+                </div>
+
+                <section style="width: 100%; max-width: 960px;"
+                         class="reveal fade-in t0 pad-0 pad-r-2 pad-l-2"
+                         data-ng-if="page.recordTypeIdx.composite[8]">
+
+                    <div style="position: relative;"
+                         class="flex flex-dir-row flex-nwrap flex-justify-start flex-align-center"
+                         data-record-type-key="8"
+                         table-view
+                         alerts="page.alerts"
+                         composite="true"
+                         feature-type="featuredFacility"
+                         node-type="page.recordTypeIdx.composite[8]"
+                         query-params="page.queryParams"
+                         visible="page.recordTypeIdx.composite[8]"></div>
+
+                </section>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="transient--notification" data-ng-class="{show: page.alerts.length}">
+        <div class="event--container">
+            <div data-ng-repeat="alert in page.alerts"
+                 data-ng-class="{error: alert.type == 'error', success: alert.type == 'success'}">
+                <span class="event--message">{{ alert.msg }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div export-dialog
+         alerts="page.alerts"
+         feature="page.project"
+         reset-type="false"
+         type="'project'"
+         visible="page.showExportDialog"></div>
+
+</main>
+
+<div data-ng-include="'/templates/footer--view.html'"></div>
